@@ -33,8 +33,9 @@ export default class App extends Component {
             <Text style={styles.nombre}>{nombre}</Text>
         </View> 
         <FlatList style={styles.mesas}
-          contentContainerStyle={{alignItems:'center'}}
+          //contentContainerStyle={{alignItems:'center'}}
           data={this.state.mesas}
+          keyExtractor={item => item.key.toString()}
           renderItem={(info) => (
             <Mesa numero={info.item.numero}></Mesa>
           )} />
