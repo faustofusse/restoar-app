@@ -3,7 +3,7 @@ import {TouchableOpacity, StyleSheet, Text} from 'react-native';
 
 const Mesa = (props) => (
     <TouchableOpacity style={styles.mesa} 
-        onPress={()=>{props.onPress(props.numero)}}>
+        onPress={props.onPress}>
         <Text style={styles.texto}>Mesa {props.numero}</Text>
     </TouchableOpacity>
 );

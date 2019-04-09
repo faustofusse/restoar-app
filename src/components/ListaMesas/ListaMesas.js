@@ -2,16 +2,14 @@ import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import Mesa from '../Mesa/Mesa';
 
-onPressMesa = (numero) => {
-    alert(numero);
-}
-
 const ListaMesas = (props) => (
     <FlatList style={styles.mesas}
         data={props.mesas}
         keyExtractor={item => item.key.toString()}
         renderItem={(info) => (
-            <Mesa numero={info.item.numero} onPress={onPressMesa}></Mesa>
+            <Mesa numero={info.item.numero} 
+                onPress={() => props.onMesaSeleccionada(info.item.numero)}>
+            </Mesa>
     )} />
 );
 
