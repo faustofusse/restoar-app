@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {TouchableOpacity, StyleSheet, Text} from 'react-native';
 
 const Mesa = (props) => (
-    <View style={styles.mesa}>
+    <TouchableOpacity style={styles.mesa} 
+        onPress={()=>{props.onPress(props.numero)}}>
         <Text style={styles.texto}>Mesa {props.numero}</Text>
-    </View>
+    </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
