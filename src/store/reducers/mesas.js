@@ -1,5 +1,6 @@
-export { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO } from '../actions/actionTypes';
+import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, ADD_MESA } from '../actions/actionTypes';
 
+// Estado inicial de la app
 const initialState = {
     menu: {
         entradas: [{ id: 0, nombre: 'Bastones de Muzza', precio: 97 }, { id: 1, nombre: 'Pepinillos', precio: 30 }],
@@ -10,6 +11,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+    // Defino que pasa en cuanto se ejecuta cada accion
     switch (action.type) {
         case SELECT_MESA:
             return {
@@ -21,22 +23,22 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 mesaSeleccionada: null
             }
-        case ADD_PRODUCTO:
-            let mesa = state.mesas.find(mesa => { return mesa.numero === state.mesaSeleccionada; });
-            mesa.productos.concat(action.numero);
-            break;
-        case REMOVE_PRODUCTO:
-            let mesa = state.mesas.find((mesa) => { return mesa.numero === state.mesaSeleccionada; });
-            mesa.productos.splice(mesa.productos.indexOf(action.producto),1);
-            break;
-        case ADD_MESA:
-            return {
-                ...state,
-                mesas: state.mesas.concat({
-                    key: state.mesas.length + 1,
-                    numero: state.mesas.length + 1
-                })
-            }
+        // case ADD_PRODUCTO:
+        //     let mesa = state.mesas.find(mesa => { return mesa.numero === state.mesaSeleccionada; });
+        //     if (mesa) mesa.productos.concat(action.numero);
+        //     return {...state}
+        // case REMOVE_PRODUCTO:
+        //     let elemento = state.mesas.find((elemento) => { return elemento.numero === state.mesaSeleccionada; });
+        //     if (elemento) elemento.productos.splice(mesa.productos.indexOf(action.producto),1);
+        //     return {...state}
+        // case ADD_MESA:
+        //     return {
+        //         ...state,
+        //         mesas: state.mesas.concat({
+        //             key: state.mesas.length + 1,
+        //             numero: state.mesas.length + 1
+        //         })
+        //     }
         // case END_MESA:
         default:
             return state;

@@ -1,31 +1,25 @@
+// React
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+// Componentes (React)
 import ListaMesas from './src/components/ListaMesas/ListaMesas';
 import NavBar from './src/components/NavBar/NavBar';
 import EditarMesa from './src/components/EditarMesa/EditarMesa';
+// Redux
+import { connect } from 'react-redux';
+// Importo las acciones a utilizar (Redux)
+import { addMesa, selectMesa, deselectMesa } from './src/store/actions/index';
 
-export default class App extends Component {
-
-  state = {
-    mesas: [{ key: 1, numero: 1 }, { key: 2, numero: 2 }, { key: 3, numero: 3 }, { key: 4, numero: 4 }, { key: 5, numero: 5 }, { key: 6, numero: 6 }, { key: 7, numero: 7 }, { key: 8, numero: 8 }],
-    mesaSeleccionada: null
-  }
-
-  mesaSeleccionadaHandler = numero => {
-    let mesa = null;
-    if (numero !== this.state.mesaSeleccionada) mesa = numero;
-    this.setState({ mesaSeleccionada: mesa });
-  }
-
+class App extends Component {
   render() {
     const nombre = 'Fausto Fusse';
     return (
       <View style={styles.container}>
         <NavBar nombre={nombre} />
-        <ListaMesas mesas={this.state.mesas}
-          onMesaSeleccionada={this.mesaSeleccionadaHandler} />
-        <EditarMesa mesa={this.state.mesaSeleccionada}
-          terminar={() => this.setState({ mesaSeleccionada: null })} />
+        <ListaMesas mesas={this.props.mesas}
+          onMesaSeleccionada={this.props.onSelectMesa} />
+        <EditarMesa mesa={this.props.mesaSeleccionada}
+          terminar={this.props.onDeselectMesa} />
       </View>
     );
   }
@@ -40,3 +34,25 @@ const styles = StyleSheet.create({
     width: "100%"
   }
 });
+
+const mapStateToProps = state => {
+  // Aca van los elementos del state que voy a utilizar en la App (Redux)
+  // Van a ser accesibles como propiedades de App
+  // state.mesas hace referencia al reducer que lo configure en rootReducer en configureStore.js
+  return {
+    mesas: state.mesas.mesas,
+    mesaSeleccionada: state.mesas.mesaSeleccionada
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  // Declaro que acciones voy a usar (Redux)
+  return {
+    onSelectMesa: (numero) => dispatch(selectMesa(numero)),
+    onDeselectMesa: () => dispatch(deselectMesa()),
+    onAddMesa: (numero) => dispatch(addMesa(numero))
+  };
+}
+
+// Esto conecta a App con Redux:
+export default connect(mapStateToProps, mapDispatchToProps)(App);
