@@ -1,20 +1,21 @@
 import React from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import Mesa from '../Mesa/Mesa';
 
 const ListaMesas = (props) => (
-    <FlatList style={styles.mesas}
-        data={props.mesas}
-        keyExtractor={item => item.key.toString()}
-        renderItem={(info) => (
-            <Mesa numero={info.item.numero} 
-                onPress={() => props.onMesaSeleccionada(info.item.numero)}>
-            </Mesa>
-    )} />
+    <View style={styles.mesas}>
+        <FlatList data={props.mesas}
+            keyExtractor={item => item.key.toString()}
+            renderItem={(info) => (
+                <Mesa numero={info.item.numero}
+                    onPress={() => props.onMesaSeleccionada(info.item.numero)}>
+                </Mesa>
+            )} />
+    </View>
 );
 
 const styles = StyleSheet.create({
-    mesas:{
+    mesas: {
         width: "100%",
         padding: 10
     }

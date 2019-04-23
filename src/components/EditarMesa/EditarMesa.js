@@ -10,13 +10,15 @@ const EditarMesa = (props) => (
                 <Text style={styles.titulo}>Mesa {props.mesa}</Text>
             </View>
             <View style={styles.productos}>
-                <FlatList 
+                <FlatList
                     data={props.productos}
                     keyExtractor={item => item.id.toString()}
                     renderItem={(info) => (
                         <Producto id={info.item.numero}
-                            onAddProducto={()=> props.onAddProducto(info.item.numero)}
-                            onRemoveProducto={()=> producto.onRemoveProducto(info.item.numero)} />
+                            nombre={info.item.nombre}
+                            cantidad={info.item.cantidad}
+                            onAddProducto={() => props.onAddProducto(info.item.numero)}
+                            onRemoveProducto={() => props.onRemoveProducto(info.item.numero)} />
                     )} />
             </View>
             <Button title="Cerrar" onPress={() => props.terminar()} />
@@ -27,7 +29,7 @@ const EditarMesa = (props) => (
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        flex:1,
+        flex: 1,
         justifyContent: 'space-between'
     },
     navbar: {
@@ -47,9 +49,10 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     productos: {
-        flex:1,
-        backgroundColor: 'black',
-        width: "100%"
+        flex: 1,
+        width: "100%",
+        padding: 10,
+        marginTop: 10
     }
 });
 

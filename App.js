@@ -12,16 +12,20 @@ import { addMesa, selectMesa, deselectMesa, addProducto } from './src/store/acti
 
 class App extends Component {
   render() {
+    getProductos = () => {
+      const productos = [{ id: 0, nombre: 'Coca-Cola', cantidad: 2 }, { id: 1, nombre: 'Milanga', cantidad: 23 }, { id: 2, nombre: 'Papas fritas', cantidad: 3 }, { id: 3, nombre: 'Pepsi', cantidad: 6 }, { id: 4, nombre: 'Helado', cantidad: 1 }, { id: 5, nombre: 'Ensalada de frutas', cantidad: 2 }]
+      return productos;
+    }
     return (
       <View style={styles.container}>
         <NavBar nombre={this.props.nombre} />
         <ListaMesas mesas={this.props.mesas}
           onMesaSeleccionada={this.props.onSelectMesa} />
         <EditarMesa mesa={this.props.mesaSeleccionada}
-          terminar={this.props.onDeselectMesa} 
-          productos={[{id:0, numero:1},{id:1, numero:1},{id:2, numero:1},{id:3, numero:1},{id:4, numero:4},{id:5, numero:4},{id:6, numero:7}]}
-          onAddProducto={(numero)=>console.log('add producto '+numero)}
-          onRemoveProducto={(numero)=>console.log('remove producto '+numero)}/>
+          terminar={this.props.onDeselectMesa}
+          productos={getProductos()}
+          onAddProducto={(numero) => console.log('add producto ' + numero)}
+          onRemoveProducto={(numero) => console.log('remove producto ' + numero)} />
       </View>
     );
   }
