@@ -2,6 +2,7 @@ import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, ADD_MESA } f
 
 // Estado inicial de la app
 const initialState = {
+    nombre:'Fausto Fusse',
     menu: {
         entradas: [{ id: 0, nombre: 'Bastones de Muzza', precio: 97 }, { id: 1, nombre: 'Pepinillos', precio: 30 }],
         bebidas: [{ id: 2, nombre: 'Coca-Cola', precio: 50 }, { id: 3, nombre: 'Fanta', precio: 30 }]
