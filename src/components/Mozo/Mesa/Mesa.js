@@ -10,7 +10,7 @@ const Mesa = (props) => (
 
 const styles = StyleSheet.create({
     mesa:{
-        width: "100%",
+        width: "50%",
         padding: 20,
         marginTop: 10,
         marginBottom: 10,
