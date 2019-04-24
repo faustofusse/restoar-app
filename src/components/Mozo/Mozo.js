@@ -74,10 +74,10 @@ const mapStateToProps = state => {
   // Van a ser accesibles como propiedades de App
   // state.mesas hace referencia al reducer que lo configure en rootReducer en configureStore.js
   return {
-    menu: state.mesas.menu,
-    nombre: state.mesas.nombre,
-    mesas: state.mesas.mesas,
-    mesaSeleccionada: state.mesas.mesaSeleccionada
+    menu: state.mozo.menu,
+    nombre: state.mozo.nombre,
+    mesas: state.mozo.mesas,
+    mesaSeleccionada: state.mozo.mesaSeleccionada
   };
 }
 

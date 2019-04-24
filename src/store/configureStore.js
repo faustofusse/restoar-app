@@ -1,9 +1,9 @@
 import { createStore, combineReducers, compose } from 'redux';
-import mesasReducer from './reducers/mesas';
+import mozoReducer from './reducers/mozo';
 
 // Se declaran los reducers, para poder luego ser accedidos
 const rootReducer = combineReducers({
-    mesas: mesasReducer
+    mozo: mozoReducer
 });
 
 let composeEnhancers = compose;
