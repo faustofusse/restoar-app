@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 // Componentes (React)
-import ListaMesas from './src/components/Mozo/ListaMesas/ListaMesas';
-import NavBar from './src/components/Mozo/NavBar/NavBar';
-import EditarMesa from './src/components/Mozo/EditarMesa/EditarMesa';
+import ListaMesas from './ListaMesas/ListaMesas';
+import NavBar from './NavBar/NavBar';
+import EditarMesa from './EditarMesa/EditarMesa';
 // Redux
 import { connect } from 'react-redux';
 // Importo las acciones a utilizar (Redux)
-import { addMesa, selectMesa, deselectMesa, addProducto } from './src/store/actions/index';
+import { addMesa, selectMesa, deselectMesa, addProducto } from '../../store/actions/index';
 
 class Mozo extends Component {
 

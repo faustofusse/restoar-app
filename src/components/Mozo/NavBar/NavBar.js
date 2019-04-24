@@ -1,5 +1,5 @@
 import React from 'react';
-import imagen from '../../assets/pinguino.jpg';
+import imagen from '../../../assets/pinguino.jpg';
 import {View, StyleSheet, Text, Image} from 'react-native';
 
 const NavBar = (props) => (
