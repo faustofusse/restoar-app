@@ -37,18 +37,16 @@ class Mozo extends Component {
     while (objetos.length > 0 && isObjeto(objetos[0])) {
       let valores = Object.values(objetos[0]);
       for (var i = 0; i < valores.length; i++)
-        if (isObjeto(valores[i])) 
+        if (isObjeto(valores[i]))
           objetos.push(valores[i]);
-         else 
-          for (var j = 0; j<valores[i].length; j++)
+        else
+          for (var j = 0; j < valores[i].length; j++)
             if (valores[i][j].agregado)
               agregados.push(valores[i][j]);
             else
               productos.push(valores[i][j]);
       objetos.shift();
     }
-    console.log("Productos totales:"); console.log(productos);
-    console.log("Agregados totales:"); console.log(agregados);
     this.state.productosTotales = productos;
     this.state.agregadosTotales = agregados;
   }
@@ -56,16 +54,26 @@ class Mozo extends Component {
   getProductosActuales = (numeroMesa) => {
     // Esta funcion toma los productos de una mesa y los coloca en el state de esta clase
     let productos = [];
-    let numeros = this.props.mesas.find((value, index) => {
-      return value.numero === numeroMesa;
-    }).productos;
+    let numeros = this.props.mesas.find((value, index) => value.numero === numeroMesa).productos;
     for (var i = 0; i < numeros.length; i++) {
-      let producto = this.state.productosTotales.find(value => {
-        return value.id === numeros[i];
-      });
-      console.log(producto);
+      let producto = this.state.productosTotales.find(value => value.id === numeros[i].id);
+      producto.agregados = [];
+      if (numeros[i].add.length) {
+        for (var j = 0; j < numeros[i].add.length; j++) {
+          let agregado = this.state.agregadosTotales.find(value => value.id === numeros[i].add[j]);
+          delete agregado.productos;
+          delete agregado.agregado;
+          producto.agregados.push(agregado);
+        }
+      }
+      if (productos.includes(producto)) {
+        productos[productos.indexOf(producto)].cantidad++;
+      } else {
+        producto.cantidad = 1;
+        productos.push(producto);
+      }
     }
-    return [{ id: 0, nombre: 'Coca-Cola', cantidad: 2 }, { id: 1, nombre: 'Milanga', cantidad: 23 }, { id: 2, nombre: 'Papas fritas', cantidad: 3 }, { id: 3, nombre: 'Pepsi', cantidad: 6 }, { id: 4, nombre: 'Helado', cantidad: 1 }, { id: 5, nombre: 'Ensalada de frutas', cantidad: 2 }];
+    return productos;
   }
 
   handleOnSelectMesa = (numero) => {

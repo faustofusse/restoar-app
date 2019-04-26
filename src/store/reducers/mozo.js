@@ -52,7 +52,16 @@ const initialState = {
             { id: 3, nombre: 'Fileto', productos: [6, 7, 8, 9], agregado: true }
         ]
     },
-    mesas: [{ numero: 1, productos: [] }, { numero: 2, productos: [] }, { numero: 3, productos: [2, 23, 4, 4, 4, 13] }, { numero: 4, productos: [] }, { numero: 5, productos: [] }, { numero: 6, productos: [] }, { numero: 7, productos: [] }, { numero: 8, productos: [] }],
+    mesas: [
+        { numero: 1, productos: [] },
+        { numero: 2, productos: [] },
+        { numero: 3, productos: [{ id: 2, add: [] }, { id: 23, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 6, add: [2] }, { id: 6, add: [2] }, { id: 8, add: [3] }] },
+        { numero: 4, productos: [] },
+        { numero: 5, productos: [] },
+        { numero: 6, productos: [] },
+        { numero: 7, productos: [] },
+        { numero: 8, productos: [] }
+    ],
     mesaSeleccionada: null
 }
 
