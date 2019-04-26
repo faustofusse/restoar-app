@@ -52,26 +52,25 @@ class Mozo extends Component {
   }
 
   getProductosActuales = (numeroMesa) => {
-    // Esta funcion toma los productos de una mesa y los coloca en el state de esta clase
+    // Esta funcion devuelve los productos de la mesa seleccionada
     let productos = [];
     let numeros = this.props.mesas.find((value, index) => value.numero === numeroMesa).productos;
     for (var i = 0; i < numeros.length; i++) {
-      let producto = this.state.productosTotales.find(value => value.id === numeros[i].id);
-      producto.agregados = [];
-      if (numeros[i].add.length) {
-        for (var j = 0; j < numeros[i].add.length; j++) {
-          let agregado = this.state.agregadosTotales.find(value => value.id === numeros[i].add[j]);
-          delete agregado.productos;
-          delete agregado.agregado;
-          producto.agregados.push(agregado);
-        }
+      let agregados = numeros[i].add,
+        id = numeros[i].id,
+        index = productos.findIndex(value => value.id === id && agregados.esIgualA(value.agregados));
+      if (index !== -1) {
+        productos[index].cantidad++;
+        continue;
       }
-      if (productos.includes(producto)) {
-        productos[productos.indexOf(producto)].cantidad++;
-      } else {
-        producto.cantidad = 1;
-        productos.push(producto);
+      let producto = {
+        key: i,
+        id: id,
+        nombre: this.state.productosTotales.find(value => value.id === id).nombre,
+        agregados: agregados,
+        cantidad: 1
       }
+      productos.push(producto);
     }
     return productos;
   }
@@ -134,5 +133,13 @@ const mapDispatchToProps = dispatch => {
   };
 }
 
-// Esto conecta a App con Redux:
+Array.prototype.esIgualA = function (array) {
+  if (array.length !== this.length) return false;
+  array.sort(); this.sort();
+  for (var i = 0; i < this.length; i++)
+    if (this[i] !== array[i]) return false;
+  return true;
+}
+
+// Esto conecta a App con Redux, y la exporta:
 export default connect(mapStateToProps, mapDispatchToProps)(Mozo);

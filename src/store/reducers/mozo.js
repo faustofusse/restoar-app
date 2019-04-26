@@ -55,7 +55,7 @@ const initialState = {
     mesas: [
         { numero: 1, productos: [] },
         { numero: 2, productos: [] },
-        { numero: 3, productos: [{ id: 2, add: [] }, { id: 23, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 6, add: [2] }, { id: 6, add: [2] }, { id: 8, add: [3] }] },
+        { numero: 3, productos: [{ id: 2, add: [] }, { id: 23, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 6, add: [2,1] }, { id: 6, add: [2,3] }, { id: 8, add: [3] }] },
         { numero: 4, productos: [] },
         { numero: 5, productos: [] },
         { numero: 6, productos: [] },
