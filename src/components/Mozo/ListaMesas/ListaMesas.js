@@ -5,7 +5,7 @@ import Mesa from '../Mesa/Mesa';
 const ListaMesas = (props) => (
     <View style={styles.mesas}>
         <FlatList data={props.mesas}
-            keyExtractor={item => item.key.toString()}
+            keyExtractor={item => item.numero.toString()}
             renderItem={(info) => (
                 <Mesa numero={info.item.numero}
                     onPress={() => props.onMesaSeleccionada(info.item.numero)}>
