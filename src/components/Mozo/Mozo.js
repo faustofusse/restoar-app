@@ -59,10 +59,7 @@ class Mozo extends Component {
       let agregados = numeros[i].add,
         id = numeros[i].id,
         index = productos.findIndex(value => value.id === id && agregados.esIgualA(value.agregados));
-      if (index !== -1) {
-        productos[index].cantidad++;
-        continue;
-      }
+      if (index !== -1) { productos[index].cantidad++; continue; }
       let producto = {
         key: i,
         id: id,
@@ -72,6 +69,8 @@ class Mozo extends Component {
       }
       productos.push(producto);
     }
+    productos.setAgregados(this.state.agregadosTotales);
+    console.log(productos);
     return productos;
   }
 
@@ -139,6 +138,19 @@ Array.prototype.esIgualA = function (array) {
   for (var i = 0; i < this.length; i++)
     if (this[i] !== array[i]) return false;
   return true;
+}
+
+Array.prototype.setAgregados = function(objetos){
+  for (var i = 0; i < this.length; i++) {
+    let agregados = [];
+    for (var j = 0; j < this[i].agregados.length; j++) {
+      agregados.push({
+        id: this[i].agregados[j],
+        nombre: objetos.find(value => value.id === this[i].agregados[j]).nombre
+      });
+    }
+    this[i].agregados = agregados;
+  }
 }
 
 // Esto conecta a App con Redux, y la exporta:
