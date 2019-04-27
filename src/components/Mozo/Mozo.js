@@ -8,7 +8,7 @@ import EditarMesa from './EditarMesa/EditarMesa';
 // Redux
 import { connect } from 'react-redux';
 // Importo las acciones a utilizar (Redux)
-import { addMesa, selectMesa, deselectMesa, addProducto } from '../../store/actions/index';
+import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto } from '../../store/actions/index';
 
 class Mozo extends Component {
 
@@ -19,11 +19,12 @@ class Mozo extends Component {
       productosTotales: [],
       agregadosTotales: [],
       // Productos de la mesa seleccionada
-      productosActuales: [],
-      agregadosActuales: [],
+      productosActuales: []
     };
     this.handleOnSelectMesa = this.handleOnSelectMesa.bind(this);
     this.handleOnDeselectMesa = this.handleOnDeselectMesa.bind(this);
+    this.handleOnAddProducto = this.handleOnAddProducto.bind(this);
+    this.handleOnRemoveProducto = this.handleOnRemoveProducto.bind(this);
     this.getProductosTotales();
   }
 
@@ -70,8 +71,19 @@ class Mozo extends Component {
       productos.push(producto);
     }
     productos.setAgregados(this.state.agregadosTotales);
+    productos.sort((a, b) => { return a.id - b.id });
     console.log(productos);
     return productos;
+  }
+
+  handleOnAddProducto = (key) => {
+    this.props.onAddProducto(this.getProductoFromKey(key));
+    this.setState({ productosActuales: this.getProductosActuales(this.props.mesaSeleccionada) });
+  }
+
+  handleOnRemoveProducto = (key) => {
+    this.props.onRemoveProducto(this.getProductoFromKey(key));
+    this.setState({ productosActuales: this.getProductosActuales(this.props.mesaSeleccionada) });
   }
 
   handleOnSelectMesa = (numero) => {
@@ -84,6 +96,17 @@ class Mozo extends Component {
     this.props.onDeselectMesa();
   }
 
+  getProductoFromKey = (key) => {
+    let productoActual = this.state.productosActuales.find(value => value.key === key);
+    let agregados = [];
+    for (var i = 0; i < productoActual.agregados.length; i++)
+      agregados.push(productoActual.agregados[i].id);
+    return {
+      id: productoActual.id,
+      add: agregados
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -93,8 +116,8 @@ class Mozo extends Component {
         <EditarMesa mesa={this.props.mesaSeleccionada}
           terminar={this.handleOnDeselectMesa}
           productos={this.state.productosActuales}
-          onAddProducto={(numero) => console.log('add producto ' + numero)}
-          onRemoveProducto={(numero) => console.log('remove producto ' + numero)} />
+          onAddProducto={this.handleOnAddProducto}
+          onRemoveProducto={this.handleOnRemoveProducto} />
       </View>
     );
   }
@@ -109,6 +132,27 @@ const styles = StyleSheet.create({
     width: "100%"
   }
 });
+
+Array.prototype.esIgualA = function (array) {
+  if (array.length !== this.length) return false;
+  array.sort(); this.sort();
+  for (var i = 0; i < this.length; i++)
+    if (this[i] !== array[i]) return false;
+  return true;
+}
+
+Array.prototype.setAgregados = function (objetos) {
+  for (var i = 0; i < this.length; i++) {
+    let agregados = [];
+    for (var j = 0; j < this[i].agregados.length; j++) {
+      agregados.push({
+        id: this[i].agregados[j],
+        nombre: objetos.find(value => value.id === this[i].agregados[j]).nombre
+      });
+    }
+    this[i].agregados = agregados;
+  }
+}
 
 const mapStateToProps = state => {
   // Aca van los elementos del state que voy a utilizar en la App (Redux)
@@ -128,29 +172,9 @@ const mapDispatchToProps = dispatch => {
     onSelectMesa: (numero) => dispatch(selectMesa(numero)),
     onDeselectMesa: () => dispatch(deselectMesa()),
     onAddMesa: (numero) => dispatch(addMesa(numero)),
-    onAddProducto: (numero) => dispatch(addProducto(numero))
+    onAddProducto: (producto) => dispatch(addProducto(producto)),
+    onRemoveProducto: (producto) => dispatch(removeProducto(producto))
   };
-}
-
-Array.prototype.esIgualA = function (array) {
-  if (array.length !== this.length) return false;
-  array.sort(); this.sort();
-  for (var i = 0; i < this.length; i++)
-    if (this[i] !== array[i]) return false;
-  return true;
-}
-
-Array.prototype.setAgregados = function(objetos){
-  for (var i = 0; i < this.length; i++) {
-    let agregados = [];
-    for (var j = 0; j < this[i].agregados.length; j++) {
-      agregados.push({
-        id: this[i].agregados[j],
-        nombre: objetos.find(value => value.id === this[i].agregados[j]).nombre
-      });
-    }
-    this[i].agregados = agregados;
-  }
 }
 
 // Esto conecta a App con Redux, y la exporta:

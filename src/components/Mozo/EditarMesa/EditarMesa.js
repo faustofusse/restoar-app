@@ -17,8 +17,8 @@ const EditarMesa = (props) => (
                         <Producto id={info.item.numero}
                             nombre={info.item.nombre}
                             cantidad={info.item.cantidad}
-                            onAddProducto={() => props.onAddProducto(info.item.numero)}
-                            onRemoveProducto={() => props.onRemoveProducto(info.item.numero)} />
+                            onAddProducto={() => props.onAddProducto(info.item.key)}
+                            onRemoveProducto={() => props.onRemoveProducto(info.item.key)} />
                     )} />
             </View>
             <Button title="Cerrar" onPress={() => props.terminar()} />
