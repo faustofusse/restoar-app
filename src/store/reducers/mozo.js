@@ -91,13 +91,13 @@ const reducer = (state = initialState, action) => {
                 }
             }
             return { ...state, mesas: mesas }
-        case ADD_MESA:
-            return {
-                ...state,
-                mesas: state.mesas.concat({
-                    numero: state.mesas.length + 1
-                })
-            }
+        // case ADD_MESA:
+        //     return {
+        //         ...state,
+        //         mesas: state.mesas.concat({
+        //             numero: state.mesas.length + 1
+        //         })
+        //     }
         // case END_MESA:
         default:
             return state;

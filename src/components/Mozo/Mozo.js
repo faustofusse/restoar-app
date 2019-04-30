@@ -144,12 +144,11 @@ Array.prototype.esIgualA = function (array) {
 Array.prototype.setAgregados = function (objetos) {
   for (var i = 0; i < this.length; i++) {
     let agregados = [];
-    for (var j = 0; j < this[i].agregados.length; j++) {
+    for (var j = 0; j < this[i].agregados.length; j++) 
       agregados.push({
         id: this[i].agregados[j],
         nombre: objetos.find(value => value.id === this[i].agregados[j]).nombre
       });
-    }
     this[i].agregados = agregados;
   }
 }
