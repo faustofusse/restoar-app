@@ -8,7 +8,7 @@ import EditarMesa from './EditarMesa/EditarMesa';
 // Redux
 import { connect } from 'react-redux';
 // Importo las acciones a utilizar (Redux)
-import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto } from '../../store/actions/index';
+import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto } from '../../actions/index';
 
 class Mozo extends Component {
 
