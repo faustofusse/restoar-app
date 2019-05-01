@@ -5,8 +5,8 @@ import { FONT_COLOR_WHITE, PRIMARY_COLOR } from '../../../resources/colors';
 
 const NavBar = (props) => (
     <View style={styles.navbar}>
-        <Image style={styles.imagen} source={imagen} />
-        <Text style={styles.nombre}>{props.nombre}</Text>
+        {(props.imagen) ? (<Image style={styles.imagen} source={props.imagen} />) : null}
+        <Text style={styles.nombre}>{props.titulo}</Text>
     </View>
 );
 

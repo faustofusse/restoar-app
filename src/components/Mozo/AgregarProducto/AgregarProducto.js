@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
+import NavBar from '../NavBar/NavBar';
 import { View, StyleSheet, TouchableOpacity, Modal, Text, FlatList, Button } from 'react-native';
-import { PRIMARY_COLOR, BLUE, FONT_COLOR_WHITE, GREY } from '../../../resources/colors';
+import { BLUE, FONT_COLOR_WHITE, GREY } from '../../../resources/colors';
  
 const AgregarProducto = (props) => (
     <Modal visible={props.agregarProducto} >
         <View style={styles.container}>
-            <View style={styles.navbar}>
-                <Text style={styles.titulo}>{props.titulo}</Text>
-            </View>
+            <NavBar titulo={props.titulo} />
             <View style={styles.lista}>
                 <FlatList
                     data={props.lista}
@@ -34,22 +33,6 @@ const styles = StyleSheet.create({
         width: "100%",
         flex: 1,
         justifyContent: 'space-between'
-    },
-    navbar: {
-        width: "100%",
-        backgroundColor: PRIMARY_COLOR,
-        padding: 20,
-        // ios
-        shadowOffset: { width: 0, height: 13 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        // android (Android +5.0)
-        elevation: 5,
-    },
-    titulo: {
-        color: FONT_COLOR_WHITE,
-        fontSize: 30,
-        marginLeft: 20
     },
     lista: {
         flex: 1,

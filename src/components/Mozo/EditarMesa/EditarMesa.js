@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Button, Modal, Text, FlatList } from 'react-native';
 import Producto from '../Producto/Producto';
+import NavBar from '../NavBar/NavBar';
 import AgregarProducto from '../AgregarProducto/AgregarProducto';
 import { connect } from 'react-redux';
-import { PRIMARY_COLOR, FONT_COLOR_WHITE } from '../../../resources/colors';
 
 class EditarMesa extends Component {
 
@@ -71,9 +71,7 @@ class EditarMesa extends Component {
         return (
             <Modal visible={this.props.mesa != null} animationType="slide">
                 <View style={styles.container}>
-                    <View style={styles.navbar}>
-                        <Text style={styles.titulo}>Mesa {this.props.mesa}</Text>
-                    </View>
+                    <NavBar titulo={"Mesa " + this.props.mesa} />
                     <View style={styles.productos}>
                         {(!this.props.productos || this.props.productos.length === 0) ? (
                             <Text style={styles.textoInfo}>Esta mesa no tiene productos.</Text>
@@ -112,22 +110,6 @@ const styles = StyleSheet.create({
         width: "100%",
         flex: 1,
         justifyContent: 'space-between'
-    },
-    navbar: {
-        width: "100%",
-        backgroundColor: PRIMARY_COLOR,
-        padding: 20,
-        // ios
-        shadowOffset: { width: 0, height: 13 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        // android (Android +5.0)
-        elevation: 5,
-    },
-    titulo: {
-        color: FONT_COLOR_WHITE,
-        fontSize: 30,
-        marginLeft: 20
     },
     productos: {
         flex: 1,

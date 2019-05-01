@@ -1,11 +1,13 @@
 // React
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 // Componentes (React)
-import ListaMesas from './ListaMesas/ListaMesas';
 import NavBar from './NavBar/NavBar';
 import EditarMesa from './EditarMesa/EditarMesa';
+import Mesa from './Mesa/Mesa';
+// Resources
 import { BACKGROUND } from '../../resources/colors';
+import imagen from '../../assets/pinguino.jpg'
 // Redux
 import { connect } from 'react-redux';
 // Importo las acciones a utilizar (Redux)
@@ -114,14 +116,21 @@ class Mozo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <NavBar nombre={this.props.nombre} />
-        <ListaMesas mesas={this.props.mesas}
-          onMesaSeleccionada={this.handleOnSelectMesa} />
+        <NavBar imagen={imagen} titulo={this.props.nombre} />
+        <View style={styles.mesas}>
+          <FlatList data={this.props.mesas}
+            keyExtractor={item => item.numero.toString()}
+            renderItem={(info) => (
+              <Mesa numero={info.item.numero}
+                onPress={() => this.handleOnSelectMesa(info.item.numero)}>
+              </Mesa>
+            )} />
+        </View>
         <EditarMesa mesa={this.props.mesaSeleccionada}
           terminar={this.handleOnDeselectMesa}
-          productos={this.state.productosActuales} 
+          productos={this.state.productosActuales}
           onAddProducto={this.handleOnAddProducto}
-          onRemoveProducto={this.handleOnRemoveProducto}/>
+          onRemoveProducto={this.handleOnRemoveProducto} />
       </View>
     );
   }
@@ -134,6 +143,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: BACKGROUND,
     width: "100%"
+  },
+  mesas: {
+    width: "100%",
+    padding: 10
   }
 });
 
