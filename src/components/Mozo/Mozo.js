@@ -28,6 +28,8 @@ class Mozo extends Component {
     this.getProductosTotales();
   }
 
+  static navigationOptions = {  header: null }; // Oculto la barra de navegacion
+
   getProductosTotales = () => {
     // Esta funcion extrae todos los productos del objeto menu, que esta en el estado de Redux
     let isObjeto = objeto => !Array.isArray(objeto),
