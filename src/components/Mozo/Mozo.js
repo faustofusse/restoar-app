@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import ListaMesas from './ListaMesas/ListaMesas';
 import NavBar from './NavBar/NavBar';
 import EditarMesa from './EditarMesa/EditarMesa';
+import { BACKGROUND } from '../../resources/colors';
 // Redux
 import { connect } from 'react-redux';
 // Importo las acciones a utilizar (Redux)
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: BACKGROUND,
     width: "100%"
   }
 });

@@ -3,6 +3,7 @@ import { View, StyleSheet, Button, Modal, Text, FlatList } from 'react-native';
 import Producto from '../Producto/Producto';
 import AgregarProducto from '../AgregarProducto/AgregarProducto';
 import { connect } from 'react-redux';
+import { PRIMARY_COLOR, FONT_COLOR_WHITE } from '../../../resources/colors';
 
 class EditarMesa extends Component {
 
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     },
     navbar: {
         width: "100%",
-        backgroundColor: '#b71c1c',
+        backgroundColor: PRIMARY_COLOR,
         padding: 20,
         // ios
         shadowOffset: { width: 0, height: 13 },
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     titulo: {
-        color: '#fff',
+        color: FONT_COLOR_WHITE,
         fontSize: 30,
         marginLeft: 20
     },

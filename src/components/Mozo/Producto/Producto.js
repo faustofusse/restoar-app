@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Button, Modal, Text, TouchableOpacity } from 'react-native';
+import { BLUE, DARK_GREY, GREY } from '../../../resources/colors';
 
 const Producto = (props) => (
     <View style={styles.container}>
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 10,
-        backgroundColor: "#eee",
+        backgroundColor: GREY,
         borderRadius: 10
     },
     nombre: {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         fontSize: 25,
         // backgroundColor:"#1976d2"
-        backgroundColor: "#2196f3"
+        backgroundColor: BLUE
     },
     cantidad: {
         borderTopRightRadius: 10,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         fontSize: 25,
         textAlign: 'center',
-        backgroundColor: "#e0e0e0"
+        backgroundColor: DARK_GREY
     }
 });
 

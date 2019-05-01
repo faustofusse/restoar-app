@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, Modal, Text, FlatList, Button } from 'react-native';
-
+import { PRIMARY_COLOR, BLUE, FONT_COLOR_WHITE, GREY } from '../../../resources/colors';
+ 
 const AgregarProducto = (props) => (
     <Modal visible={props.agregarProducto} >
         <View style={styles.container}>
@@ -15,7 +16,7 @@ const AgregarProducto = (props) => (
                         <TouchableOpacity disabled={info.item.isProducto} style={styles.item} onPress={() => props.handleOnPressButton(info.item.key)}>
                             <Text style={styles.nombre}>{info.item.nombre}</Text>
                             {(info.item.isProducto) ? (
-                                <TouchableOpacity style={[styles.boton]} onPress={() => props.onAddProducto({id: info.item.id, add:[]})}><Text style={styles.textoBoton}>+</Text></TouchableOpacity>
+                                <TouchableOpacity style={[styles.boton]} onPress={() => props.onAddProducto({ id: info.item.id, add: [] })}><Text style={styles.textoBoton}>+</Text></TouchableOpacity>
                             ) : null}
                         </TouchableOpacity>
                     )} />
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     },
     navbar: {
         width: "100%",
-        backgroundColor: '#b71c1c',
+        backgroundColor: PRIMARY_COLOR,
         padding: 20,
         // ios
         shadowOffset: { width: 0, height: 13 },
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     titulo: {
-        color: '#fff',
+        color: FONT_COLOR_WHITE,
         fontSize: 30,
         marginLeft: 20
     },
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 10,
-        backgroundColor: "#eee",
+        backgroundColor: GREY,
         borderRadius: 10
     },
     nombre: {
@@ -76,11 +77,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         aspectRatio: 1,
-        backgroundColor: "#2196f3"
+        backgroundColor: BLUE
     },
     textoBoton: {
         fontSize: 30,
-        color: "#fff",
+        color: FONT_COLOR_WHITE,
     }
 });
 

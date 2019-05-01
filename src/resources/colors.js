@@ -1,0 +1,9 @@
+export const PRIMARY_COLOR = '#b71c1c';
+export const SECONDARY_COLOR = '#ff5722';
+export const FONT_COLOR_WHITE = '#fff';
+export const BACKGROUND = '#F5FCFF'; 
+export const GREY = '#eee';
+export const DARK_GREY = '#e0e0e0';
+export const BLUE = '#2196f3';
+export const YELLOW = '';
+export const GREEN = '';
