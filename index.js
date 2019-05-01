@@ -2,7 +2,7 @@ import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './src/configureStore';
 import React from 'react';
-import Mozo from './src/components/mozo/Mozo';
+import Mozo from './src/components/Mozo/Mozo';
 import {name as appName} from './app.json';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 const RootStack = createStackNavigator(
