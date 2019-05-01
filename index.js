@@ -5,6 +5,15 @@ import React from 'react';
 import Mozo from './src/components/Mozo/Mozo';
 import {name as appName} from './app.json';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { YellowBox } from 'react-native';
+
+// Ignora las advertencias de mierda, que no puedo solucionar
+YellowBox.ignoreWarnings([
+  'Warning: componentWillMount is deprecated',
+  'Warning: componentWillReceiveProps is deprecated',
+  'Module RCTImageLoader requires',
+]);
+
 const RootStack = createStackNavigator(
   {
       Mozo: Mozo

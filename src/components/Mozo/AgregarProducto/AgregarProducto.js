@@ -15,7 +15,7 @@ const AgregarProducto = (props) => (
                         <TouchableOpacity disabled={info.item.isProducto} style={styles.item} onPress={() => props.handleOnPressButton(info.item.key)}>
                             <Text style={styles.nombre}>{info.item.nombre}</Text>
                             {(info.item.isProducto) ? (
-                                <TouchableOpacity style={[styles.boton]}><Text style={styles.textoBoton}>+</Text></TouchableOpacity>
+                                <TouchableOpacity style={[styles.boton]} onPress={() => props.onAddProducto({id: info.item.id, add:[]})}><Text style={styles.textoBoton}>+</Text></TouchableOpacity>
                             ) : null}
                         </TouchableOpacity>
                     )} />

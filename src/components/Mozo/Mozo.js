@@ -28,7 +28,7 @@ class Mozo extends Component {
     this.getProductosTotales();
   }
 
-  static navigationOptions = {  header: null }; // Oculto la barra de navegacion
+  static navigationOptions = { header: null }; // Oculto la barra de navegacion
 
   getProductosTotales = () => {
     // Esta funcion extrae todos los productos del objeto menu, que esta en el estado de Redux
@@ -78,16 +78,6 @@ class Mozo extends Component {
     return productos;
   }
 
-  handleOnAddProducto = (key) => {
-    this.props.onAddProducto(this.getProductoFromKey(key));
-    this.setState({ productosActuales: this.getProductosActuales(this.props.mesaSeleccionada) });
-  }
-
-  handleOnRemoveProducto = (key) => {
-    this.props.onRemoveProducto(this.getProductoFromKey(key));
-    this.setState({ productosActuales: this.getProductosActuales(this.props.mesaSeleccionada) });
-  }
-
   handleOnSelectMesa = (numero) => {
     this.setState({ productosActuales: this.getProductosActuales(numero) });
     this.props.onSelectMesa(numero);
@@ -96,6 +86,17 @@ class Mozo extends Component {
   handleOnDeselectMesa = () => {
     this.setState({ productosActuales: null });
     this.props.onDeselectMesa();
+  }
+
+  handleOnAddProducto = (producto) => {
+    let productoFinal = typeof producto === "object" ? producto : this.getProductoFromKey(producto);
+    this.props.onAddProducto(productoFinal);
+    this.setState({ productosActuales: this.getProductosActuales(this.props.mesaSeleccionada) });
+  }
+
+  handleOnRemoveProducto = (key) => {
+    this.props.onRemoveProducto(this.getProductoFromKey(key));
+    this.setState({ productosActuales: this.getProductosActuales(this.props.mesaSeleccionada) });
   }
 
   getProductoFromKey = (key) => {
@@ -117,9 +118,9 @@ class Mozo extends Component {
           onMesaSeleccionada={this.handleOnSelectMesa} />
         <EditarMesa mesa={this.props.mesaSeleccionada}
           terminar={this.handleOnDeselectMesa}
-          productos={this.state.productosActuales}
-          handleOnAddProducto={this.handleOnAddProducto}
-          handleOnRemoveProducto={this.handleOnRemoveProducto} />
+          productos={this.state.productosActuales} 
+          onAddProducto={this.handleOnAddProducto}
+          onRemoveProducto={this.handleOnRemoveProducto}/>
       </View>
     );
   }

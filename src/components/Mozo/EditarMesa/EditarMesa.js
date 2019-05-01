@@ -3,15 +3,15 @@ import { View, StyleSheet, Button, Modal, Text, FlatList } from 'react-native';
 import Producto from '../Producto/Producto';
 import AgregarProducto from '../AgregarProducto/AgregarProducto';
 import { connect } from 'react-redux';
-import { addProducto, removeProducto } from '../../../actions/index';
 
 class EditarMesa extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { lista: [], agregarProducto: false };
+        this.state = { stack: [], agregarProducto: false };
         this.handleOnPressButton = this.handleOnPressButton.bind(this);
         this.handleVolver = this.handleVolver.bind(this);
+        this.handleCerrar = this.handleCerrar.bind(this);
         this.getLista();
     }
 
@@ -33,31 +33,37 @@ class EditarMesa extends Component {
             if (!this.contieneAgregados(valores[i]))
                 newLista.push({ key: i, nombre: nombre })
         }
-        this.state.lista.push({ valor: valores, lista: newLista, titulo: "Menu", inicio: true });
+        this.state.stack.push({ valor: valores, lista: newLista, titulo: "Menu", inicio: true });
     }
 
     handleOnPressButton = (key) => {
-        let lista = this.state.lista,
-            titulo = lista[lista.length - 1].lista[key].nombre,
-            valoresActuales = lista[lista.length - 1].valor,
+        let stack = this.state.stack,
+            titulo = stack[stack.length - 1].lista[key].nombre,
+            valoresActuales = stack[stack.length - 1].valor,
             valores = Array.isArray(valoresActuales) ? valoresActuales[key] : valoresActuales[titulo.toLowerCase()],
             keys = Object.keys(valores),
             newLista = [];
         valores = Object.values(valores);
         for (var i = 0; i < valores.length; i++) {
             let isProducto = valores[i].id !== undefined,
-                nombre = isProducto ? valores[i].nombre : keys[i];
+                nombre = isProducto ? valores[i].nombre : keys[i],
+                id = isProducto ? valores[i].id : null;
             nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
-            newLista.push({ key: i, isProducto: isProducto, nombre: nombre });
+            newLista.push({ key: i, isProducto: isProducto, nombre: nombre, id: id });
         }
-        lista.push({ valor: valores, lista: newLista, titulo: titulo });
-        this.setState({ lista: lista });
+        stack.push({ valor: valores, lista: newLista, titulo: titulo });
+        this.setState({ stack: stack });
     }
 
     handleVolver = () => {
-        let lista = this.state.lista;
-        lista.pop();
-        this.setState({ lista: lista })
+        let stack = this.state.stack;
+        stack.pop();
+        this.setState({ stack: stack })
+    }
+
+    handleCerrar = () => {
+        let stack = [this.state.stack[0]];
+        this.setState({ stack: stack, agregarProducto: false });
     }
 
     render() {
@@ -68,24 +74,30 @@ class EditarMesa extends Component {
                         <Text style={styles.titulo}>Mesa {this.props.mesa}</Text>
                     </View>
                     <View style={styles.productos}>
-                        <FlatList
-                            data={this.props.productos}
-                            keyExtractor={item => item.key.toString()}
-                            renderItem={(info) => (
-                                <Producto id={info.item.numero}
-                                    nombre={info.item.nombre}
-                                    cantidad={info.item.cantidad}
-                                    onAddProducto={() => this.props.handleOnAddProducto(info.item.key)}
-                                    onRemoveProducto={() => this.props.handleOnRemoveProducto(info.item.key)} />
-                            )} />
+                        {(!this.props.productos || this.props.productos.length === 0) ? (
+                            <Text style={styles.textoInfo}>Esta mesa no tiene productos.</Text>
+                        ) : (
+                                <FlatList
+                                    data={this.props.productos}
+                                    keyExtractor={item => item.key.toString()}
+                                    renderItem={(info) => (
+                                        <Producto id={info.item.numero}
+                                            nombre={info.item.nombre}
+                                            cantidad={info.item.cantidad}
+                                            onAddProducto={() => this.props.onAddProducto(info.item.key)}
+                                            onRemoveProducto={() => this.props.onRemoveProducto(info.item.key)} />
+                                    )} />
+                            )}
+
                     </View>
                     <AgregarProducto agregarProducto={this.state.agregarProducto}
-                        terminar={() => this.setState({ agregarProducto: false })}
+                        terminar={this.handleCerrar}
                         handleOnPressButton={this.handleOnPressButton}
-                        titulo={this.state.lista[this.state.lista.length - 1].titulo}
-                        lista={this.state.lista[this.state.lista.length - 1].lista}
-                        volver={this.handleVolver} 
-                        inicio={this.state.lista.length === 1}/>
+                        titulo={this.state.stack[this.state.stack.length - 1].titulo}
+                        lista={this.state.stack[this.state.stack.length - 1].lista}
+                        volver={this.handleVolver}
+                        inicio={this.state.stack.length === 1}
+                        onAddProducto={(producto) => { this.props.onAddProducto(producto); this.handleCerrar(); }} />
                     <Button title="Agregar Producto" onPress={() => this.setState({ agregarProducto: true })} />
                     <Button title="Cerrar" onPress={() => this.props.terminar()} />
                 </View>
@@ -120,7 +132,13 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         padding: 10,
-        marginTop: 10
+        marginTop: 10,
+        flexDirection: "column",
+        justifyContent: "center",
+    },
+    textoInfo: {
+        fontSize: 25,
+        textAlign: "center",
     }
 });
 
