@@ -5,10 +5,10 @@ const Producto = (props) => (
     <View style={styles.container}>
         <Text style={styles.nombre}>{props.nombre}</Text>
         <TouchableOpacity style={styles.boton} onPress={() => props.onRemoveProducto()}>
-            <Text style={{fontSize:30, color:"#fff"}}>-</Text>
+            <Text style={{ fontSize: 30, color: "#fff" }}>-</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.cantidad} onPress={() => props.onAddProducto()}>
-            <Text style={{fontSize:25}}>{props.cantidad}</Text>
+            <Text style={{ fontSize: 25 }}>{props.cantidad}</Text>
         </TouchableOpacity>
     </View>
 );
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         fontSize: 25,
         // backgroundColor:"#1976d2"
-        backgroundColor:"#2196f3"
+        backgroundColor: "#2196f3"
     },
     cantidad: {
         borderTopRightRadius: 10,

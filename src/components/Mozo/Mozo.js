@@ -72,7 +72,7 @@ class Mozo extends Component {
     }
     productos.setAgregados(this.state.agregadosTotales);
     productos.sort((a, b) => { return a.id - b.id });
-    console.log(productos);
+    // console.log(productos);
     return productos;
   }
 
@@ -116,8 +116,8 @@ class Mozo extends Component {
         <EditarMesa mesa={this.props.mesaSeleccionada}
           terminar={this.handleOnDeselectMesa}
           productos={this.state.productosActuales}
-          onAddProducto={this.handleOnAddProducto}
-          onRemoveProducto={this.handleOnRemoveProducto} />
+          handleOnAddProducto={this.handleOnAddProducto}
+          handleOnRemoveProducto={this.handleOnRemoveProducto} />
       </View>
     );
   }
@@ -144,7 +144,7 @@ Array.prototype.esIgualA = function (array) {
 Array.prototype.setAgregados = function (objetos) {
   for (var i = 0; i < this.length; i++) {
     let agregados = [];
-    for (var j = 0; j < this[i].agregados.length; j++) 
+    for (var j = 0; j < this[i].agregados.length; j++)
       agregados.push({
         id: this[i].agregados[j],
         nombre: objetos.find(value => value.id === this[i].agregados[j]).nombre

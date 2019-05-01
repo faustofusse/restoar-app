@@ -1,25 +1,28 @@
-import React from 'react';
-import { View, StyleSheet, Button, Modal, Text, FlatList } from 'react-native';
-import Producto from '../Producto/Producto';
+import React, { Component } from 'react';
+import { View, StyleSheet, TouchableOpacity, Modal, Text, FlatList, Button } from 'react-native';
 
 const AgregarProducto = (props) => (
-    <Modal visible={props.mesa != null} animationType="slide">
+    <Modal visible={props.agregarProducto} >
         <View style={styles.container}>
             <View style={styles.navbar}>
-                <Text style={styles.titulo}>Mesa {props.mesa}</Text>
+                <Text style={styles.titulo}>{props.titulo}</Text>
             </View>
-            <View style={styles.productos}>
+            <View style={styles.lista}>
                 <FlatList
-                     data={props.productos}
+                    data={props.lista}
                     keyExtractor={item => item.key.toString()}
                     renderItem={(info) => (
-                        <Producto id={info.item.numero}
-                            nombre={info.item.nombre}
-                            cantidad={info.item.cantidad}
-                            onAddProducto={() => props.onAddProducto(info.item.key)}
-                            onRemoveProducto={() => props.onRemoveProducto(info.item.key)} />
+                        <TouchableOpacity disabled={info.item.isProducto} style={styles.item} onPress={() => props.handleOnPressButton(info.item.key)}>
+                            <Text style={styles.nombre}>{info.item.nombre}</Text>
+                            {(info.item.isProducto) ? (
+                                <TouchableOpacity style={[styles.boton]}><Text style={styles.textoBoton}>+</Text></TouchableOpacity>
+                            ) : null}
+                        </TouchableOpacity>
                     )} />
             </View>
+            {(!props.inicio) ? (
+                <Button title="Volver" onPress={() => props.volver()} />
+            ) : null}
             <Button title="Cerrar" onPress={() => props.terminar()} />
         </View>
     </Modal>
@@ -47,11 +50,37 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginLeft: 20
     },
-    productos: {
+    lista: {
         flex: 1,
-        width: "100%",
         padding: 10,
         marginTop: 10
+    },
+    item: {
+        width: "100%",
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+        backgroundColor: "#eee",
+        borderRadius: 10
+    },
+    nombre: {
+        padding: 15,
+        flex: 1,
+        fontSize: 25
+    },
+    boton: {
+        height: 60,
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        aspectRatio: 1,
+        backgroundColor: "#2196f3"
+    },
+    textoBoton: {
+        fontSize: 30,
+        color: "#fff",
     }
 });
 
