@@ -2,7 +2,6 @@ import { AppRegistry, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './src/configureStore';
 import React from 'react';
-import Mozo from './src/components/mozo/Mozo';
 import {name as appName} from './app.json';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
@@ -12,22 +11,14 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillUpdate is deprecated',
 ]);
 
-//import {SignedIn, SignedOut} from './src/config/Routes'
 import {createRootNavigator} from './src/config/Routes'
-import Menu from './src/navegation/Menu';
-
-
 import { isSignedIn } from "./src/auth";
-
-
-
 
 const store = configureStore();
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       signedIn: false,
       checkedSignIn: false
@@ -47,7 +38,6 @@ class App extends React.Component {
     if (!checkedSignIn) {
       return null;
     }
-
     const RootNavigator = createRootNavigator(signedIn);
     const AppContainer = createAppContainer(RootNavigator);
     return <AppContainer/>;
