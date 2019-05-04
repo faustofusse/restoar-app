@@ -38,8 +38,7 @@ class App extends React.Component {
     if (!checkedSignIn) {
       return null;
     }
-    const RootNavigator = createRootNavigator(signedIn);
-    const AppContainer = createAppContainer(RootNavigator);
+    const AppContainer = createAppContainer(createRootNavigator(signedIn));
     return <AppContainer/>;
   }
 

@@ -1,24 +1,17 @@
 
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Dimensions } from 'react-native';
-import {
-  createDrawerNavigator,
-  createStackNavigator,
-  createAppContainer,
-} from 'react-navigation';
+import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
 
 import { FONT_COLOR_WHITE, PRIMARY_COLOR } from '../resources/colors';
 import Mesas from '../components/mozo/Mozo';
-
 import Drawer from './Drawer';
 import Link from '../screens/Home';
 import Configuracion from '../components/configuracion/Configuracion';
 
 const WIDTH = Dimensions.get('window').width;
-
  
 class NavigationDrawerStructure extends Component {
-  //Structure for the navigatin Drawer
   toggleDrawer = () => {
     //Props to open/close the drawer
     this.props.navigationProps.toggleDrawer();
@@ -38,7 +31,6 @@ class NavigationDrawerStructure extends Component {
 }
  
 const Mesas_StackNavigator = createStackNavigator({
-  //All the screen from the Mesas will be indexed here
   First: {
     screen: Mesas,
     navigationOptions: ({ navigation }) => ({
@@ -53,7 +45,6 @@ const Mesas_StackNavigator = createStackNavigator({
 });
 
 const Link_StackNavigator = createStackNavigator({
-  //All the screen from the Link will be indexed here
   Second: {
     screen: Link,
     navigationOptions: ({ navigation }) => ({
@@ -68,7 +59,6 @@ const Link_StackNavigator = createStackNavigator({
 });
 
 const Configuracion_StackNavigator = createStackNavigator({
-  //All the screen from the Configuracion will be indexed here
   Third: {
     screen: Configuracion,
     navigationOptions: ({ navigation }) => ({
@@ -82,7 +72,6 @@ const Configuracion_StackNavigator = createStackNavigator({
   },
 });
 
-
 const DrawerConfig = {
 	drawerWidth: WIDTH*0.83,
 	contentComponent: ({ navigation }) => {
@@ -94,30 +83,23 @@ export default  Menu = createDrawerNavigator(
 {
   //Drawer Optons and indexing
   Mesas: {
-    //Title
     screen: Mesas_StackNavigator,
     navigationOptions: {
       drawerLabel: 'Mesas',
     },
   },
   Link: {
-    //Title
     screen: Link_StackNavigator,
     navigationOptions: {
       drawerLabel: 'Link',
     },
   },
   Configuracion: {
-    //Title
     screen: Configuracion_StackNavigator,
     navigationOptions: {
       drawerLabel: 'Configuración',
     },
   },
 },
-
-DrawerConfig
-
+  DrawerConfig
 );
- 
-//export default createAppContainer(Menu);
