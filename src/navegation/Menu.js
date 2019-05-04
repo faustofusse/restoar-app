@@ -90,7 +90,7 @@ const DrawerConfig = {
 	}
 }
 
-const Menu = createDrawerNavigator(
+export default  Menu = createDrawerNavigator(
 {
   //Drawer Optons and indexing
   Mozo: {
@@ -113,11 +113,11 @@ const Menu = createDrawerNavigator(
     navigationOptions: {
       drawerLabel: 'Configuración',
     },
-  }
+  },
 },
 
 DrawerConfig
 
 );
  
-export default createAppContainer(Menu);
+//export default createAppContainer(Menu);

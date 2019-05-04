@@ -8,6 +8,7 @@ import {
   Dimensions
   } from 'react-native';
 
+  import { onSignOut } from "../auth";
   const { width: WIDTH} = Dimensions.get('window')
   
   export default class HomeScreen extends Component {
@@ -28,6 +29,17 @@ import {
         <TouchableOpacity style={styles.button} onPress={ () => this.props.navigation.navigate('Login') }>
                                    <Text style={styles.text}>Login</Text>
         </TouchableOpacity>
+
+
+        <Button
+        buttonStyle={{ marginTop: 20 }}
+        backgroundColor="#03A9F4"
+        title="Desloguear"
+        onPress={() => {
+          onSignOut().then(() => this.props.navigation.navigate('SignIn')); //navigation.navigate("SignedIn")); // NEW LOGIC
+        }}
+      />
+
       </View>
     );
   }

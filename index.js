@@ -14,10 +14,62 @@ YellowBox.ignoreWarnings([
   'Module RCTImageLoader requires',
 ]);
 
-import {SignedIn, SignedOut} from './src/config/Routes'
+//import {SignedIn, SignedOut} from './src/config/Routes'
+import {createRootNavigator} from './src/config/Routes'
 import Menu from './src/navegation/Menu';
 
-const RootStack = createStackNavigator(
+
+import { isSignedIn } from "./src/auth";
+
+
+
+
+const store = configureStore();
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      signedIn: false,
+      checkedSignIn: false
+    };
+  }
+
+  componentDidMount() {
+    isSignedIn()
+      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
+      .catch(err => alert("An error occurred"));
+  }
+
+  render() {
+    const { checkedSignIn, signedIn } = this.state;
+
+    // If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
+    if (!checkedSignIn) {
+      return null;
+    }
+
+    const RootNavigator = createRootNavigator(signedIn);
+    const AppContainer = createAppContainer(RootNavigator);
+    return <AppContainer/>;
+  }
+
+}
+
+const ReactNativeRedux = () => (
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
+
+AppRegistry.registerComponent(appName, () => ReactNativeRedux);
+
+
+
+
+
+/*const RootStack = createStackNavigator(
   {
       Mozo: Mozo
   },
@@ -36,14 +88,4 @@ const RootStack = createStackNavigator(
       }
   }
 );
-const AppContainer = createAppContainer(RootStack);
-
-const store = configureStore();
-
-const ReactNativeRedux = () => (
-    <Provider store={store}>
-        <Menu />
-    </Provider>
-);
-
-AppRegistry.registerComponent(appName, () => ReactNativeRedux);
+const AppContainer = createAppContainer(RootStack);*/

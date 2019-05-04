@@ -9,6 +9,7 @@ import {
   } from 'react-native';
 
   const { width: WIDTH} = Dimensions.get('window')
+  import { onSignOut } from "../auth";
 
 export default class DetailsScreen extends Component {
     static navigationOptions = {
@@ -23,7 +24,13 @@ export default class DetailsScreen extends Component {
           title="Go to Details... again"
           onPress={() => this.props.navigation.navigate('Details')}
         />
+          <Button
+        backgroundColor="#03A9F4"
+        title="SIGN OUT"
+        onPress={() => onSignOut().then(() => navigation.navigate("SignedOut"))}
+      />
       </View>
     );
   }
+  
 }

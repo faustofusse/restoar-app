@@ -8,8 +8,11 @@ import {
 	Dimensions,
 	StyleSheet,
 	TouchableOpacity,
+	Button
 } from 'react-native';
 import { PRIMARY_COLOR } from '../resources/colors';
+
+import { onSignOut } from "../auth";
 
 const WIDTH = Dimensions.get('window').width 
 const HEIGHT = Dimensions.get('window').height 
@@ -41,6 +44,14 @@ export default class MenuDrawer extends React.Component {
 						{this.navLink('Mozo', 'Mozo')}
 						{this.navLink('Link', 'Link')}
 						{this.navLink('Configuracion', 'Configuración')}
+						<Button
+							buttonStyle={{ marginTop: 20 }}
+							backgroundColor="#03A9F4"
+							title="Salir"
+							onPress={() => {
+								onSignOut().then(() => this.props.navigation.navigate('SignIn'));
+							}}
+						/>
 					</View>
 				</ScrollView>
 				<View style={styles.footer}>

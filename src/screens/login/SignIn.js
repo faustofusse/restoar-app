@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Card, Button, Text, Input } from "react-native-elements";
+import { onSignIn } from "../../auth";
 
 export default class SignIn extends Component {
   render() {
@@ -16,7 +17,9 @@ export default class SignIn extends Component {
         buttonStyle={{ marginTop: 20 }}
         backgroundColor="#03A9F4"
         title="Ingresar"
-      
+        onPress={() => {
+          onSignIn().then(() => this.props.navigation.navigate('SignedIn')); // NEW LOGIC
+        }}
       />
       <Button
         buttonStyle={{ marginTop: 20 }}
@@ -26,6 +29,9 @@ export default class SignIn extends Component {
         type="clear"
         onPress={() => this.props.navigation.navigate('SignUp')}
       />
+
+
+      
     </Card>
     </View>
     );
