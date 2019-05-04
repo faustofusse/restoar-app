@@ -8,10 +8,8 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // Ignora las advertencias de mierda, que no puedo solucionar
 YellowBox.ignoreWarnings([
-  'Warning: componentWillMount is deprecated',
   'Warning: componentWillReceiveProps is deprecated',
   'Warning: componentWillUpdate is deprecated',
-  'Module RCTImageLoader requires',
 ]);
 
 //import {SignedIn, SignedOut} from './src/config/Routes'
