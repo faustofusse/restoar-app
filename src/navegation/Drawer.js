@@ -41,7 +41,7 @@ export default class MenuDrawer extends React.Component {
 						</View>
 					</View>
 					<View style={styles.bottomLinks}>
-						{this.navLink('Mozo', 'Mozo')}
+						{this.navLink('Mozo', 'Mesas')}
 						{this.navLink('Link', 'Link')}
 						{this.navLink('Configuracion', 'Configuración')}
 						<Button

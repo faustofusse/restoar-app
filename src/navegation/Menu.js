@@ -8,7 +8,7 @@ import {
 } from 'react-navigation';
 
 import { FONT_COLOR_WHITE, PRIMARY_COLOR } from '../resources/colors';
-import Mozo from '../components/mozo/Mozo';
+import Mesas from '../components/mozo/Mozo';
 
 import Drawer from './Drawer';
 import Link from '../screens/Home';
@@ -37,12 +37,12 @@ class NavigationDrawerStructure extends Component {
   }
 }
  
-const Mozo_StackNavigator = createStackNavigator({
-  //All the screen from the Mozo will be indexed here
+const Mesas_StackNavigator = createStackNavigator({
+  //All the screen from the Mesas will be indexed here
   First: {
-    screen: Mozo,
+    screen: Mesas,
     navigationOptions: ({ navigation }) => ({
-      title: 'Mozo',
+      title: 'Mesas',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: PRIMARY_COLOR,
@@ -93,11 +93,11 @@ const DrawerConfig = {
 export default  Menu = createDrawerNavigator(
 {
   //Drawer Optons and indexing
-  Mozo: {
+  Mesas: {
     //Title
-    screen: Mozo_StackNavigator,
+    screen: Mesas_StackNavigator,
     navigationOptions: {
-      drawerLabel: 'Mozo',
+      drawerLabel: 'Mesas',
     },
   },
   Link: {
