@@ -11,9 +11,9 @@ import {
   const { width: WIDTH} = Dimensions.get('window')
   
   export default class HomeScreen extends Component {
-    static navigationOptions = {
+    /*static navigationOptions = {
         header : null
-    }
+    }*/
 
   render() {
   console.log('me mande al homescreen');

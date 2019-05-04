@@ -10,10 +10,13 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 YellowBox.ignoreWarnings([
   'Warning: componentWillMount is deprecated',
   'Warning: componentWillReceiveProps is deprecated',
+  'Warning: componentWillUpdate is deprecated',
   'Module RCTImageLoader requires',
 ]);
 
 import {SignedIn, SignedOut} from './src/config/Routes'
+import Menu from './src/navegation/Menu';
+
 const RootStack = createStackNavigator(
   {
       Mozo: Mozo
@@ -39,7 +42,7 @@ const store = configureStore();
 
 const ReactNativeRedux = () => (
     <Provider store={store}>
-        <Mozo />
+        <Menu />
     </Provider>
 );
 

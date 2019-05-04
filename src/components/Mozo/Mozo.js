@@ -31,8 +31,6 @@ class Mozo extends Component {
     this.getProductosTotales();
   }
 
-  static navigationOptions = { header: null }; // Oculto la barra de navegacion
-
   getProductosTotales = () => {
     // Esta funcion extrae todos los productos del objeto menu, que esta en el estado de Redux
     let isObjeto = objeto => !Array.isArray(objeto),
@@ -116,7 +114,7 @@ class Mozo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <NavBar imagen={imagen} titulo={this.props.nombre} />
+        {/*<NavBar imagen={imagen} titulo={this.props.nombre} />*/}
         <View style={styles.mesas}>
           <FlatList data={this.props.mesas}
             keyExtractor={item => item.numero.toString()}
