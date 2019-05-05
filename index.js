@@ -41,7 +41,6 @@ class App extends React.Component {
     const AppContainer = createAppContainer(createRootNavigator(signedIn));
     return <AppContainer/>;
   }
-
 }
 
 const ReactNativeRedux = () => (
@@ -51,28 +50,3 @@ const ReactNativeRedux = () => (
 );
 
 AppRegistry.registerComponent(appName, () => ReactNativeRedux);
-
-
-
-
-
-/*const RootStack = createStackNavigator(
-  {
-      Mozo: Mozo
-  },
-  {
-      initialRouteName: 'Mozo',
-      defaultNavigationOptions: {
-          headerStyle:{
-            backgroundColor: '#b71c1c',
-            height: 70,
-          },
-          headerTintColor : '#fff',
-          headerTitleStyle:{
-              textAlign: 'center',
-              flex: 1
-          }
-      }
-  }
-);
-const AppContainer = createAppContainer(RootStack);*/

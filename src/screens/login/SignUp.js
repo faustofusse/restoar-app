@@ -1,20 +1,11 @@
 import React, {Component} from 'react';
-import {
-
-  View,
-  
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions
-  } from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
   import { Card, Button, Text, Input } from "react-native-elements";
 
   
-
-
 export default ({ navigation }) => (
-  <View style={{ paddingVertical: 20 }}>
-  <Card title="REGISTRARSE">
+  <View style={styles.container}>
+  <Card title="REGISTRESE">
       <Text style={{ paddingVertical: 10 }}>Email</Text>
       <Input placeholder="Email..." />
       <Text style={{ paddingVertical: 10 }}>Password</Text>
@@ -31,3 +22,11 @@ export default ({ navigation }) => (
     </Card>
   </View>
 );
+
+var styles = StyleSheet.create({
+  container:{
+    flex : 1,
+    justifyContent: 'center',
+
+  }
+})
