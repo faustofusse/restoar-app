@@ -2,7 +2,7 @@ import { AppRegistry, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './src/configureStore';
 import React from 'react';
-import {name as appName} from './app.json';
+import { name as appName } from './app.json';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 // Ignora las advertencias de mierda, que no puedo solucionar
@@ -11,7 +11,7 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillUpdate is deprecated',
 ]);
 
-import {createRootNavigator} from './src/config/Routes'
+import { createRootNavigator } from './src/config/Routes'
 import { isSignedIn } from "./src/auth";
 
 const store = configureStore();
@@ -39,14 +39,14 @@ class App extends React.Component {
       return null;
     }
     const AppContainer = createAppContainer(createRootNavigator(signedIn));
-    return <AppContainer/>;
+    return <AppContainer />;
   }
 }
 
 const ReactNativeRedux = () => (
-    <Provider store={store}>
-        <App />
-    </Provider>
+  <Provider store={store}>
+    <App />
+  </Provider>
 );
 
 AppRegistry.registerComponent(appName, () => ReactNativeRedux);

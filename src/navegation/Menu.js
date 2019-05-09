@@ -4,7 +4,7 @@ import { View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
 
 import { FONT_COLOR_WHITE, PRIMARY_COLOR } from '../resources/colors';
-import Mesas from '../components/mozo/Mozo';
+import Mesas from '../components/Mozo/Mozo';
 import Drawer from './Drawer';
 import Link from '../screens/Home';
 import Configuracion from '../components/configuracion/Configuracion';
