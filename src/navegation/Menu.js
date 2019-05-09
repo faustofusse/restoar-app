@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { FONT_COLOR_WHITE, PRIMARY_COLOR } from '../resources/colors';
 import Mesas from '../components/Mozo/Mozo';
@@ -20,9 +21,10 @@ class NavigationDrawerStructure extends Component {
     return (
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
-          <Image
-            source={require('../assets/drawer.png')}
-            style={{ width: 25, height: 25, marginLeft: 5, tintColor: '#fff' }}
+          <Icon
+          name="bars"
+          size={25} 
+          style={{ width: 25, height: 25, marginLeft: 5, color: '#fff'}}
           />
         </TouchableOpacity>
       </View>

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator,StyleSheet } from 'react-native';
+import { View, ActivityIndicator,StyleSheet} from 'react-native';
 import { Card, Button, Text, Input } from "react-native-elements";
 import { onSignIn } from "../../auth";
+import Notificacion from '../../components/form/Notificacion';
 
 export default class SignIn extends Component {
   constructor(Props){
-    super(Props)
+    super(Props);
+    this.handleCloseNotification=this.handleCloseNotification.bind(this);
     this.state={
+      formValid: false,
         userEmail: '',
         userPassword: '',
         loading: false,
@@ -52,7 +55,13 @@ export default class SignIn extends Component {
     }
   }
 
+  handleCloseNotification(){
+    this.setState({formValid:true});
+  }
+
   render() {
+    const {formValid} = this.state;
+    const showNotification = formValid ? false : true;
     return (  
     <View style={styles.container}>
       { this.state.loading ? 
@@ -84,6 +93,15 @@ export default class SignIn extends Component {
         </Card>
       </View>
       }
+     {/* <View style={showNotification ? {marginTop:10}:{  }}>
+        <Notificacion
+          showNotification={showNotification}
+          handleCloseNotification={this.handleCloseNotification}
+          type="Error"
+          firstLine="Datos de ingreso no válidos."
+          secondLine="Por favor, ingrese nuevamente"
+        />
+    </View>*/}
     </View>
     );
   }
