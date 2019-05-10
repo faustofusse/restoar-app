@@ -4,7 +4,7 @@ import { View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { FONT_COLOR_WHITE, PRIMARY_COLOR } from '../resources/colors';
+import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../resources/colors';
 import Mesas from '../components/Mozo/Mozo';
 import Drawer from './Drawer';
 import Link from '../screens/Home';
@@ -39,7 +39,7 @@ const Mesas_StackNavigator = createStackNavigator({
       title: 'Mesas',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: DARK_PRIMARY,
       },
       headerTintColor: FONT_COLOR_WHITE,
     }),
@@ -53,7 +53,7 @@ const Link_StackNavigator = createStackNavigator({
       title: 'Link',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: DARK_PRIMARY,
       },
       headerTintColor: FONT_COLOR_WHITE,
     }),
@@ -67,7 +67,7 @@ const Configuracion_StackNavigator = createStackNavigator({
       title: 'Configuración',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: DARK_PRIMARY,
       },
       headerTintColor: FONT_COLOR_WHITE,
     }),

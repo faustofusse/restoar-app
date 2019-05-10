@@ -1,7 +1,7 @@
 import React from 'react';
 import imagen from '../../../assets/pinguino.jpg';
 import { View, StyleSheet, Text, Image } from 'react-native';
-import { FONT_COLOR_WHITE, PRIMARY_COLOR } from '../../../resources/colors';
+import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../../../resources/colors';
 
 const NavBar = (props) => (
     <View style={styles.navbar}>
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     navbar: {
         height: "15%",
         width: "100%",
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: DARK_PRIMARY,
         padding: 20,
         flexDirection: 'row',
         justifyContent: 'flex-start',

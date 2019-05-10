@@ -75,7 +75,7 @@ class Mozo extends Component {
     }
     productos.setAgregados(this.state.agregadosTotales);
     productos.sort((a, b) => { return a.id - b.id });
-    // console.log(productos);
+    console.log(productos);
     return productos;
   }
 

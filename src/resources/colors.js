@@ -1,5 +1,7 @@
-export const PRIMARY_COLOR = '#b71c1c';
-export const SECONDARY_COLOR = '#ff5722';
+// export const DARK_PRIMARY = '#b71c1c';
+export const DARK_PRIMARY = '#D32F2F';
+// export const SECONDARY_COLOR = '#ff5722';
+export const ACCENT = '#FF9800';
 export const FONT_COLOR_WHITE = '#fff';
 export const BACKGROUND = '#F5FCFF'; 
 export const GREY = '#eee';

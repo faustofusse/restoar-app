@@ -1,26 +1,45 @@
 import React from 'react';
-import { View, StyleSheet, Button, Modal, Text, TouchableOpacity } from 'react-native';
-import { BLUE, DARK_GREY, GREY } from '../../../resources/colors';
+import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
+import { BLUE, DARK_GREY, GREY, ACCENT } from '../../../resources/colors';
+
+let key = 0;
 
 const Producto = (props) => (
     <View style={styles.container}>
-        <Text style={styles.nombre}>{props.nombre}</Text>
-        <TouchableOpacity style={styles.boton} onPress={() => props.onRemoveProducto()}>
-            <Text style={{ fontSize: 30, color: "#fff" }}>-</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.cantidad} onPress={() => props.onAddProducto()}>
-            <Text style={{ fontSize: 25 }}>{props.cantidad}</Text>
-        </TouchableOpacity>
+        <View style={styles.producto}>
+            <Text style={styles.nombre}>{props.nombre}</Text>
+            <TouchableOpacity style={styles.boton} onPress={() => props.onRemoveProducto()}>
+                <Text style={{ fontSize: 30, color: "#fff" }}>-</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cantidad} onPress={() => props.onAddProducto()}>
+                <Text style={{ fontSize: 25 }}>{props.cantidad}</Text>
+            </TouchableOpacity>
+        </View>
+        <FlatList style={styles.lista}
+            data={props.agregados}
+            keyExtractor={() => { key++; return (key - 1).toString(); }}
+            renderItem={info => (
+                <View style={styles.agregado}>
+                    <Text style={{ fontSize: 20, color: '#fff' }}>{info.item.nombre}</Text>
+                </View>
+            )}
+        />
     </View>
 );
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
+        margin: 15,
+        marginBottom: 0,
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    producto: {
+        // width: "100%",
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
+        // marginBottom: 10,
         backgroundColor: GREY,
         borderRadius: 10
     },
@@ -39,7 +58,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         fontSize: 25,
-        // backgroundColor:"#1976d2"
         backgroundColor: BLUE
     },
     cantidad: {
@@ -52,6 +70,19 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         backgroundColor: DARK_GREY
+    },
+    lista: {
+        // backgroundColor: '#000',
+        width: '95%'
+    },
+    agregado: {
+        width: "100%",
+        height: 30,
+        marginTop: 2,
+        backgroundColor: BLUE,
+        borderBottomLeftRadius: 8,
+        borderBottomRightRadius: 8,
+        paddingLeft: 20
     }
 });
 

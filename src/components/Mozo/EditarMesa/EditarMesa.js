@@ -83,6 +83,7 @@ class EditarMesa extends Component {
                                         <Producto id={info.item.numero}
                                             nombre={info.item.nombre}
                                             cantidad={info.item.cantidad}
+                                            agregados={info.item.agregados}
                                             onAddProducto={() => this.props.onAddProducto(info.item.key)}
                                             onRemoveProducto={() => this.props.onRemoveProducto(info.item.key)} />
                                     )} />
@@ -114,8 +115,9 @@ const styles = StyleSheet.create({
     productos: {
         flex: 1,
         width: "100%",
-        padding: 10,
-        marginTop: 10,
+        marginBottom: 15,
+        // padding: 10,
+        // marginTop: 10,
         flexDirection: "column",
         justifyContent: "center",
     },

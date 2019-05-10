@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	Button
 } from 'react-native';
-import { PRIMARY_COLOR } from '../resources/colors';
+import { DARK_PRIMARY } from '../resources/colors';
 
 import { onSignOut } from "../auth";
 
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 	},
 	topLinks:{
 		height: 160,
-		backgroundColor: PRIMARY_COLOR,
+		backgroundColor: DARK_PRIMARY,
 	},
 	bottomLinks: {
 		flex: 1,

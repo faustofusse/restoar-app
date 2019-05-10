@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { FONT_COLOR_WHITE, SECONDARY_COLOR } from '../../../resources/colors';
+import { FONT_COLOR_WHITE, ACCENT } from '../../../resources/colors';
 
 const Mesa = (props) => (
     <TouchableOpacity style={styles.mesa}
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         padding: 20,
         marginTop: 10,
         marginBottom: 10,
-        backgroundColor: SECONDARY_COLOR,
+        backgroundColor: ACCENT,
         borderBottomLeftRadius: 15,
         borderTopRightRadius: 15,
         // ios
