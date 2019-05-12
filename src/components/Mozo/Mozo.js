@@ -1,6 +1,6 @@
 // React
 import React, { Component } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Button } from 'react-native';
 // Componentes (React)
 import NavBar from './NavBar/NavBar';
 import EditarMesa from './EditarMesa/EditarMesa';
@@ -12,6 +12,7 @@ import imagen from '../../assets/pinguino.jpg'
 import { connect } from 'react-redux';
 // Importo las acciones a utilizar (Redux)
 import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto } from '../../actions/index';
+import Opciones from './Opciones/Opciones';
 
 class Mozo extends Component {
 
@@ -22,7 +23,8 @@ class Mozo extends Component {
       productosTotales: [],
       agregadosTotales: [],
       // Productos de la mesa seleccionada
-      productosActuales: []
+      productosActuales: [],
+      opciones: false
     };
     this.handleOnSelectMesa = this.handleOnSelectMesa.bind(this);
     this.handleOnDeselectMesa = this.handleOnDeselectMesa.bind(this);
@@ -124,11 +126,13 @@ class Mozo extends Component {
               </Mesa>
             )} />
         </View>
+        <Button title='Opciones' onPress={() => this.setState({ opciones: true })} />
         <EditarMesa mesa={this.props.mesaSeleccionada}
           terminar={this.handleOnDeselectMesa}
           productos={this.state.productosActuales}
           onAddProducto={this.handleOnAddProducto}
           onRemoveProducto={this.handleOnRemoveProducto} />
+        <Opciones visible={this.state.opciones} cerrar={() => this.setState({ opciones: false })} />
       </View>
     );
   }

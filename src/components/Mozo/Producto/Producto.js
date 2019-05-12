@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
-import { BLUE, DARK_GREY, GREY, ACCENT } from '../../../resources/colors';
+import { BLUE, DARK_GREY, GREY, RED } from '../../../resources/colors';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 let key = 0;
 
@@ -8,8 +9,9 @@ const Producto = (props) => (
     <View style={styles.container}>
         <View style={styles.producto}>
             <Text style={styles.nombre}>{props.nombre}</Text>
-            <TouchableOpacity style={styles.boton} onPress={() => props.onRemoveProducto()}>
-                <Text style={{ fontSize: 30, color: "#fff" }}>-</Text>
+            <TouchableOpacity style={[styles.boton, { backgroundColor: props.cantidad > 1 ? BLUE : RED }]}
+                onPress={() => props.onRemoveProducto()}>
+                <Icon name={props.cantidad > 1 ? "minus" : "times"} size={20} style={{ color: '#fff', marginLeft: 20 }} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.cantidad} onPress={() => props.onAddProducto()}>
                 <Text style={{ fontSize: 25 }}>{props.cantidad}</Text>
@@ -56,9 +58,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 100,
         borderBottomLeftRadius: 100,
         justifyContent: "center",
-        alignItems: "center",
-        fontSize: 25,
-        backgroundColor: BLUE
+        alignItems: "baseline",
+        fontSize: 25
     },
     cantidad: {
         borderTopRightRadius: 10,
