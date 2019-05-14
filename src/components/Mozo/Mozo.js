@@ -6,7 +6,7 @@ import NavBar from './NavBar/NavBar';
 import EditarMesa from './EditarMesa/EditarMesa';
 import Mesa from './Mesa/Mesa';
 // Resources
-import { BACKGROUND } from '../../resources/colors';
+import { BACKGROUND, BLUE } from '../../resources/colors';
 import imagen from '../../assets/pinguino.jpg'
 // Redux
 import { connect } from 'react-redux';
@@ -118,6 +118,7 @@ class Mozo extends Component {
       <View style={styles.container}>
         {/*<NavBar imagen={imagen} titulo={this.props.nombre} />*/}
         <View style={styles.mesas}>
+          <Button title='Opciones' onPress={() => this.setState({ opciones: true })} />
           <FlatList data={this.props.mesas}
             keyExtractor={item => item.numero.toString()}
             renderItem={(info) => (
@@ -126,13 +127,21 @@ class Mozo extends Component {
               </Mesa>
             )} />
         </View>
-        <Button title='Opciones' onPress={() => this.setState({ opciones: true })} />
         <EditarMesa mesa={this.props.mesaSeleccionada}
           terminar={this.handleOnDeselectMesa}
           productos={this.state.productosActuales}
           onAddProducto={this.handleOnAddProducto}
           onRemoveProducto={this.handleOnRemoveProducto} />
-        <Opciones visible={this.state.opciones} cerrar={() => this.setState({ opciones: false })} />
+        <Opciones visible={this.state.opciones} cerrar={() => this.setState({ opciones: false })}
+          titulo="Opciones" items={[{
+            id: 0, titulo: "Perfil", icono: 'plus', funcion: () => alert("Perfil")},{
+            id: 1, titulo: "Tema", icono: null, funcion: () => alert("Perfil")},{
+            id: 2, titulo: "Baston", icono: null, funcion: () => alert("Perfil")},{
+            id: 3, titulo: "Asincronico", icono: null, funcion: () => alert("Perfil")},{
+            id: 4, titulo: "Hola", icono: null, funcion: () => alert("Perfil")},{
+            id: 5, titulo: "Logout", icono: null, funcion: () => alert("Perfil")
+          }]} />
+
       </View>
     );
   }
