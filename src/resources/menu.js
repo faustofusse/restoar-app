@@ -6,10 +6,10 @@ export const MENU = {
         { id: 4, nombre: 'Sopa de verdura', precio: 32 },
         { id: 5, nombre: 'Provoleta', precio: 22 }],
     pastas: [
-        { id: 6, nombre: 'Ravioles', agregados:[[1,2,3], [1,2,3]], precio: 97 },
-        { id: 7, nombre: 'Spaghetti', agregados:[[1,2,3], [1,2,3]], precio: 97 },
-        { id: 8, nombre: 'Fetuccini', agregados:[[1,2,3], [1,2,3]], precio: 97 },
-        { id: 9, nombre: 'Penne Rigatti', agregados:[[1,2,3], [1,2,3]], precio: 97 }],
+        { id: 6, nombre: 'Ravioles', agregados: [[1, 2, 3]], precio: 97 },
+        { id: 7, nombre: 'Spaghetti', agregados: [[1, 2, 3], [2, 3]], precio: 97 },
+        { id: 8, nombre: 'Fetuccini', agregados: [[1, 2, 3]], precio: 97 },
+        { id: 9, nombre: 'Penne Rigatti', agregados: [[1, 2, 3]], precio: 97 }],
     platos: [
         { id: 10, nombre: 'Milanga de ternera', precio: 97 },
         { id: 11, nombre: 'Bife de chorizo', precio: 97 },

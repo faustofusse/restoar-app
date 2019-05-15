@@ -5,13 +5,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Opciones = (props) => (
     < Modal visible={props.visible} transparent={true} >
-        <TouchableOpacity style={styles.background} onPress={() => props.cerrar()}>
+        <TouchableOpacity style={styles.background} disabled={props.cerrar === null} onPress={() => props.cerrar()}>
             <View style={styles.container}>
                 <View style={styles.arriba}>
                     <Text style={styles.titulo}>{props.titulo}</Text>
-                    <TouchableOpacity style={styles.cerrar} onPress={() => props.cerrar()}>
-                        <Icon name="times" size={30} style={{ color: '#e0e0e0', height: '100%', textAlign: 'center', textAlignVertical: 'center' }} />
-                    </TouchableOpacity>
+                    {props.cerrar !== null ? (
+                        <TouchableOpacity style={styles.cerrar} onPress={() => props.cerrar()}>
+                            <Icon name="times" size={30} style={{ color: '#e0e0e0', height: '100%', textAlign: 'center', textAlignVertical: 'center' }} />
+                        </TouchableOpacity>
+                    ) : null}
                 </View>
                 <FlatList data={props.items}
                     keyExtractor={item => item.id.toString()}

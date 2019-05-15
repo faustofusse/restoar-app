@@ -10,18 +10,21 @@ class AgregarProducto extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { stack: [] };
+        this.state = { stack: [], agregados: [], agregadosTotales: [], producto: null };
         this.handleOnPressButton = this.handleOnPressButton.bind(this);
         this.handleVolver = this.handleVolver.bind(this);
         this.handleCerrar = this.handleCerrar.bind(this);
+        this.handleAgregado = this.handleAgregado.bind(this);
+        this.handleAgregarProducto = this.handleAgregarProducto.bind(this);
         this.getLista();
     }
 
     contieneAgregados = (objeto) => {
         if (objeto[0] === undefined) return false;
-        for (var i = 0; i < objeto.length; i++)
-            if (!objeto[i].agregado)
-                return false;
+        for (var i = 0; i < objeto.length; i++) {
+            if (!objeto[i].agregado) return false;
+            this.state.agregadosTotales.push(objeto[i]);
+        }
         return true;
     }
 
@@ -35,6 +38,7 @@ class AgregarProducto extends Component {
             if (!this.contieneAgregados(valores[i]))
                 newLista.push({ key: i, nombre: nombre })
         }
+        console.log(this.state.agregadosTotales);
         this.state.stack.push({ valor: valores, lista: newLista, titulo: "Menu", inicio: true });
     }
 
@@ -70,6 +74,41 @@ class AgregarProducto extends Component {
         this.props.terminar();
     }
 
+    handleAgregarProducto = (id) => {
+        let producto = this.state.stack[this.state.stack.length - 1].lista.find(value => value.id === id);
+        if (!producto.agregados) {
+            this.props.onAddProducto({ id: id, add: [] });
+            this.handleCerrar();
+            return;
+        }
+        let agregadosStack = [];
+        for (let i = 0; i < producto.agregados.length; i++) {
+            let agregados = new Array();
+            for (let b = 0; b < producto.agregados[i].length; b++) {
+                let agregadoId = producto.agregados[i][b];
+                agregados.push({
+                    id: agregadoId, icono: 'plus',
+                    titulo: this.state.agregadosTotales.find(value => value.id === agregadoId).nombre,
+                    funcion: () => this.handleAgregado(agregadoId)
+                });
+            }
+            agregadosStack.push(agregados);
+        }
+        console.log(agregadosStack);
+        this.setState({ agregados: agregadosStack, producto: { id: id, add: [] } });
+    }
+
+    handleAgregado = (id) => {
+        let producto = this.state.producto;
+        let agregados = this.state.agregados;
+        producto.add.push(id);
+        agregados.shift();
+        this.setState({ producto: producto, agregados: agregados });
+        if (agregados.length > 0) return;
+        this.props.onAddProducto(producto);
+        this.handleCerrar();
+    }
+
     render() {
         return (
             <Modal visible={this.props.visible} >
@@ -83,7 +122,7 @@ class AgregarProducto extends Component {
                                 <TouchableOpacity disabled={info.item.isProducto} style={styles.item} onPress={() => this.handleOnPressButton(info.item.key)}>
                                     <Text style={styles.nombre}>{info.item.nombre}</Text>
                                     {(info.item.isProducto) ? (
-                                        <TouchableOpacity style={styles.boton} onPress={() => { this.props.onAddProducto({ id: info.item.id, add: [] }); this.handleCerrar(); }}>
+                                        <TouchableOpacity style={styles.boton} onPress={() => this.handleAgregarProducto(info.item.id)}>
                                             <Icon name="plus" size={30} color={FONT_COLOR_WHITE} />
                                         </TouchableOpacity>
                                     ) : null}
@@ -94,6 +133,8 @@ class AgregarProducto extends Component {
                         <Button title="Volver" onPress={() => this.handleVolver()} />
                     ) : null}
                     <Button title="Cerrar" onPress={() => this.props.terminar()} />
+                    <Opciones visible={this.state.agregados.length > 0} items={this.state.agregados[0]} cerrar={null} 
+                    titulo={'Agregados ' + (this.state.producto === null ? '' : (this.state.agregados.length + this.state.producto.add.length > 1 ? '(' + (this.state.producto.add.length + 1).toString() + ')' : ''))} />
                 </View>
             </Modal>
         )

@@ -7,12 +7,10 @@ import EditarMesa from './EditarMesa/EditarMesa';
 import Mesa from './Mesa/Mesa';
 // Resources
 import { BACKGROUND, BLUE } from '../../resources/colors';
-import imagen from '../../assets/pinguino.jpg'
 // Redux
 import { connect } from 'react-redux';
 // Importo las acciones a utilizar (Redux)
 import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto } from '../../actions/index';
-import Opciones from './Opciones/Opciones';
 
 class Mozo extends Component {
 
@@ -78,7 +76,7 @@ class Mozo extends Component {
     }
     productos.setAgregados(this.state.agregadosTotales);
     productos.sort((a, b) => { return a.id - b.id });
-    console.log(productos);
+    // console.log(productos);
     return productos;
   }
 
