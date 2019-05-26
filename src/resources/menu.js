@@ -1,48 +1,57 @@
 export const MENU = {
-    entradas: [
-        { id: 1, nombre: 'Bastones de Muzza', precio: 97 },
-        { id: 2, nombre: 'Pepinillos', precio: 23 },
-        { id: 3, nombre: 'Sopa de pollo', precio: 12 },
-        { id: 4, nombre: 'Sopa de verdura', precio: 32 },
-        { id: 5, nombre: 'Provoleta', precio: 22 }],
-    pastas: [
-        { id: 6, nombre: 'Ravioles', agregados: [[1, 2, 3]], precio: 97 },
-        { id: 7, nombre: 'Spaghetti', agregados: [[1, 2, 3], [2, 3]], precio: 97 },
-        { id: 8, nombre: 'Fetuccini', agregados: [[1, 2, 3]], precio: 97 },
-        { id: 9, nombre: 'Penne Rigatti', agregados: [[1, 2, 3]], precio: 97 }],
-    platos: [
-        { id: 10, nombre: 'Milanga de ternera', precio: 97 },
-        { id: 11, nombre: 'Bife de chorizo', precio: 97 },
-        { id: 12, nombre: 'Albondigas con pure', precio: 97 },
-        { id: 13, nombre: 'Arroz con pollo', precio: 97 }
-    ],
-    bebidas: {
-        gaseosas: [
-            { id: 14, nombre: 'Coca-Cola', precio: 97 },
-            { id: 15, nombre: 'Fanta', precio: 97 },
-            { id: 16, nombre: 'Pepsi', precio: 97 },
-            { id: 17, nombre: 'Mirinda', precio: 97 }],
-        jugos: [
-            { id: 18, nombre: 'Levite de manzana', precio: 97 },
-            { id: 19, nombre: 'Exprimido de naranja', precio: 9 },
-            { id: 20, nombre: 'Levite de naranja', precio: 97 },
-            { id: 21, nombre: 'Cepita', precio: 97 }],
-        licuados: {
-            leche: [
-                { id: 22, nombre: 'Frutilla', precio: 97 },
-                { id: 23, nombre: 'Banana', precio: 97 },
-                { id: 24, nombre: 'Manzana', precio: 97 },
-                { id: 25, nombre: 'Naranja', precio: 97 }],
-            agua: [
-                { id: 26, nombre: 'Frutilla', precio: 97 },
-                { id: 27, nombre: 'Banana', precio: 97 },
-                { id: 28, nombre: 'Manzana', precio: 97 },
-                { id: 29, nombre: 'Naranja', precio: 97 }],
-        }
+    "Bebidas": {
+        "Gaseosas": [
+            { _id: '1', codigo: 14, nombre: 'Coca-Cola'},
+            { _id: '2', codigo: 15, nombre: 'Fanta'},
+            { _id: '3', codigo: 16, nombre: 'Pepsi'},
+            { _id: '4', codigo: 17, nombre: 'Mirinda'}
+        ],
+        "Jugos": [
+            { _id: '5', codigo: 18, nombre: 'Levite de manzana'},
+            { _id: '6', codigo: 19, nombre: 'Exprimido de naranja'},
+            { _id: '7', codigo: 20, nombre: 'Levite de naranja'},
+            { _id: '8', codigo: 21, nombre: 'Cepita'}
+        ],
+        "Licuados": [
+            { _id: '9', codigo: 22, nombre: 'Frutilla'},
+            { _id: '10', codigo: 23, nombre: 'Banana'},
+            { _id: '11', codigo: 24, nombre: 'Manzana'},
+            { _id: '12', codigo: 25, nombre: 'Naranja'},
+            { _id: '13', codigo: 26, nombre: 'Frutilla'},
+            { _id: '14', codigo: 27, nombre: 'Banana'},
+            { _id: '15', codigo: 28, nombre: 'Manzana'},
+            { _id: '16', codigo: 29, nombre: 'Naranja'}
+        ]
     },
-    agregados: [
-        { id: 1, nombre: 'Salsa rosa', agregado: true },
-        { id: 2, nombre: 'Bolognesa', agregado: true },
-        { id: 3, nombre: 'Fileto', agregado: true }
+    "Menu": {
+        "Entradas": [
+            { _id: '17', codigo: 1, nombre: 'Bastones de Muzza'},
+            { _id: '18', codigo: 2, nombre: 'Pepinillos'},
+            { _id: '19', codigo: 3, nombre: 'Sopa de pollo'},
+            { _id: '20', codigo: 4, nombre: 'Sopa de verdura'},
+            { _id: '21', codigo: 5, nombre: 'Provoleta'}
+        ],
+        "Carnes": [
+            { _id: '22', codigo: 10, nombre: 'Milanga de ternera'},
+            { _id: '23', codigo: 11, nombre: 'Bife de chorizo'},
+            { _id: '24', codigo: 12, nombre: 'Albondigas con pure'},
+            { _id: '25', codigo: 13, nombre: 'Arroz con pollo'}
+        ],
+        "Pastas": [
+            { _id: '26', codigo: 6, nombre: 'Ravioles'},
+            { _id: '27', codigo: 7, nombre: 'Spaghetti'},
+            { _id: '28', codigo: 8, nombre: 'Fetuccini'},
+            { _id: '29', codigo: 9, nombre: 'Penne Rigatti'}
+        ]
+    },
+    "Opciones": [
+        { _id: '30', nombre: 'Salsa rosa'},
+        { _id: '31', nombre: 'Bolognesa'},
+        { _id: '32', nombre: 'Fileto'}
+    ],
+    "Agregados": [
+        { _id: '33', producto:'20', opcion: '177', codigo: 1361 },
+        { _id: '34', producto:'20', opcion: '123', codigo: 1362 },
+        { _id: '35', producto:'20', opcion: '333', codigo: 1363 }
     ]
-};
+}

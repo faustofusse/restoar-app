@@ -5,16 +5,16 @@ import { MENU } from '../resources/menu';
 const initialState = {
     nombre: 'Fausto Fusse',
     // con JSON.parse(text) se puede convertir un json en string a objeto javascript
-    menu: MENU,
+    // menu: MENU,
     mesas: [
-        { numero: 1, productos: [] },
-        { numero: 2, productos: [] },
-        { numero: 3, productos: [{ id: 2, add: [] }, { id: 23, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 4, add: [] }, { id: 6, add: [1, 2] }, { id: 6, add: [2, 3] }, { id: 8, add: [3] }] },
-        { numero: 4, productos: [] },
-        { numero: 5, productos: [] },
-        { numero: 6, productos: [] },
-        { numero: 7, productos: [] },
-        { numero: 8, productos: [] }
+        { _id: 'dfpjskdl', numero: 1, productos: [{_id:'4', agregados:[]},{_id:'4', agregados:[]},{_id:'20', agregados:[]}] },
+        { _id: 'dfpj1skdl', numero: 2, productos: [] },
+        { _id: 'dfpj2skdl', numero: 3, productos: [] },
+        { _id: 'dfpj3skdl', numero: 4, productos: [] },
+        { _id: 'dfpj4skdl', numero: 5, productos: [] },
+        { _id: 'dfpj5skdl', numero: 6, productos: [] },
+        { _id: 'dfpj6skdl', numero: 7, productos: [] },
+        { _id: 'dfpj7skdl', numero: 8, productos: [] }
     ],
     mesaSeleccionada: null
 }
@@ -45,13 +45,14 @@ const reducer = (state = initialState, action) => {
                 }
             }
             return { ...state, mesas: mesas }
-        // case ADD_MESA:
-        //     return {
-        //         ...state,
-        //         mesas: state.mesas.concat({
-        //             numero: state.mesas.length + 1
-        //         })
-        //     }
+        case ADD_MESA:
+            return {
+                ...state,
+                mesas: state.mesas.concat({
+                    numero: action.numero,
+                    productos: []
+                })
+            }
         // case END_MESA:
         default:
             return state;

@@ -14,7 +14,7 @@ const EditarMesa = (props) => (
                 ) : (
                         <FlatList
                             data={props.productos}
-                            keyExtractor={item => item.key.toString()}
+                            keyExtractor={item => item._id}
                             renderItem={(info) => (
                                 <Producto id={info.item.numero}
                                     nombre={info.item.nombre}

@@ -38,7 +38,7 @@ class AgregarProducto extends Component {
             if (!this.contieneAgregados(valores[i]))
                 newLista.push({ key: i, nombre: nombre })
         }
-        console.log(this.state.agregadosTotales);
+        // console.log(this.state.agregadosTotales);
         this.state.stack.push({ valor: valores, lista: newLista, titulo: "Menu", inicio: true });
     }
 
@@ -94,7 +94,7 @@ class AgregarProducto extends Component {
             }
             agregadosStack.push(agregados);
         }
-        console.log(agregadosStack);
+        // console.log(agregadosStack);
         this.setState({ agregados: agregadosStack, producto: { id: id, add: [] } });
     }
 
