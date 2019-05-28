@@ -5,3 +5,4 @@ export const ADD_PRODUCTO = 'ADD_PRODUCTO';
 export const REMOVE_PRODUCTO = 'REMOVE_PRODUCTO';
 export const SELECT_MESA = 'SELECT_MESA';
 export const DESELECT_MESA = 'DESELECT_MESA';
+export const SET_MENU = 'SET_MENU';

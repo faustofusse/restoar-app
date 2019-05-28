@@ -1,13 +1,11 @@
-import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, ADD_MESA } from '../actions/actionTypes';
-import { MENU } from '../resources/menu';
+import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, ADD_MESA, SET_MENU } from '../actions/actionTypes';
 
 // Estado inicial de la app
 const initialState = {
     nombre: 'Fausto Fusse',
-    // con JSON.parse(text) se puede convertir un json en string a objeto javascript
-    // menu: MENU,
+    menu: null,
     mesas: [
-        { _id: 'dfpjskdl', numero: 1, productos: [{_id:'4', agregados:[]},{_id:'4', agregados:[]},{_id:'20', agregados:[]}] },
+        { _id: 'dfpjskdl', numero: 1, productos: [{_id:'5cea086162c3af7944eec03a', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''}] },
         { _id: 'dfpj1skdl', numero: 2, productos: [] },
         { _id: 'dfpj2skdl', numero: 3, productos: [] },
         { _id: 'dfpj3skdl', numero: 4, productos: [] },
@@ -24,22 +22,23 @@ const reducer = (state = initialState, action) => {
     let mesas;
     let productos;
     switch (action.type) {
+        case SET_MENU:
+            return { ...state, menu: action.menu }
         case SELECT_MESA:
-            return { ...state, mesaSeleccionada: action.numero }
+            return { ...state, mesaSeleccionada: action.id }
         case DESELECT_MESA:
             return { ...state, mesaSeleccionada: null }
         case ADD_PRODUCTO:
             mesas = state.mesas;
-            productos = mesas.find(value => value.numero === state.mesaSeleccionada).productos;
+            productos = mesas.find(value => value._id === state.mesaSeleccionada).productos;
             productos.push(action.producto);
             return { ...state, mesas: mesas }
         case REMOVE_PRODUCTO:
             mesas = [];
             mesas = mesas.concat(state.mesas);
-            action.producto.add.sort();
-            productos = mesas.find(value => value.numero === state.mesaSeleccionada).productos;
+            productos = mesas.find(value => value._id === state.mesaSeleccionada).productos;
             for (var i = 0; i < productos.length; i++) {
-                if (productos[i].id === action.producto.id && productos[i].add.esIgualA(action.producto.add)) {
+                if (productos[i].id === action.producto.id && productos[i].agregado === action.producto.agregado) {
                     productos.splice(i, 1);
                     break;
                 }
@@ -57,14 +56,6 @@ const reducer = (state = initialState, action) => {
         default:
             return state;
     }
-}
-
-Array.prototype.esIgualA = function (array) {
-    if (array.length !== this.length) return false;
-    array.sort(); this.sort();
-    for (var i = 0; i < this.length; i++)
-        if (this[i] !== array[i]) return false;
-    return true;
 }
 
 export default reducer;

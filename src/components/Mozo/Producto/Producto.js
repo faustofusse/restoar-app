@@ -17,15 +17,11 @@ const Producto = (props) => (
                 <Text style={{ fontSize: 25 }}>{props.cantidad}</Text>
             </TouchableOpacity>
         </View>
-        <FlatList style={styles.lista}
-            data={props.agregados}
-            keyExtractor={() => { key++; return (key - 1).toString(); }}
-            renderItem={info => (
-                <View style={styles.agregado}>
-                    <Text style={{ fontSize: 20, color: '#fff' }}>{info.item.nombre}</Text>
-                </View>
-            )}
-        />
+        {props.agregado !== null ? (
+            <View style={styles.agregado}>
+                <Text style={{ fontSize: 20, color: '#fff' }}>{props.agregado}</Text>
+            </View>
+        ) : null}
     </View>
 );
 
@@ -77,7 +73,7 @@ const styles = StyleSheet.create({
         width: '95%'
     },
     agregado: {
-        width: "100%",
+        width: "95%",
         height: 30,
         marginTop: 2,
         backgroundColor: BLUE,

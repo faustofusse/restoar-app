@@ -16,12 +16,12 @@ const EditarMesa = (props) => (
                             data={props.productos}
                             keyExtractor={item => item._id}
                             renderItem={(info) => (
-                                <Producto id={info.item.numero}
+                                <Producto id={info.item._id}
                                     nombre={info.item.nombre}
                                     cantidad={info.item.cantidad}
-                                    agregados={info.item.agregados}
-                                    onAddProducto={() => props.onAddProducto(info.item.key)}
-                                    onRemoveProducto={() => props.onRemoveProducto(info.item.key)} />
+                                    agregado={info.item.agregadoNombre}
+                                    onAddProducto={() => props.onAddProducto(info.item)}
+                                    onRemoveProducto={() => props.onRemoveProducto(info.item._id)} />
                             )} />
                     )}
 

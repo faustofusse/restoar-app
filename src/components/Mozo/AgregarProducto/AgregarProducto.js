@@ -10,131 +10,99 @@ class AgregarProducto extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { stack: [], agregados: [], agregadosTotales: [], producto: null };
-        this.handleOnPressButton = this.handleOnPressButton.bind(this);
+        this.state = {};
         this.handleVolver = this.handleVolver.bind(this);
         this.handleCerrar = this.handleCerrar.bind(this);
-        this.handleAgregado = this.handleAgregado.bind(this);
-        this.handleAgregarProducto = this.handleAgregarProducto.bind(this);
-        this.getLista();
+        this.handleAvanzar = this.handleAvanzar.bind(this);
+        this.actualizarLista = this.actualizarLista.bind(this);
+        this.handleAddProducto = this.handleAddProducto.bind(this);
+        this.initialize();
     }
 
-    contieneAgregados = (objeto) => {
-        if (objeto[0] === undefined) return false;
-        for (var i = 0; i < objeto.length; i++) {
-            if (!objeto[i].agregado) return false;
-            this.state.agregadosTotales.push(objeto[i]);
-        }
-        return true;
+    initialize = () => {
+        this.state = {
+            tipo: null, categoria: null, nivel: 1,
+            lista: [{ _id: '1', nombre: 'Bebidas' }, { _id: '2', nombre: 'Menu' }],
+            producto: null, agregados: []
+        };
     }
 
-    getLista = () => {
-        let menu = this.props.menu,
-            lista = Object.keys(menu),
-            valores = Object.values(menu),
-            newLista = [];
-        for (var i = 0; i < lista.length; i++) {
-            let nombre = lista[i].charAt(0).toUpperCase() + lista[i].slice(1);
-            if (!this.contieneAgregados(valores[i]))
-                newLista.push({ key: i, nombre: nombre })
+    actualizarLista = () => {
+        let lista = [];
+        switch (this.state.nivel) {
+            case 1: lista = [{ _id: '1', nombre: 'Bebidas' }, { _id: '2', nombre: 'Menu' }]; break;
+            case 2: lista = this.props.menu.categorias.filter(element => element.tipo === this.state.tipo); break;
+            case 3: lista = this.props.menu.productos.filter(element => element.categoria === this.state.categoria); break;
         }
-        // console.log(this.state.agregadosTotales);
-        this.state.stack.push({ valor: valores, lista: newLista, titulo: "Menu", inicio: true });
+        this.setState({ lista });
     }
 
-    handleOnPressButton = (key) => {
-        let stack = this.state.stack,
-            titulo = stack[stack.length - 1].lista[key].nombre,
-            valoresActuales = stack[stack.length - 1].valor,
-            valores = Array.isArray(valoresActuales) ? valoresActuales[key] : valoresActuales[titulo.toLowerCase()],
-            keys = Object.keys(valores),
-            newLista = [];
-        valores = Object.values(valores);
-        for (var i = 0; i < valores.length; i++) {
-            let isProducto = valores[i].id !== undefined,
-                nombre = isProducto ? valores[i].nombre : keys[i],
-                id = isProducto ? valores[i].id : null
-            agregados = isProducto ? valores[i].agregados : null;
-            nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
-            newLista.push({ key: i, isProducto: isProducto, nombre: nombre, id: id, agregados: agregados });
+    handleAvanzar = (id) => {
+        continuar = () => {
+            this.setState(prevState => ({ nivel: prevState.nivel + 1 }),
+                () => this.actualizarLista());
         }
-        stack.push({ valor: valores, lista: newLista, titulo: titulo });
-        this.setState({ stack: stack });
+        if (this.state.nivel === 1)
+            this.setState({ tipo: this.state.lista.find(value => value._id === id).nombre }, continuar);
+        else
+            this.setState({ categoria: this.state.lista.find(value => value._id === id)._id }, continuar);
     }
 
     handleVolver = () => {
-        let stack = this.state.stack;
-        stack.pop();
-        this.setState({ stack: stack })
+        this.setState(prevState => ({ nivel: prevState.nivel - 1 }),
+            () => this.actualizarLista());
     }
 
-    handleCerrar = () => {
-        let stack = [this.state.stack[0]];
-        this.setState({ stack: stack });
+    handleCerrar = (producto) => {
+        this.props.onAddProducto(producto);
+        this.initialize();
         this.props.terminar();
     }
 
-    handleAgregarProducto = (id) => {
-        let producto = this.state.stack[this.state.stack.length - 1].lista.find(value => value.id === id);
-        if (!producto.agregados) {
-            this.props.onAddProducto({ id: id, add: [] });
-            this.handleCerrar();
+    handleAddProducto = (id) => {
+        let agregados = [],
+            producto = id;
+        this.props.menu.agregados.forEach(element => {
+            if (element.producto === id)
+                agregados.push({
+                    id: element.opcion, icono: 'plus',
+                    titulo: this.props.menu.opciones.find(value => value._id === element.opcion).nombre,
+                    funcion: () => this.handleCerrar({ _id: id, agregado: element.opcion })
+                });
+        });
+        if (agregados.length === 0) {
+            this.handleCerrar({ _id: id, agregado: null });
             return;
         }
-        let agregadosStack = [];
-        for (let i = 0; i < producto.agregados.length; i++) {
-            let agregados = new Array();
-            for (let b = 0; b < producto.agregados[i].length; b++) {
-                let agregadoId = producto.agregados[i][b];
-                agregados.push({
-                    id: agregadoId, icono: 'plus',
-                    titulo: this.state.agregadosTotales.find(value => value.id === agregadoId).nombre,
-                    funcion: () => this.handleAgregado(agregadoId)
-                });
-            }
-            agregadosStack.push(agregados);
-        }
-        // console.log(agregadosStack);
-        this.setState({ agregados: agregadosStack, producto: { id: id, add: [] } });
-    }
-
-    handleAgregado = (id) => {
-        let producto = this.state.producto;
-        let agregados = this.state.agregados;
-        producto.add.push(id);
-        agregados.shift();
-        this.setState({ producto: producto, agregados: agregados });
-        if (agregados.length > 0) return;
-        this.props.onAddProducto(producto);
-        this.handleCerrar();
+        this.setState({ agregados, producto });
     }
 
     render() {
         return (
             <Modal visible={this.props.visible} >
                 <View style={styles.container}>
-                    <NavBar titulo={this.state.stack[this.state.stack.length - 1].titulo} />
+                    <NavBar titulo={'Hol'} />
                     <View style={styles.lista}>
                         <FlatList
-                            data={this.state.stack[this.state.stack.length - 1].lista}
-                            keyExtractor={item => item.key.toString()}
+                            data={this.state.lista}
+                            keyExtractor={item => item._id}
                             renderItem={(info) => (
-                                <TouchableOpacity disabled={info.item.isProducto} style={styles.item} onPress={() => this.handleOnPressButton(info.item.key)}>
-                                    <Text style={styles.nombre}>{info.item.nombre}</Text>
-                                    {(info.item.isProducto) ? (
-                                        <TouchableOpacity style={styles.boton} onPress={() => this.handleAgregarProducto(info.item.id)}>
+                                <TouchableOpacity disabled={this.state.nivel === 3} style={styles.item} onPress={() => this.handleAvanzar(info.item._id)}>
+                                    <Text style={styles.nombre}>{this.state.nivel === 2 ? info.item.categoria : info.item.nombre}</Text>
+                                    {(this.state.nivel === 3) ? (
+                                        <TouchableOpacity style={styles.boton} onPress={() => this.handleAddProducto(info.item._id)}>
                                             <Icon name="plus" size={30} color={FONT_COLOR_WHITE} />
                                         </TouchableOpacity>
                                     ) : null}
                                 </TouchableOpacity>
                             )} />
                     </View>
-                    {(this.state.stack.length !== 1) ? (
+                    {(this.state.nivel !== 1) ? (
                         <Button title="Volver" onPress={() => this.handleVolver()} />
                     ) : null}
                     <Button title="Cerrar" onPress={() => this.props.terminar()} />
-                    <Opciones visible={this.state.agregados.length > 0} items={this.state.agregados[0]} cerrar={null} 
-                    titulo={'Agregados ' + (this.state.producto === null ? '' : (this.state.agregados.length + this.state.producto.add.length > 1 ? '(' + (this.state.producto.add.length + 1).toString() + ')' : ''))} />
+                    <Opciones visible={this.state.agregados.length > 0} items={this.state.agregados} cerrar={null}
+                        titulo={'Agregado:'} />
                 </View>
             </Modal>
         )
