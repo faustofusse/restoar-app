@@ -3,8 +3,6 @@ import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native
 import { BLUE, DARK_GREY, GREY, RED } from '../../../resources/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-let key = 0;
-
 const Producto = (props) => (
     <View style={styles.container}>
         <View style={styles.producto}>

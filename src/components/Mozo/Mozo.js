@@ -59,7 +59,6 @@ class Mozo extends Component {
       let producto = this.state.menu.productos.find((value) => value._id === IDs[i]._id);
       producto.agregado = IDs[i].agregado;
       producto.agregadoNombre = IDs[i].agregado === null ? null : this.props.menu.opciones.find(value => value._id === IDs[i].agregado).nombre;
-      delete producto.codigo; delete producto.categoria;
       if (productos.indexOf(producto) === -1) {
         producto.cantidad = 1;
         productos.push(producto);
@@ -116,7 +115,7 @@ class Mozo extends Component {
                 )} />
             </View>
 
-            <EditarMesa mesa={this.props.mesaSeleccionada}
+            <EditarMesa mesa={this.props.mesaSeleccionada === null ? null : this.props.mesas.find(value => value._id === this.props.mesaSeleccionada).numero}
               terminar={this.handleOnDeselectMesa}
               productos={this.state.productosActuales}
               onAddProducto={this.handleOnAddProducto}

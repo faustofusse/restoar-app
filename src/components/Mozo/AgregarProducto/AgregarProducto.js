@@ -6,46 +6,50 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Opciones from '../Opciones/Opciones';
 import { connect } from 'react-redux';
 
+const LISTA_INICIAL = [{ _id: '1', nombre: 'Bebidas' }, { _id: '2', nombre: 'Menu' }];
+const STATE_INICIAL = {
+    tipo: null, categoria: null, nivel: 1,
+    lista: LISTA_INICIAL, titulo: 'Carta',
+    producto: null, agregados: []
+};
+
 class AgregarProducto extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = STATE_INICIAL;
+        this.reiniciar = this.reiniciar.bind(this);
         this.handleVolver = this.handleVolver.bind(this);
         this.handleCerrar = this.handleCerrar.bind(this);
         this.handleAvanzar = this.handleAvanzar.bind(this);
         this.actualizarLista = this.actualizarLista.bind(this);
         this.handleAddProducto = this.handleAddProducto.bind(this);
-        this.initialize();
     }
 
-    initialize = () => {
-        this.state = {
-            tipo: null, categoria: null, nivel: 1,
-            lista: [{ _id: '1', nombre: 'Bebidas' }, { _id: '2', nombre: 'Menu' }],
-            producto: null, agregados: []
-        };
-    }
+    reiniciar = () => this.setState(STATE_INICIAL);
 
     actualizarLista = () => {
-        let lista = [];
+        let lista = [],
+            titulo = 'Carta';
         switch (this.state.nivel) {
             case 1: lista = [{ _id: '1', nombre: 'Bebidas' }, { _id: '2', nombre: 'Menu' }]; break;
-            case 2: lista = this.props.menu.categorias.filter(element => element.tipo === this.state.tipo); break;
-            case 3: lista = this.props.menu.productos.filter(element => element.categoria === this.state.categoria); break;
+            case 2: lista = this.props.menu.categorias.filter(element => element.tipo === this.state.tipo); 
+                    titulo = this.state.tipo; break;
+            case 3: lista = this.props.menu.productos.filter(element => element.categoria === this.state.categoria); 
+                    titulo = this.props.menu.categorias.find(value => value._id === this.state.categoria).categoria; break;
         }
-        this.setState({ lista });
+        console.log('Lista nivel 2:');
+        console.log(lista);
+        this.setState({ lista, titulo });
     }
 
     handleAvanzar = (id) => {
-        continuar = () => {
-            this.setState(prevState => ({ nivel: prevState.nivel + 1 }),
-                () => this.actualizarLista());
-        }
+        let tipo = this.state.tipo, categoria = this.state.categoria, nivel = this.state.nivel + 1;
         if (this.state.nivel === 1)
-            this.setState({ tipo: this.state.lista.find(value => value._id === id).nombre }, continuar);
+            tipo = this.state.lista.find(value => value._id === id).nombre;
         else
-            this.setState({ categoria: this.state.lista.find(value => value._id === id)._id }, continuar);
+            categoria = this.state.lista.find(value => value._id === id)._id;
+        this.setState({ tipo, categoria, nivel }, this.actualizarLista);
     }
 
     handleVolver = () => {
@@ -54,8 +58,8 @@ class AgregarProducto extends Component {
     }
 
     handleCerrar = (producto) => {
-        this.props.onAddProducto(producto);
-        this.initialize();
+        this.reiniciar();
+        if (producto !== null) this.props.onAddProducto(producto);
         this.props.terminar();
     }
 
@@ -81,7 +85,7 @@ class AgregarProducto extends Component {
         return (
             <Modal visible={this.props.visible} >
                 <View style={styles.container}>
-                    <NavBar titulo={'Hol'} />
+                    <NavBar titulo={this.state.titulo} />
                     <View style={styles.lista}>
                         <FlatList
                             data={this.state.lista}
@@ -100,7 +104,7 @@ class AgregarProducto extends Component {
                     {(this.state.nivel !== 1) ? (
                         <Button title="Volver" onPress={() => this.handleVolver()} />
                     ) : null}
-                    <Button title="Cerrar" onPress={() => this.props.terminar()} />
+                    <Button title="Cerrar" onPress={() => this.handleCerrar(null)} />
                     <Opciones visible={this.state.agregados.length > 0} items={this.state.agregados} cerrar={null}
                         titulo={'Agregado:'} />
                 </View>
