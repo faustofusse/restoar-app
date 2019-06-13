@@ -7,7 +7,10 @@ import InputModal from './InputModal/InputModal';
 import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../resources/colors';
 import { connect } from 'react-redux';
 import { selectMesa, deselectMesa, addProducto, removeProducto, setMenu, requestMesa } from '../../actions/index';
-import socket from '../../config/sockets';
+import { URL } from '../../resources/url';
+import io from 'socket.io-client';
+
+let socket;
 
 class Mozo extends Component {
 
@@ -15,8 +18,6 @@ class Mozo extends Component {
     super(props);
     this.state = {
       loading: false,
-      // url: 'http://192.168.0.11:3000/',
-      url: 'http://server.restoar.com.ar/',
       menu: null,
       productosActuales: [],
       agregarProducto: false, agregarMesa: false,
@@ -30,13 +31,26 @@ class Mozo extends Component {
   }
 
   componentDidMount() {
+    socket = io(URL, {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            'userid': this.props.id,
+            'restauranteid': this.props.restaurante
+          }
+        }
+      }
+    });
+    console.log(this.props.id);
+
+    socket.emit('hola', 'todo bien che');
+
     this.setMenu();
-    
   }
 
   async setMenu() {
     this.setState({ loading: true })
-    return await fetch(this.state.url + 'api/menu')
+    return await fetch(URL + 'api/menu')
       .then(res => res.json())
       .catch(error => console.error('Error: ', error))
       .then(res => {
@@ -176,7 +190,9 @@ const mapStateToProps = state => {
     menu: state.mozo.menu,
     nombre: state.mozo.nombre,
     mesas: state.mozo.mesas,
-    mesaSeleccionada: state.mozo.mesaSeleccionada
+    mesaSeleccionada: state.mozo.mesaSeleccionada,
+    id: state.mozo.id,
+    restaurante: state.mozo.restaurante
   };
 }
 
