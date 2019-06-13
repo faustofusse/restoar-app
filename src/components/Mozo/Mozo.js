@@ -6,8 +6,8 @@ import { FloatingAction } from 'react-native-floating-action';
 import InputModal from './InputModal/InputModal';
 import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../resources/colors';
 import { connect } from 'react-redux';
-import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto, setMenu, requestMesa } from '../../actions/index';
-import io from 'socket.io-client';
+import { selectMesa, deselectMesa, addProducto, removeProducto, setMenu, requestMesa } from '../../actions/index';
+import socket from '../../config/sockets';
 
 class Mozo extends Component {
 
@@ -30,9 +30,8 @@ class Mozo extends Component {
   }
 
   componentDidMount() {
-    const socket = io(this.state.url);
-
     this.setMenu();
+    
   }
 
   async setMenu() {

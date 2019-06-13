@@ -16,6 +16,7 @@ import { createRootNavigator } from './src/config/Routes'
 import { isSignedIn } from "./src/auth";
 
 const store = configureStore();
+const socket = require('./src/config/sockets');
 
 class App extends React.Component {
   constructor(props) {
