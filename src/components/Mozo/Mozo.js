@@ -1,17 +1,13 @@
-// React
 import React, { Component } from 'react';
-import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
-// Componentes (React)
+import { StyleSheet, View, FlatList, ActivityIndicator, Text } from 'react-native';
 import EditarMesa from './EditarMesa/EditarMesa';
 import Mesa from './Mesa/Mesa';
 import { FloatingAction } from 'react-native-floating-action';
 import InputModal from './InputModal/InputModal';
-// Resources
 import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../resources/colors';
-// Redux
 import { connect } from 'react-redux';
-// Importo las acciones a utilizar (Redux)
-import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto, setMenu } from '../../actions/index';
+import { addMesa, selectMesa, deselectMesa, addProducto, removeProducto, setMenu, requestMesa } from '../../actions/index';
+import io from 'socket.io-client';
 
 class Mozo extends Component {
 
@@ -19,7 +15,8 @@ class Mozo extends Component {
     super(props);
     this.state = {
       loading: false,
-      url: 'http://restoar.com.ar/api/',
+      // url: 'http://192.168.0.11:3000/',
+      url: 'http://server.restoar.com.ar/',
       menu: null,
       productosActuales: [],
       agregarProducto: false, agregarMesa: false,
@@ -32,11 +29,15 @@ class Mozo extends Component {
     this.actualizarProductosActuales = this.actualizarProductosActuales.bind(this);
   }
 
-  componentDidMount = () => this.setMenu();
+  componentDidMount() {
+    const socket = io(this.state.url);
+
+    this.setMenu();
+  }
 
   async setMenu() {
     this.setState({ loading: true })
-    return await fetch(this.state.url + 'menu')
+    return await fetch(this.state.url + 'api/menu')
       .then(res => res.json())
       .catch(error => console.error('Error: ', error))
       .then(res => {
@@ -104,16 +105,20 @@ class Mozo extends Component {
       <View style={styles.container}>
         {this.state.loading ?
           <ActivityIndicator size="large" color="ff0000" />
-          : <View style={{ width: "100%" }}>
-            <View style={styles.mesas}>
-              <FlatList data={this.props.mesas}
-                keyExtractor={item => item._id}
-                renderItem={(info) => (
-                  <Mesa numero={info.item.numero}
-                    onPress={() => this.handleOnSelectMesa(info.item._id)}>
-                  </Mesa>
-                )} />
-            </View>
+          :
+          <View style={{ width: "100%", height: "100%" }}>
+            {this.props.mesas.length === 0 ?
+              <View><Text>No tienes mesas asignadas</Text></View>
+              :
+              <View style={styles.mesas}>
+                <FlatList data={this.props.mesas}
+                  keyExtractor={item => item._id}
+                  renderItem={(info) => (
+                    <Mesa numero={info.item.numero}
+                      onPress={() => this.handleOnSelectMesa(info.item._id)}>
+                    </Mesa>
+                  )} />
+              </View>}
 
             <EditarMesa mesa={this.props.mesaSeleccionada === null ? null : this.props.mesas.find(value => value._id === this.props.mesaSeleccionada).numero}
               terminar={this.handleOnDeselectMesa}
@@ -123,9 +128,9 @@ class Mozo extends Component {
               agregarProductoModal={this.state.agregarProducto}
               cambiarModalAgregarProducto={(value) => this.setState({ agregarProducto: value })} />
 
-            <InputModal visible={this.state.agregarMesa} titulo={"Agregar Mesa"}
+            <InputModal visible={this.state.agregarMesa} titulo={"Abrir Mesa"}
               cerrar={() => this.setState({ agregarMesa: false })}
-              aceptar={() => this.props.onAddMesa(this.state.inputAgregarMesa)}
+              aceptar={() => this.props.onRequestMesa(this.state.inputAgregarMesa)}
               onChangeText={(value) => this.setState({ inputAgregarMesa: value })} />
 
             <FloatingAction
@@ -159,29 +164,10 @@ const styles = StyleSheet.create({
   },
   mesas: {
     width: "100%",
+    height: "100%",
     padding: 10
   }
 });
-
-Array.prototype.esIgualA = function (array) {
-  if (array.length !== this.length) return false;
-  array.sort(); this.sort();
-  for (var i = 0; i < this.length; i++)
-    if (this[i] !== array[i]) return false;
-  return true;
-}
-
-Array.prototype.setAgregados = function (objetos) {
-  for (var i = 0; i < this.length; i++) {
-    let agregados = [];
-    for (var j = 0; j < this[i].agregados.length; j++)
-      agregados.push({
-        id: this[i].agregados[j],
-        nombre: objetos.find(value => value.id === this[i].agregados[j]).nombre
-      });
-    this[i].agregados = agregados;
-  }
-}
 
 const mapStateToProps = state => {
   // Aca van los elementos del state que voy a utilizar en la App (Redux)
@@ -201,7 +187,7 @@ const mapDispatchToProps = dispatch => {
     onSetMenu: (menu) => dispatch(setMenu(menu)),
     onSelectMesa: (numero) => dispatch(selectMesa(numero)),
     onDeselectMesa: () => dispatch(deselectMesa()),
-    onAddMesa: (numero) => dispatch(addMesa(numero)),
+    onRequestMesa: (numero) => dispatch(requestMesa(numero)),
     onAddProducto: (producto) => dispatch(addProducto(producto)),
     onRemoveProducto: (producto) => dispatch(removeProducto(producto))
   };

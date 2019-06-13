@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, Modal, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { DARK_PRIMARY, BACKGROUND, BLUE } from '../../../resources/colors';
+import { BACKGROUND, BLUE, GREEN } from '../../../resources/colors';
 
 const InputModal = (props) => (
     <Modal visible={props.visible} animationType="fade" transparent>
@@ -16,12 +16,13 @@ const InputModal = (props) => (
                     ) : null}
                 </View>
                 <View style={styles.abajo}>
-                    <TextInput onSubmitEditing={() => {props.aceptar(); props.cerrar();}} 
-                        keyboardType={'numeric'}
+                    <TextInput onSubmitEditing={() => { props.aceptar(); props.cerrar(); }}
+                        keyboardType={'numeric'} autoFocus
+                        style={styles.input}
                         onChangeText={props.onChangeText}
-                        ref={ref => (this.ref = ref)}/>
-                    <TouchableOpacity style={styles.cerrar} onPress={props.aceptar}>
-                        <Icon name="times" size={30} style={{ color: '#e0e0e0', height: '100%', textAlign: 'center', textAlignVertical: 'center' }} />
+                        ref={ref => (this.ref = ref)} />
+                    <TouchableOpacity style={styles.aceptar} onPress={props.aceptar}>
+                        <Text style={{ color: '#fff', fontSize: 20 }}>Aceptar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -65,8 +66,27 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
         color: '#f5f5f5'
-    },cerrar: {
+    },
+    cerrar: {
         aspectRatio: 1
+    },
+    abajo: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    aceptar: {
+        width: '50%',
+        backgroundColor: GREEN,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        padding: 15,
+        borderBottomRightRadius: 10
+    },
+    input: {
+        width: '50%',
+        fontSize: 30,
+        textAlign: 'center'
     }
 });
 

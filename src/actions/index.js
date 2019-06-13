@@ -1,2 +1,2 @@
 // Esto sirve para centrar todas las exports de acciones:
-export { addMesa, endMesa, addProducto, removeProducto, selectMesa, deselectMesa, setMenu } from './mozo';
+export { requestMesa, updateMesa, addProducto, removeProducto, selectMesa, deselectMesa, setMenu } from './mozo';

@@ -1,4 +1,4 @@
-import { ADD_MESA, END_MESA, SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, SET_MENU } from './actionTypes';
+import { UPDATE_MESA, REQUEST_MESA, SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, SET_MENU } from './actionTypes';
 
 // 
 // Aca defino que parametros recibe cada accion
@@ -11,16 +11,17 @@ export const setMenu = (menu) => {
     }
 }
 
-export const addMesa = (numero) => {
+export const requestMesa = (numero) => {
     return {
-        type: ADD_MESA,
+        type: REQUEST_MESA,
         numero: numero
     }
 }
 
-export const endMesa = (numero) => {
+export const updateMesa = (productos) => {
     return {
-        type: END_MESA
+        type: UPDATE_MESA,
+        productos: productos
     }
 }
 

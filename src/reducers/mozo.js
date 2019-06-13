@@ -1,18 +1,11 @@
-import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, ADD_MESA, SET_MENU } from '../actions/actionTypes';
+import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, UPDATE_MESA, SET_MENU, REQUEST_MESA } from '../actions/actionTypes';
 
 // Estado inicial de la app
 const initialState = {
     nombre: 'Fausto Fusse',
     menu: null,
     mesas: [
-        { _id: 'dfpjskdl', numero: 1, productos: [{_id:'5cea086162c3af7944eec03a', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''}] },
-        { _id: 'dfpj1skdl', numero: 2, productos: [] },
-        { _id: 'dfpj2skdl', numero: 3, productos: [] },
-        { _id: 'dfpj3skdl', numero: 4, productos: [] },
-        { _id: 'dfpj4skdl', numero: 5, productos: [] },
-        { _id: 'dfpj5skdl', numero: 6, productos: [] },
-        { _id: 'dfpj6skdl', numero: 7, productos: [] },
-        { _id: 'dfpj7skdl', numero: 8, productos: [] }
+        // { _id: 'dfpjskdl', numero: 1, productos: [{_id:'5cea086162c3af7944eec03a', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''}] },
     ],
     mesaSeleccionada: null
 }
@@ -44,7 +37,8 @@ const reducer = (state = initialState, action) => {
                 }
             }
             return { ...state, mesas: mesas }
-        case ADD_MESA:
+        case REQUEST_MESA:
+            console.log('Request Mesa: '+action.numero);
             return {
                 ...state,
                 mesas: state.mesas.concat({
@@ -52,7 +46,7 @@ const reducer = (state = initialState, action) => {
                     productos: []
                 })
             }
-        // case END_MESA:
+        // case UPDATE_MESA:
         default:
             return state;
     }
