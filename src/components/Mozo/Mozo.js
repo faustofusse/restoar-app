@@ -10,8 +10,6 @@ import { selectMesa, deselectMesa, addProducto, removeProducto, setMenu, request
 import { URL } from '../../resources/url';
 import io from 'socket.io-client';
 
-let socket;
-
 class Mozo extends Component {
 
   constructor(props) {
@@ -28,10 +26,11 @@ class Mozo extends Component {
     this.handleOnAddProducto = this.handleOnAddProducto.bind(this);
     this.handleOnRemoveProducto = this.handleOnRemoveProducto.bind(this);
     this.actualizarProductosActuales = this.actualizarProductosActuales.bind(this);
+    this.requestMesa = this.requestMesa.bind(this);
   }
 
   componentDidMount() {
-    socket = io(URL, {
+    this.socket = io(URL, {
       transportOptions: {
         polling: {
           extraHeaders: {
@@ -41,11 +40,15 @@ class Mozo extends Component {
         }
       }
     });
-    console.log(this.props.id);
-
-    socket.emit('hola', 'todo bien che');
-
+    this.socket.on('request-mesa', (data) => {
+      console.log('Resquest-mesa: ' + data.msj);
+    });
     this.setMenu();
+  }
+
+  requestMesa = (mesa) => {
+    this.setState({ agregarMesa: false });
+    this.socket.emit('request-mesa', mesa);
   }
 
   async setMenu() {
@@ -143,7 +146,7 @@ class Mozo extends Component {
 
             <InputModal visible={this.state.agregarMesa} titulo={"Abrir Mesa"}
               cerrar={() => this.setState({ agregarMesa: false })}
-              aceptar={() => this.props.onRequestMesa(this.state.inputAgregarMesa)}
+              aceptar={() => this.requestMesa(this.state.inputAgregarMesa)}
               onChangeText={(value) => this.setState({ inputAgregarMesa: value })} />
 
             <FloatingAction
