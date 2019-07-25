@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from './src/configureStore';
 import React from 'react';
 import { name as appName } from './app.json';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
 
 // Ignora las advertencias de mierda, que no puedo solucionar
 YellowBox.ignoreWarnings([

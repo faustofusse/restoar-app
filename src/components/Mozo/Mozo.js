@@ -6,7 +6,7 @@ import { FloatingAction } from 'react-native-floating-action';
 import InputModal from './InputModal/InputModal';
 import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../resources/colors';
 import { connect } from 'react-redux';
-import { selectMesa, deselectMesa, addProducto, removeProducto, setMenu, requestMesa } from '../../actions/index';
+import { selectMesa, deselectMesa, addProducto, removeProducto, setMenu, addMesa } from '../../actions/index';
 import { URL } from '../../resources/url';
 import io from 'socket.io-client';
 
@@ -40,9 +40,13 @@ class Mozo extends Component {
         }
       }
     });
-    this.socket.on('request-mesa', (data) => {
+    this.socket.on('request-mesa', data => {
       console.log('Resquest-mesa: ' + data.msj);
+      if (data.aceptada) this.props.onAddMesa({ numero: data.numero, productos: [] });
     });
+    this.socket.on('mesas', data => {
+
+    })
     this.setMenu();
   }
 
@@ -55,7 +59,7 @@ class Mozo extends Component {
     this.setState({ loading: true })
     return await fetch(URL + 'api/menu')
       .then(res => res.json())
-      .catch(error => console.error('Error: ', error))
+      .catch(error => console.log('Error en la conexion con el servidor: ', error))
       .then(res => {
         let menu = {
           agregados: res.agregados,
@@ -128,7 +132,7 @@ class Mozo extends Component {
               :
               <View style={styles.mesas}>
                 <FlatList data={this.props.mesas}
-                  keyExtractor={item => item._id}
+                  keyExtractor={item => item.numero.toString()}
                   renderItem={(info) => (
                     <Mesa numero={info.item.numero}
                       onPress={() => this.handleOnSelectMesa(info.item._id)}>
@@ -205,7 +209,7 @@ const mapDispatchToProps = dispatch => {
     onSetMenu: (menu) => dispatch(setMenu(menu)),
     onSelectMesa: (numero) => dispatch(selectMesa(numero)),
     onDeselectMesa: () => dispatch(deselectMesa()),
-    onRequestMesa: (numero) => dispatch(requestMesa(numero)),
+    onAddMesa: (mesa) => dispatch(addMesa(mesa)),
     onAddProducto: (producto) => dispatch(addProducto(producto)),
     onRemoveProducto: (producto) => dispatch(removeProducto(producto))
   };

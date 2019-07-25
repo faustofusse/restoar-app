@@ -1,4 +1,4 @@
-import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, UPDATE_MESA, SET_MENU, REQUEST_MESA } from '../actions/actionTypes';
+import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, UPDATE_MESA, SET_MENU, ADD_MESA } from '../actions/actionTypes';
 
 // Estado inicial de la app
 const initialState = {
@@ -39,14 +39,10 @@ const reducer = (state = initialState, action) => {
                 }
             }
             return { ...state, mesas: mesas }
-        case REQUEST_MESA:
-            console.log('Request Mesa: '+action.numero);
+        case ADD_MESA:
             return {
                 ...state,
-                mesas: state.mesas.concat({
-                    numero: action.numero,
-                    productos: []
-                })
+                mesas: state.mesas.concat(action.mesa)
             }
         // case UPDATE_MESA:
         default:

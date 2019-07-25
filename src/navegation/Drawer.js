@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	View, 
+	View,
 	Text,
 	Image,
 	ScrollView,
@@ -13,20 +13,20 @@ import { DARK_PRIMARY } from '../resources/colors';
 
 import { onSignOut } from "../auth";
 
-const WIDTH = Dimensions.get('window').width 
-const HEIGHT = Dimensions.get('window').height 
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 export default class MenuDrawer extends React.Component {
 	navLink(nav, text) {
-		return(
-			<TouchableOpacity style={{height: 50}} onPress={() => this.props.navigation.navigate(nav)}>
+		return (
+			<TouchableOpacity style={{ height: 50 }} onPress={() => this.props.navigation.navigate(nav)}>
 				<Text style={styles.link}>{text}</Text>
 			</TouchableOpacity>
 		)
 	}
 
-	render() {  
-		return(
+	render() {
+		return (
 			<View style={styles.container}>
 				<ScrollView style={styles.scroller}>
 					<View style={styles.topLinks}>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 		width: 70,
 		borderRadius: 50,
 	},
-	topLinks:{
+	topLinks: {
 		height: 160,
 		backgroundColor: DARK_PRIMARY,
 	},
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
 		borderTopColor: 'lightgray'
 	},
 	version: {
-		flex: 1, 
+		flex: 1,
 		textAlign: 'right',
 		marginRight: 20,
 		color: 'gray'
 	},
 	description: {
-		flex: 1, 
+		flex: 1,
 		marginLeft: 20,
 		fontSize: 16,
 	}

@@ -3,6 +3,7 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Card, Button, Text, Input } from "react-native-elements";
 import { onSignIn } from "../../auth";
 import Notificacion from '../../components/form/Notificacion';
+import { URL } from '../../resources/url';
 
 export default class SignIn extends Component {
   constructor(Props) {
@@ -15,23 +16,25 @@ export default class SignIn extends Component {
       loading: false,
       usuario: {},
       respuesta: {},
-      url: 'http://restoar.herokuapp.com/api/usuario/'
+      // url: 'http://restoar.herokuapp.com/api/usuario/'
     }
   }
+
   async getUsuarioPost() {
     this.setState({ loading: true })
     const { userEmail, userPassword } = this.state;
     let collection = {}
     collection.mail = userEmail;
     collection.clave = userPassword;
-    return await fetch(this.state.url + 'login',
+    console.log(URL + 'api/usuarios/login');
+    return await fetch(URL + 'api/usuarios/login',
       {
         method: 'POST',
         body: JSON.stringify(collection),
         headers: new Headers({ 'Content-Type': 'application/json' })
       })
+      .catch(err => console.error(err))
       .then(res => res.json())
-      .catch(error => console.error('Error: ', error))
       .then(res => {
         this.setState({
           respuesta: res,
@@ -41,17 +44,16 @@ export default class SignIn extends Component {
   }
 
   login = async () => {
-    //---redirecciono para no validar login
-    onSignIn().then(this.props.navigation.navigate('SignedIn'));
-    return
-    //---------
-
+    //--- redirecciono para no validar login ---
+    // onSignIn().then(this.props.navigation.navigate('SignedIn'));
+    // return
+    //------------------------------------------
     await this.getUsuarioPost();
-    if (this.state.respuesta.existe) {
-      onSignIn().then();
-      this.props.navigation.navigate('SignedIn')
-    } else {
-      alert('Datos de ingreso no validos')
+    if (this.state.respuesta.error){
+      alert(this.state.respuesta.error);
+    }else{
+      onSignIn(this.state.respuesta.user).then();
+      this.props.navigation.navigate('SignedIn');
     }
   }
 

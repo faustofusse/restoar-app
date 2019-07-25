@@ -1,7 +1,6 @@
-
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Dimensions } from 'react-native';
-import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../resources/colors';
@@ -11,7 +10,7 @@ import Link from '../screens/Home';
 import Configuracion from '../components/configuracion/Configuracion';
 
 const WIDTH = Dimensions.get('window').width;
- 
+
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     //Props to open/close the drawer
@@ -22,16 +21,16 @@ class NavigationDrawerStructure extends Component {
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
           <Icon
-          name="bars"
-          size={25} 
-          style={{ width: 25, height: 25, marginLeft: 5, color: '#fff'}}
+            name="bars"
+            size={25}
+            style={{ width: 25, height: 25, marginLeft: 5, color: '#fff' }}
           />
         </TouchableOpacity>
       </View>
     );
   }
 }
- 
+
 const Mesas_StackNavigator = createStackNavigator({
   First: {
     screen: Mesas,
@@ -75,33 +74,33 @@ const Configuracion_StackNavigator = createStackNavigator({
 });
 
 const DrawerConfig = {
-	drawerWidth: WIDTH*0.83,
-	contentComponent: ({ navigation }) => {
-		return(<Drawer navigation={navigation} />)
-	}
+  drawerWidth: WIDTH * 0.83,
+  contentComponent: ({ navigation }) => {
+    return (<Drawer navigation={navigation} />)
+  }
 }
 
-export default  Menu = createDrawerNavigator(
-{
-  //Drawer Optons and indexing
-  Mesas: {
-    screen: Mesas_StackNavigator,
-    navigationOptions: {
-      drawerLabel: 'Mesas',
+export default Menu = createDrawerNavigator(
+  {
+    //Drawer Optons and indexing
+    Mesas: {
+      screen: Mesas_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Mesas',
+      },
+    },
+    Link: {
+      screen: Link_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Link',
+      },
+    },
+    Configuracion: {
+      screen: Configuracion_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Configuración',
+      },
     },
   },
-  Link: {
-    screen: Link_StackNavigator,
-    navigationOptions: {
-      drawerLabel: 'Link',
-    },
-  },
-  Configuracion: {
-    screen: Configuracion_StackNavigator,
-    navigationOptions: {
-      drawerLabel: 'Configuración',
-    },
-  },
-},
   DrawerConfig
 );
