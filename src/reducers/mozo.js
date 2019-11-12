@@ -2,9 +2,6 @@ import { SELECT_MESA, DESELECT_MESA, ADD_PRODUCTO, REMOVE_PRODUCTO, UPDATE_MESA,
 
 // Estado inicial de la app
 const initialState = {
-    id: '5d028eb1884bdb73137d05c3',
-    restaurante: '5d0273573c4aae65d86f049f',
-    nombre: 'Fausto Fusse',
     menu: null,
     mesas: [
         // { _id: 'dfpjskdl', numero: 1, estado: 'abierta', productos: [{_id:'5cea086162c3af7944eec03a', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''},{_id:'5cea083762c3af7944eec036', agregado:''}] },
@@ -44,7 +41,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 mesas: state.mesas.concat(action.mesa)
             }
-        // case UPDATE_MESA:
         default:
             return state;
     }

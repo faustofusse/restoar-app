@@ -1,9 +1,11 @@
 import { createStore, combineReducers, compose } from 'redux';
 import mozoReducer from './reducers/mozo';
+import userReducer from './reducers/user';
 
 // Se declaran los reducers, para poder luego ser accedidos
 const rootReducer = combineReducers({
-    mozo: mozoReducer
+    mozo: mozoReducer,
+    user: userReducer
 });
 
 let composeEnhancers = compose;

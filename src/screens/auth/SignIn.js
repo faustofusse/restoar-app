@@ -1,60 +1,52 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { Card, Button, Text, Input } from "react-native-elements";
-import { onSignIn } from "../../auth";
+import { Card, Button, Text, Input } from 'react-native-elements';
+import { onSignIn } from "../../services/storage";
 import Notificacion from '../../components/form/Notificacion';
 import { URL } from '../../resources/url';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
-export default class SignIn extends Component {
-  constructor(Props) {
-    super(Props);
+import { setUser } from '../../actions/index';
+import { connect } from 'react-redux';
+
+
+class SignIn extends Component {
+  constructor(props) {
+    super(props);
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
+    this.login = this.login.bind(this);
     this.state = {
       formValid: false,
       userEmail: '',
       userPassword: '',
       loading: false,
-      usuario: {},
-      respuesta: {},
-      // url: 'http://restoar.herokuapp.com/api/usuario/'
+      response: {}
     }
   }
 
-  async getUsuarioPost() {
-    this.setState({ loading: true })
+  login() {
+    this.setState({ loading: true });
     const { userEmail, userPassword } = this.state;
-    let collection = {}
-    collection.mail = userEmail;
-    collection.clave = userPassword;
-    console.log(URL + 'api/usuarios/login');
-    return await fetch(URL + 'api/usuarios/login',
-      {
-        method: 'POST',
-        body: JSON.stringify(collection),
-        headers: new Headers({ 'Content-Type': 'application/json' })
-      })
-      .catch(err => console.error(err))
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          respuesta: res,
-          loading: false
-        });
-      });
-  }
-
-  login = async () => {
-    //--- redirecciono para no validar login ---
-    // onSignIn().then(this.props.navigation.navigate('SignedIn'));
-    // return
-    //------------------------------------------
-    await this.getUsuarioPost();
-    if (this.state.respuesta.error){
-      alert(this.state.respuesta.error);
-    }else{
-      onSignIn(this.state.respuesta.user).then();
-      this.props.navigation.navigate('SignedIn');
-    }
+    console.log('Logging in...');
+    axios.post(URL + 'api/users/login', {
+      email: userEmail,
+      password: userPassword
+    }).then((response) => {
+      this.setState({ loading: false });
+      if (response.data.success) {
+        let token = response.data.success;
+        let user = jwt_decode(token)
+        console.log(user);
+        this.props.onSetUser(user);
+        onSignIn(user).then();
+        this.props.navigation.navigate('SignedIn');
+      } else {
+        console.log('Error: ' + response.data.error);
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   handleCloseNotification() {
@@ -113,6 +105,13 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-
   }
 })
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSetUser: (user) => dispatch(setUser(user)),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(SignIn);

@@ -8,7 +8,7 @@ import {
   Dimensions
   } from 'react-native';
 
-  import { onSignOut } from "../auth";
+  import { onSignOut } from "../../services/storage";
   const { width: WIDTH} = Dimensions.get('window')
   
   export default class HomeScreen extends Component {

@@ -9,17 +9,17 @@ export const onSignIn = (user) =>{
 
 export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
 
-export const isSignedIn = () => {
+export const getUser = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem(USER_KEY)
       .then(res => {
-        console.log(res);
-        if (res !== null) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+        resolve(JSON.parse(res));
       })
       .catch(err => reject(err));
   });
 };
+
+export const updateUser = (user) => {
+  console.log('Update user (Async Storage)');
+  return AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
+}

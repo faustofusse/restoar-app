@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../resources/colors';
 import Mesas from '../components/Mozo/Mozo';
-import Drawer from './Drawer';
-import Link from '../screens/Home';
+import Drawer from '../components/Drawer/Drawer';
+import Link from '../components/Home/Home';
 import Configuracion from '../components/configuracion/Configuracion';
 
 const WIDTH = Dimensions.get('window').width;

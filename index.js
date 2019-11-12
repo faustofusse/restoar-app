@@ -4,6 +4,9 @@ import configureStore from './src/configureStore';
 import React from 'react';
 import { name as appName } from './app.json';
 import { createAppContainer } from 'react-navigation';
+import { setUser } from './src/actions';
+import axios from 'axios';
+import { URL } from './src/resources/url'
 
 // Ignora las advertencias de mierda, que no puedo solucionar
 YellowBox.ignoreWarnings([
@@ -13,7 +16,7 @@ YellowBox.ignoreWarnings([
 ]);
 
 import { createRootNavigator } from './src/config/Routes'
-import { isSignedIn } from "./src/auth";
+import { getUser, updateUser } from "./src/services/storage";
 
 const store = configureStore();
 
@@ -27,9 +30,29 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    isSignedIn()
-      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
-      .catch(err => alert("An error occurred"));
+    getUser()
+      .then(res => {
+        if (res !== null) {
+          let url = URL + 'api/users/' + res._id;
+          axios.get(url).then(response => {
+            if (response.data.error) {
+              console.log(response.data);
+              return;
+            }
+            let user = response.data.success;
+            store.dispatch(setUser(user));
+            updateUser(user).then(val => {
+              this.setState({ signedIn: true, checkedSignIn: true });
+            }).catch(err => console.log(err));
+          }).catch(err => {
+            console.log(err);
+          });
+        } else { 
+          this.setState({ signedIn: false, checkedSignIn: true });
+          console.log('Not signed in') 
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   render() {

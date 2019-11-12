@@ -9,9 +9,9 @@ import {
 	TouchableOpacity,
 	Button
 } from 'react-native';
-import { DARK_PRIMARY } from '../resources/colors';
+import { DARK_PRIMARY } from '../../resources/colors';
 
-import { onSignOut } from "../auth";
+import { onSignOut } from "../../services/storage";
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -32,7 +32,7 @@ export default class MenuDrawer extends React.Component {
 					<View style={styles.topLinks}>
 						<View style={styles.profile}>
 							<View style={styles.imgView}>
-								<Image style={styles.img} source={require('../assets/pinguino.jpg')} />
+								<Image style={styles.img} source={require('../../resources/assets/pinguino.jpg')} />
 							</View>
 							<View style={styles.profileText}>
 								<Text style={styles.name}>Fausto Fusse</Text>

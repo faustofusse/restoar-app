@@ -156,7 +156,7 @@ class Mozo extends Component {
             <FloatingAction
               actions={[{
                 text: 'Agregar Mesa',
-                icon: require('../../assets/plus-solid.svg'),
+                icon: require('../../resources/assets/plus-solid.svg'),
                 name: 'bt_addMesa',
                 position: 1
               }]}
