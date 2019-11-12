@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
-import { BLUE, DARK_GREY, GREY, RED } from '../../../resources/colors';
+import { BLUE, DARK_GREY, GREY, RED } from '../../../styles/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import socket from '../../../config/sockets';
+// import socket from '../../../config/sockets';
 
 const Producto = (props) => (
     <View style={styles.container}>
@@ -12,7 +12,7 @@ const Producto = (props) => (
                 onPress={() => props.onRemoveProducto()}>
                 <Icon name={props.cantidad > 1 ? "minus" : "times"} size={20} style={{ color: '#fff', marginLeft: 20 }} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cantidad} onPress={() => {props.onAddProducto(); socket.emit('producto', props.nombre)}}>
+            <TouchableOpacity style={styles.cantidad} onPress={() => {props.onAddProducto(); /*socket.emit('producto', props.nombre)*/}}>
                 <Text style={{ fontSize: 25 }}>{props.cantidad}</Text>
             </TouchableOpacity>
         </View>

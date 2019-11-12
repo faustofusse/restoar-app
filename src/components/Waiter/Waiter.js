@@ -4,13 +4,13 @@ import EditarMesa from './EditarMesa/EditarMesa';
 import Mesa from './Mesa/Mesa';
 import { FloatingAction } from 'react-native-floating-action';
 import InputModal from './InputModal/InputModal';
-import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../resources/colors';
+import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../styles/colors';
 import { connect } from 'react-redux';
-import { selectMesa, deselectMesa, addProducto, removeProducto, setMenu, addMesa } from '../../actions/index';
-import { URL } from '../../resources/url';
+import { selectMesa, deselectMesa, addProducto, removeProducto, setMenu, addMesa } from '../../redux/actions/index';
+import { URL } from '../../config/settings';
 import io from 'socket.io-client';
 
-class Mozo extends Component {
+class Waiter extends Component {
 
   constructor(props) {
     super(props);
@@ -30,23 +30,23 @@ class Mozo extends Component {
   }
 
   componentDidMount() {
-    this.socket = io(URL, {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            'userid': this.props.id,
-            'restauranteid': this.props.restaurante
-          }
-        }
-      }
-    });
-    this.socket.on('request-mesa', data => {
-      console.log('Resquest-mesa: ' + data.msj);
-      if (data.aceptada) this.props.onAddMesa({ numero: data.numero, productos: [] });
-    });
-    this.socket.on('mesas', data => {
+    // this.socket = io(URL, {
+    //   transportOptions: {
+    //     polling: {
+    //       extraHeaders: {
+    //         'userid': this.props.id,
+    //         'restauranteid': this.props.restaurante
+    //       }
+    //     }
+    //   }
+    // });
+    // this.socket.on('request-mesa', data => {
+    //   console.log('Resquest-mesa: ' + data.msj);
+    //   if (data.aceptada) this.props.onAddMesa({ numero: data.numero, productos: [] });
+    // });
+    // this.socket.on('mesas', data => {
 
-    })
+    // });
     this.setMenu();
   }
 
@@ -56,20 +56,21 @@ class Mozo extends Component {
   }
 
   async setMenu() {
-    this.setState({ loading: true })
-    return await fetch(URL + 'api/menu')
-      .then(res => res.json())
-      .catch(error => console.log('Error en la conexion con el servidor: ', error))
-      .then(res => {
-        let menu = {
-          agregados: res.agregados,
-          categorias: res.categorias,
-          opciones: res.opciones,
-          productos: res.productos,
-        }
-        this.setState({ menu: menu, loading: false });
-        this.props.onSetMenu(menu);
-      });
+
+    // this.setState({ loading: true })
+    // return await fetch(URL + 'api/menu')
+    //   .then(res => res.json())
+    //   .catch(error => console.log('Error en la conexion con el servidor: ', error))
+    //   .then(res => {
+    //     let menu = {
+    //       agregados: res.agregados,
+    //       categorias: res.categorias,
+    //       opciones: res.opciones,
+    //       productos: res.productos,
+    //     }
+    //     this.setState({ menu: menu, loading: false });
+    //     this.props.onSetMenu(menu);
+    //   });
   }
 
   getProductosActuales = (mesa) => {
@@ -156,7 +157,7 @@ class Mozo extends Component {
             <FloatingAction
               actions={[{
                 text: 'Agregar Mesa',
-                icon: require('../../resources/assets/plus-solid.svg'),
+                icon: require('../../assets/plus-solid.svg'),
                 name: 'bt_addMesa',
                 position: 1
               }]}
@@ -216,4 +217,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 // Esto conecta a App con Redux, y la exporta:
-export default connect(mapStateToProps, mapDispatchToProps)(Mozo);
+export default connect(mapStateToProps, mapDispatchToProps)(Waiter);

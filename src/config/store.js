@@ -1,6 +1,6 @@
 import { createStore, combineReducers, compose } from 'redux';
-import mozoReducer from './reducers/mozo';
-import userReducer from './reducers/user';
+import mozoReducer from '../redux/reducers/mozo';
+import userReducer from '../redux/reducers/user';
 
 // Se declaran los reducers, para poder luego ser accedidos
 const rootReducer = combineReducers({

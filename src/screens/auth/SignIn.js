@@ -3,11 +3,11 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Card, Button, Text, Input } from 'react-native-elements';
 import { onSignIn } from "../../services/storage";
 import Notificacion from '../../components/form/Notificacion';
-import { URL } from '../../resources/url';
+import { URL } from '../../config/settings';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-import { setUser } from '../../actions/index';
+import { setUser } from '../../redux/actions/index';
 import { connect } from 'react-redux';
 
 

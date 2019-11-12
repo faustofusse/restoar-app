@@ -6,32 +6,20 @@ import Pin from '../screens/auth/Pin';
 
 export const SignedIn = createSwitchNavigator(
   {
-    Pin: {
-      screen: Pin
-    },
-    Menu: {
-      screen: Menu
-    }
+    Pin: { screen: Pin },
+    Menu: { screen: Menu }
   },
-  {
-    initialRouteName: 'Pin'
-  }
+  { initialRouteName: 'Pin' }
 )
 
 export const SignedOut = createStackNavigator({
   SignIn: {
     screen: SignIn,
-    navigationOptions: {
-      header: null
-
-    }
+    navigationOptions: { header: null }
   },
   SignUp: {
     screen: SignUp,
-    navigationOptions: {
-      title: "",
-
-    }
+    navigationOptions: { title: "" }
   }
 });
 
@@ -39,15 +27,9 @@ export const SignedOut = createStackNavigator({
 export const createRootNavigator = (signedIn = false) => {
   return createSwitchNavigator(
     {
-      SignedIn: {
-        screen: SignedIn
-      },
-      SignedOut: {
-        screen: SignedOut
-      }
+      SignedIn: { screen: SignedIn },
+      SignedOut: { screen: SignedOut }
     },
-    {
-      initialRouteName: signedIn ? "SignedIn" : "SignedOut"
-    }
+    { initialRouteName: signedIn ? "SignedIn" : "SignedOut" }
   );
 };

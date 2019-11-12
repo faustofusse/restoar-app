@@ -1,11 +1,11 @@
 import React from 'react';
-import { Modal, View, TouchableOpacity, StyleSheet, Text, FlatList } from 'react-native';
-import { BACKGROUND, DARK_PRIMARY, BLUE } from '../../../resources/colors';
+import { View, StyleSheet, TextInput, Modal, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { BACKGROUND, BLUE, GREEN } from '../../../styles/colors';
 
-const Opciones = (props) => (
-    < Modal visible={props.visible} transparent={true} >
-        <TouchableOpacity style={styles.background} disabled={props.cerrar === null} onPress={() => props.cerrar()}>
+const InputModal = (props) => (
+    <Modal visible={props.visible} animationType="fade" transparent>
+        <View style={styles.background} style={styles.background}>
             <View style={styles.container}>
                 <View style={styles.arriba}>
                     <Text style={styles.titulo}>{props.titulo}</Text>
@@ -15,20 +15,19 @@ const Opciones = (props) => (
                         </TouchableOpacity>
                     ) : null}
                 </View>
-                <FlatList data={props.items}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={(info) => (
-                        <TouchableOpacity onPress={info.item.funcion} style={styles.item}>
-                            <Text style={styles.tituloItem}>{info.item.titulo}</Text>
-                            {info.item.icono !== null ? (
-                                <Icon name={info.item.icono} size={23} style={{ color: BLUE, fontWeight: '100', marginRight: 10 }} />
-                            ) : null}
-                        </TouchableOpacity>
-                    )}
-                />
+                <View style={styles.abajo}>
+                    <TextInput onSubmitEditing={() => { props.aceptar(); props.cerrar(); }}
+                        keyboardType={'numeric'} autoFocus
+                        style={styles.input}
+                        onChangeText={props.onChangeText}
+                        ref={ref => (this.ref = ref)} />
+                    <TouchableOpacity style={styles.aceptar} onPress={props.aceptar}>
+                        <Text style={{ color: '#fff', fontSize: 20 }}>Aceptar</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </TouchableOpacity>
-    </Modal >
+        </View>
+    </Modal>
 );
 
 const styles = StyleSheet.create({
@@ -52,37 +51,43 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     arriba: {
+        height: 80,
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: BLUE,
+        paddingRight: 15,
+        paddingLeft: 15,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10
     },
     titulo: {
         padding: 17,
-        paddingLeft: 15,
+        paddingLeft: 0,
         fontSize: 30,
         fontWeight: '700',
         color: '#f5f5f5'
     },
-    item: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
-        marginRight: 10,
-        marginLeft: 10,
-        borderTopWidth: 1,
-        borderColor: '#e0e0e0'
-    },
-    tituloItem: {
-        fontSize: 25,
-        paddingLeft: 5
-    },
     cerrar: {
         aspectRatio: 1
+    },
+    abajo: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    aceptar: {
+        width: '50%',
+        backgroundColor: GREEN,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        padding: 15,
+        borderBottomRightRadius: 10
+    },
+    input: {
+        width: '50%',
+        fontSize: 30,
+        textAlign: 'center'
     }
 });
 
-export default Opciones;
+export default InputModal;

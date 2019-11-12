@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { onSignOut } from '../../services/storage';
-import { setUser } from '../../actions/index';
+import { setUser } from '../../redux/actions/index';
 import { connect } from 'react-redux';
-import { DARK_PRIMARY, ACCENT } from '../../resources/colors';
-import { URL } from '../../resources/url';
+import { DARK_PRIMARY, ACCENT } from '../../styles/colors';
+import { URL } from '../../config/settings';
 import axios from 'axios';
 import bcrypt from 'react-native-bcrypt';
 

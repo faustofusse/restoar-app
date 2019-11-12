@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { FONT_COLOR_WHITE, ACCENT } from '../../../resources/colors';
+import { FONT_COLOR_WHITE, ACCENT } from '../../../styles/colors';
 
 const Mesa = (props) => (
     <TouchableOpacity style={styles.mesa}

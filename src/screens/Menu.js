@@ -3,11 +3,11 @@ import { View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../resources/colors';
-import Mesas from '../components/Mozo/Mozo';
+import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../styles/colors';
+import Mesas from '../components/Waiter/Waiter';
 import Drawer from '../components/Drawer/Drawer';
 import Link from '../components/Home/Home';
-import Configuracion from '../components/configuracion/Configuracion';
+import Settings from './Settings';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -59,9 +59,9 @@ const Link_StackNavigator = createStackNavigator({
   },
 });
 
-const Configuracion_StackNavigator = createStackNavigator({
+const Settings_StackNavigator = createStackNavigator({
   Third: {
-    screen: Configuracion,
+    screen: Settings,
     navigationOptions: ({ navigation }) => ({
       title: 'Configuración',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -95,8 +95,8 @@ export default Menu = createDrawerNavigator(
         drawerLabel: 'Link',
       },
     },
-    Configuracion: {
-      screen: Configuracion_StackNavigator,
+    Settings: {
+      screen: Settings_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Configuración',
       },

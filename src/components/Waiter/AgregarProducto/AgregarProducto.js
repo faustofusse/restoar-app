@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from '../NavBar/NavBar';
 import { View, StyleSheet, TouchableOpacity, Modal, Text, FlatList, Button } from 'react-native';
-import { BLUE, FONT_COLOR_WHITE, GREY } from '../../../resources/colors';
+import { BLUE, FONT_COLOR_WHITE, GREY } from '../../../styles/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Opciones from '../Opciones/Opciones';
 import { connect } from 'react-redux';

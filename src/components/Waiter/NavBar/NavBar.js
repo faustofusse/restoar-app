@@ -1,7 +1,7 @@
 import React from 'react';
 // import imagen from '../../../assets/pinguino.jpg';
 import { View, StyleSheet, Text, Image } from 'react-native';
-import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../../../resources/colors';
+import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../../../styles/colors';
 
 const NavBar = (props) => (
     <View style={styles.navbar}>

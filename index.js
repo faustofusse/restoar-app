@@ -1,12 +1,14 @@
 import { AppRegistry, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
-import configureStore from './src/configureStore';
+import configureStore from './src/config/store';
 import React from 'react';
 import { name as appName } from './app.json';
 import { createAppContainer } from 'react-navigation';
-import { setUser } from './src/actions';
+import { setUser } from './src/redux/actions';
 import axios from 'axios';
-import { URL } from './src/resources/url'
+import { URL } from './src/config/settings'
+import { createRootNavigator } from './src/config/routes'
+import { getUser, updateUser } from "./src/services/storage";
 
 // Ignora las advertencias de mierda, que no puedo solucionar
 YellowBox.ignoreWarnings([
@@ -14,9 +16,6 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillUpdate is deprecated',
   'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
 ]);
-
-import { createRootNavigator } from './src/config/Routes'
-import { getUser, updateUser } from "./src/services/storage";
 
 const store = configureStore();
 

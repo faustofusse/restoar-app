@@ -9,7 +9,7 @@ import {
   Easing,
   Animated,
 } from 'react-native';
-import colors from '../../styles/colors';
+import colors from '../../styles/colors/index';
 
 export default class Notificacion extends Component {
   constructor(props) {
