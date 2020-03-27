@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-  import { Card, Button, Text, Input } from "react-native-elements";
+import { Card, Button, Text, Input } from "react-native-elements";
 
   
 export default ({ navigation }) => (

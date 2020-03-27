@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { Component } from './node_modules/react';
+import { PropTypes } from './node_modules/prop-types';
+import Icon from './node_modules/react-native-vector-icons/FontAwesome';
 import {
   View,
   Text,

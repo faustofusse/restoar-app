@@ -1,13 +1,14 @@
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import SignUp from '../screens/auth/SignUp';
-import SignIn from '../screens/auth/SignIn';
-import Menu from '../screens/Menu';
-import Pin from '../screens/auth/Pin';
+import SignUp from '../screens/RegisterScreen/Register';
+import SignIn from '../screens/LoginScreen/Login';
+import Pin from '../screens/PinScreen/Pin';
+
+import Index from '../screens/index';
 
 export const SignedIn = createSwitchNavigator(
   {
     Pin: { screen: Pin },
-    Menu: { screen: Menu }
+    Menu: { screen: Index }
   },
   { initialRouteName: 'Pin' }
 )

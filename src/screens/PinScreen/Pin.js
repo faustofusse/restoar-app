@@ -19,6 +19,9 @@ class Pin extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.checkPin = this.checkPin.bind(this);
     this.onSetPin = this.onSetPin.bind(this);
+
+    // SALTEO EL PIN ----------------------
+    this.props.navigation.navigate('Menu');
   }
 
   LogOut = () => {

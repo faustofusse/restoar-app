@@ -4,10 +4,12 @@ import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { FONT_COLOR_WHITE, DARK_PRIMARY } from '../styles/colors';
-import Mesas from '../components/Waiter/Waiter';
+import Tables from './Waiter/Tables'
+import Orders from './Waiter/Orders'
+import Products from './Waiter/Products'
 import Drawer from '../components/Drawer/Drawer';
 import Link from '../components/Home/Home';
-import Settings from './Settings';
+import Settings from './SettingsScreen/Settings';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -31,9 +33,9 @@ class NavigationDrawerStructure extends Component {
   }
 }
 
-const Mesas_StackNavigator = createStackNavigator({
-  First: {
-    screen: Mesas,
+const Waiter_StackNavigator = createStackNavigator({
+  Tables: {
+    screen: Tables,
     navigationOptions: ({ navigation }) => ({
       title: 'Mesas',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -43,10 +45,30 @@ const Mesas_StackNavigator = createStackNavigator({
       headerTintColor: FONT_COLOR_WHITE,
     }),
   },
+  Orders: {
+    screen: Orders,
+    navigationOptions: ({ navigation }) => ({
+      title: `Mesa ${navigation.getParam('code')}`,
+      headerStyle: {
+        backgroundColor: DARK_PRIMARY,
+      },
+      headerTintColor: FONT_COLOR_WHITE,
+    }),
+  },
+  Products: {
+    screen: Products,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.getParam('order') === null ? 'Nuevo Pedido' : 'Pedido ' + navigation.getParam('order'),
+      headerStyle: {
+        backgroundColor: DARK_PRIMARY,
+      },
+      headerTintColor: FONT_COLOR_WHITE,
+    }),
+  }
 });
 
 const Link_StackNavigator = createStackNavigator({
-  Second: {
+  First: {
     screen: Link,
     navigationOptions: ({ navigation }) => ({
       title: 'Link',
@@ -60,10 +82,10 @@ const Link_StackNavigator = createStackNavigator({
 });
 
 const Settings_StackNavigator = createStackNavigator({
-  Third: {
+  First: {
     screen: Settings,
     navigationOptions: ({ navigation }) => ({
-      title: 'Configuración',
+      title: 'Configuracion',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: DARK_PRIMARY,
@@ -84,9 +106,9 @@ export default Menu = createDrawerNavigator(
   {
     //Drawer Optons and indexing
     Mesas: {
-      screen: Mesas_StackNavigator,
+      screen: Waiter_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Mesas',
+        drawerLabel: 'Mozo',
       },
     },
     Link: {

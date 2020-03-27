@@ -11,8 +11,7 @@ const reducer = (state = initialState, action) => {
                 firstName: action.user.firstName, 
                 lastName: action.user.lastName,
                 pin: action.user.pin,
-                email: action.user.email,
-                restaurants: action.user.restaurants }
+                email: action.user.email}
         case SET_PIN:
             return { ...state,
                 pin: action.pin
