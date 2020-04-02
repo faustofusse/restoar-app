@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { setUser, setRestaurants } from "../../redux/actions/index";
 // Authentication
 import { login } from "../../services/authentication";
+import { getExtendedUser } from '../../services/api';
 
 class SignIn extends Component {
   constructor(props) {
@@ -30,9 +31,11 @@ class SignIn extends Component {
     console.log("Logging in...");
     let user = await login(userEmail, userPassword);
     if (user == null) return this.setState({ loading: false });
-    await this.props.onSetUser(user);
-    await this.props.onSetRestaurants(user.restaurants);
-    await updateUser(user);
+    // Esto se repite en App.js - Hay que hacer algo al respecto
+    let extendedUser = await getExtendedUser(user._id);
+    await this.props.onSetUser(extendedUser);
+    await this.props.onSetRestaurants(extendedUser.restaurants);
+    await updateUser(extendedUser);
     this.props.navigation.navigate("SignedIn");
   }
 

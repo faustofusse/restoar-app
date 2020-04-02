@@ -4,9 +4,8 @@ import { StyleSheet, View, FlatList, ActivityIndicator, Text } from 'react-nativ
 import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../styles/colors';
 import { connect } from 'react-redux';
 import { setRestaurants, setTables, updateRestaurant } from '../../redux/actions/index';
-import { URL } from '../../config/settings';
-import axios from 'axios';
 import TablesList from '../../components/Waiter/Lists/TablesList';
+import { getOrdersByRestaurant, getTablesByRestaurant } from '../../services/api';
 
 class Tables extends Component {
 
@@ -24,11 +23,10 @@ class Tables extends Component {
     }
 
     async componentDidMount() {
+        // await this.getTables();
         await this.getRestaurant();
-        await this.getTables();
         await this.getOrders();
-        this.props.onUpdateRestaurant(this.state.restaurant);
-        console.log(this.state);
+        // this.props.onUpdateRestaurant(this.state.restaurant);
     }
 
     async getRestaurant() {
@@ -43,43 +41,34 @@ class Tables extends Component {
         }
     }
 
-    async getTables() {
-        let url = URL + 'api/tables/?restaurantId=' + this.state.restaurant._id;
-        await axios.get(url).then(async response => {
-            if (response.data.error) return console.log(response.data);
-            let tables = response.data;
-            let r = this.state.restaurant;
-            r.tables = tables;
-            this.props.onSetTables(this.state.restaurant._id, tables);
-            await this.setState({ restaurant: r })
-        }).catch(err => {
-            console.log(err);
+    async getOrders() {
+        let tables = this.state.restaurant.tables;
+        let orders = await getOrdersByRestaurant(this.state.restaurant._id);
+        for (let i = 0; i < orders.length; i++) {
+            let t = tables.find(t => t._id === orders[i].table);
+            if (t.orders === undefined) t.orders = [orders[i]]
+            else t.orders.push(orders[i])
+            t.state = 'BUSY';
+        }
+        let restaurant = this.state.restaurant;
+        restaurant.tables = tables;
+        tables.sort((a, b) => {
+            // ARREGLAR ESTOOOO
+            if (a.state === b.state) return 0;
+            if (a.state === 'OPEN' && b.state == 'BUSY') return 1;
+            if (b.state === 'OPEN' && a.state == 'BUSY') return -1;
         });
+        tables.sort()
+        this.setState({ restaurant });
     }
 
-    async getOrders() {
-        let url = URL + 'api/orders/resto/' + this.state.restaurant._id;
-        let tables = this.state.restaurant.tables;
-        await axios.get(url).then(async response => {
-            if (response.data.error) console.error(response.data.error);
-            let orders = response.data.success;
-            for (let i = 0; i < orders.length; i++) {
-                let t = tables.find(t => t._id === orders[i].table);
-                if (t.orders === undefined) t.orders = [orders[i]]
-                else t.orders.push(orders[i])
-                t.state = 'BUSY';
-            }
-            let restaurant = this.state.restaurant;
-            restaurant.tables = tables;
-            tables.sort((a, b) => {
-                // ARREGLAR ESTOOOO
-                if (a.state === b.state) return 0;
-                if (a.state === 'OPEN' && b.state == 'BUSY') return 1;
-                if (b.state === 'OPEN' && a.state == 'BUSY') return -1;
-            });
-            tables.sort()
-            this.setState({ restaurant });
-        }).catch(err => console.log(err));
+    async getTables() {
+        // POR AHORA NO SE USA
+        let tables = await getTablesByRestaurant(this.state.restaurant._id);
+        let r = this.state.restaurant;
+        r.tables = tables;
+        this.props.onSetTables(this.state.restaurant._id, tables);
+        await this.setState({ restaurant: r });
     }
 
     async selectTable(id) {
@@ -127,9 +116,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    // Aca van los elementos del state que voy a utilizar en la App (Redux)
-    // Van a ser accesibles como propiedades de App
-    // state.mozo hace referencia al reducer que lo configure en rootReducer en configureStore.js
     return {
         restaurants: state.restaurants,
         active: state.restaurants.active,
@@ -138,7 +124,6 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    // Declaro que acciones voy a usar (Redux)
     return {
         onSetMenu: (menu) => dispatch(setMenu(menu)),
         onSetRestaurants: (restaurants) => dispatch(setRestaurants(restaurants)),
@@ -147,5 +132,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-// Esto conecta a App con Redux, y la exporta:
 export default connect(mapStateToProps, mapDispatchToProps)(Tables);

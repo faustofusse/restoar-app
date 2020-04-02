@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Modal,
-  Text,
-  TouchableOpacity
-} from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
+import { Modal, Text, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { BACKGROUND, BLUE, GREEN } from "../../../styles/colors";
 
@@ -17,8 +11,8 @@ class InputModal extends React.Component {
     this.onChangeText = this.onChangeText.bind(this);
   }
 
-  onChangeText (text) {
-    this.setState({text});
+  onChangeText(text) {
+    this.setState({ text });
   }
 
   render() {

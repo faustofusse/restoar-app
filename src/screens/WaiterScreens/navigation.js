@@ -33,7 +33,7 @@ export const WaiterNavigator = createStackNavigator({
     Products: {
       screen: Products,
       navigationOptions: ({ navigation }) => ({
-        title: navigation.getParam('order') === null ? 'Nuevo Pedido' : 'Pedido ' + navigation.getParam('order'),
+        title: navigation.getParam('order') === null ? 'Nuevo Pedido' : 'Pedido ' + navigation.getParam('order').number,
         headerStyle: {
           backgroundColor: DARK_PRIMARY,
         },

@@ -13,9 +13,8 @@ class Orders extends Component {
       orders: [],
       tableId: this.props.navigation.getParam('id')
     }
-    this.setOrders = this.setOrders.bind(this);
     this.setOrders();
-    console.log(this.state);
+    this.getProductsInfo();
   }
 
   async setOrders() {
@@ -23,6 +22,18 @@ class Orders extends Component {
     let table = restaurant.tables.find(t => t._id === this.state.tableId);
     let orders = table.orders === undefined || table.orders === null ? [] : table.orders;
     this.state.orders = orders;
+  }
+
+  async getProductsInfo() {
+    let restaurant = this.props.restaurants.restaurants.find(r => r._id === this.props.restaurants.active);
+    let products = restaurant.menu.products;
+    let orders = this.state.orders;
+    for (let i = 0; i<orders.length; i++){
+      for (let j = 0; j<orders[i].products.length; j++){
+        product = products.find(p => p._id === orders[i].products[j]._id)
+        orders[i].products[j].name = product.name;
+      }
+    }
   }
 
   render() {

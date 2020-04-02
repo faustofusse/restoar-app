@@ -7,7 +7,7 @@ const COLOR_RESERVED = '#00897b', COLOR_OPEN = '#43a047', COLOR_CLOSED = '#e5393
 const COLORS = { RESERVED: COLOR_RESERVED, OPEN: COLOR_OPEN, CLOSED: COLOR_CLOSED, BUSY: COLOR_BUSY };
 
 const Order = (props) => (
-    <TouchableOpacity style={styles.order} onPress={() => props.navigation.navigate('Products', { order: props.number })}>
+    <TouchableOpacity style={styles.order} onPress={() => props.navigation.navigate('Products', { order: props })}>
         <Text style={{ fontSize: 18, marginBottom: 10 }}>Pedido {props.number} - {props.state}</Text>
         <FlatList data={props.products} keyExtractor={p => p._id} renderItem={(product) => (
             <Text>{product.item.name} ({product.item.quantity})</Text>
