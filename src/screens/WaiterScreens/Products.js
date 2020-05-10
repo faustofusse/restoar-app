@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // Components
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import ProductsList from "../../components/Waiter/Lists/ProductsList";
 import InputModal from "../../components/Waiter/Modals/InputModal";
@@ -18,12 +18,14 @@ class Products extends Component {
       category: null,
       addProductInput: false
     };
+    this.socket = this.props.navigation.getParam("socket");
     if (this.state.order === null)
       this.state.order = { products: [], state: "NEW" };
+    this.state.order.restaurant = this.props.active;
     this.acceptInput = this.acceptInput.bind(this);
     this.addProduct = this.addProduct.bind(this);
     this.removeProduct = this.removeProduct.bind(this);
-    console.log(this.state);
+    this.sendOrder = this.sendOrder.bind(this);
   }
 
   acceptInput(text) {
@@ -62,6 +64,22 @@ class Products extends Component {
     this.setState({ order });
   }
 
+  sendOrder(){
+    let newOrder = {
+      restaurant: this.props.active, waiter: this.props.user._id,
+      historyStatus: [{type: 'NEW'}],
+      table: this.props.navigation.getParam("table"),
+      number: this.props.navigation.getParam("number"),
+    }
+    if (this.state.order.products.length == 0) return;
+    let products = [];
+    for (let i = 0; i<this.state.order.products.length; i++)
+      products.push({_id: this.state.order.products[i]._id, quantity: this.state.order.products[i].quantity})
+    newOrder.products = products;
+    this.socket.emit('new-order', newOrder);
+    this.props.navigation.goBack();
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -83,7 +101,7 @@ class Products extends Component {
 
         <TouchableOpacity
           disabled={this.props.navigation.getParam("order") !== null}
-          style={styles.sendOrder}
+          style={styles.sendOrder} onPress={this.sendOrder}
         >
           <Text style={styles.sendOrderText}>ENVIAR PEDIDO</Text>
         </TouchableOpacity>

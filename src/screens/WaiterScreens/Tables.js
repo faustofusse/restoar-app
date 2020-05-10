@@ -6,27 +6,23 @@ import { connect } from 'react-redux';
 import { setRestaurants, setTables, updateRestaurant } from '../../redux/actions/index';
 import TablesList from '../../components/Waiter/Lists/TablesList';
 import { getOrdersByRestaurant, getTablesByRestaurant } from '../../services/api';
+import { connectSocket } from '../../services/socket';
 
 class Tables extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            loading: false,
-            restaurant: {
-                name: '',
-                _id: '',
-                tables: []
-            }
-        };
+        this.state = { restaurant: { name: '', _id: '', tables: []  }, loading: false };
+        this.socket = connectSocket(props.user._id, props.restaurants.active);
         this.selectTable = this.selectTable.bind(this);
+        this.getOrders = this.getOrders.bind(this);
+        this.socket.on('new-order', this.getOrders);
     }
 
     async componentDidMount() {
-        // await this.getTables();
         await this.getRestaurant();
         await this.getOrders();
-        // this.props.onUpdateRestaurant(this.state.restaurant);
+        console.log(this.state.restaurant);
     }
 
     async getRestaurant() {
@@ -43,11 +39,13 @@ class Tables extends Component {
 
     async getOrders() {
         let tables = this.state.restaurant.tables;
+        for (let i = 0; i<tables.length; i++)
+            tables[i].orders = []
         let orders = await getOrdersByRestaurant(this.state.restaurant._id);
         for (let i = 0; i < orders.length; i++) {
             let t = tables.find(t => t._id === orders[i].table);
             if (t.orders === undefined) t.orders = [orders[i]]
-            else t.orders.push(orders[i])
+            else t.orders.push(await this.addProductsToOrder(orders[i]))
             t.state = 'BUSY';
         }
         let restaurant = this.state.restaurant;
@@ -60,20 +58,33 @@ class Tables extends Component {
         });
         tables.sort()
         this.setState({ restaurant });
+        this.props.onUpdateRestaurant(restaurant);
     }
 
-    async getTables() {
-        // POR AHORA NO SE USA
-        let tables = await getTablesByRestaurant(this.state.restaurant._id);
-        let r = this.state.restaurant;
-        r.tables = tables;
-        this.props.onSetTables(this.state.restaurant._id, tables);
-        await this.setState({ restaurant: r });
+    async addProductsToOrder(order){
+        let products = this.state.restaurant.menu.products;
+        let newOrder = order;
+        for (let j = 0; j<newOrder.products.length; j++){
+            product = await products.find(p => p._id === newOrder.products[j]._id)
+            newOrder.products[j].name = product.name;
+        }
+        return newOrder;
     }
 
     async selectTable(id) {
-        this.props.navigation.navigate('Orders', { id, code: this.state.restaurant.tables.find(t => t._id === id).code })
+        let table = this.state.restaurant.tables.find(t => t._id === id);
+        this.props.navigation.navigate('Orders', { 
+            id, table, socket: this.socket, code: table.code 
+        });
     }
+
+    // async getTables() {
+    //     let tables = await getTablesByRestaurant(this.state.restaurant._id);
+    //     let r = this.state.restaurant;
+    //     r.tables = tables;
+    //     this.props.onSetTables(this.state.restaurant._id, tables);
+    //     await this.setState({ restaurant: r });
+    // }
 
     render() {
         return (

@@ -10,44 +10,40 @@ class Orders extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orders: [],
-      tableId: this.props.navigation.getParam('id')
+      table: this.props.navigation.getParam('table'),
+      socket: this.props.navigation.getParam('socket')
     }
-    this.setOrders();
-    this.getProductsInfo();
+    this.newOrder = this.newOrder.bind(this);
   }
 
-  async setOrders() {
-    let restaurant = this.props.restaurants.restaurants.find(r => r._id === this.props.restaurants.active);
-    let table = restaurant.tables.find(t => t._id === this.state.tableId);
-    let orders = table.orders === undefined || table.orders === null ? [] : table.orders;
-    this.state.orders = orders;
+  async getNextNumber(orders) {
+    let mayor = 1;
+    for (let i = 0; i<orders.length; i++)
+      if (orders[i].number > mayor)
+        mayor = orders[i].number;
+    return mayor + 1;
   }
 
-  async getProductsInfo() {
-    let restaurant = this.props.restaurants.restaurants.find(r => r._id === this.props.restaurants.active);
-    let products = restaurant.menu.products;
-    let orders = this.state.orders;
-    for (let i = 0; i<orders.length; i++){
-      for (let j = 0; j<orders[i].products.length; j++){
-        product = products.find(p => p._id === orders[i].products[j]._id)
-        orders[i].products[j].name = product.name;
-      }
-    }
+  async newOrder() {
+    let number = await this.getNextNumber(this.state.table.orders);
+    this.props.navigation.navigate('Products', { 
+      table: this.state.table._id, order: null, 
+      socket:this.state.socket, number
+    });
   }
 
   render() {
     return (
       <View>
-        {this.state.orders.length <= 0 ?
-          (<Text>No hay pedidos.</Text>) :
-          (<OrdersList orders={this.state.orders} navigation={this.props.navigation} />)}
+        {this.state.table.orders.length <= 0 ?
+          (<Text style={{height: '100%'}}>No hay pedidos.</Text>) :
+          (<OrdersList orders={this.state.table.orders.reverse()} navigation={this.props.navigation} />)}
 
         <FloatingAction
           iconWidth={30} iconHeight={30}
           actions={actions} overrideWithAction
           distanceToEdge={15} color={DARK_PRIMARY}
-          onPressItem={() => this.props.navigation.navigate('Products', { table: this.state.tableId, order: null })}
+          onPressItem={this.newOrder}
         />
       </View>
     )

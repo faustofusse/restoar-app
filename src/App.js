@@ -11,9 +11,14 @@ import { getExtendedUser } from "./services/api";
 import { Provider } from "react-redux";
 import { setUser, setRestaurants } from "./redux/actions";
 import configureStore from "./config/store";
+// Sockets
+// import { socket, connectSocket } from "./services/socket";
 
+console.ignoredYellowBox = ["Remote debugger"];
 YellowBox.ignoreWarnings([
-  "Using Math.random is not cryptographically secure! Use bcrypt.setRandomFallback to set a PRNG."
+  "Using Math.random is not cryptographically secure! Use bcrypt.setRandomFallback to set a PRNG.",
+  "Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?",
+  "Remote debugger is in a background tab which may cause apps to perform slowly. Fix this by foregrounding the tab (or opening it in a separate window)."
 ]);
 
 const store = configureStore();
@@ -21,10 +26,7 @@ const store = configureStore();
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      signedIn: false,
-      loading: true
-    };
+    this.state = { signedIn: false, loading: true };
   }
 
   async componentDidMount() {
@@ -37,6 +39,8 @@ export class App extends React.Component {
     await store.dispatch(setRestaurants(extendedUser.restaurants));
     await store.dispatch(setUser(extendedUser));
     await updateUser(extendedUser);
+    // Connect socket
+    // connectSocket(extendedUser._id, store.getState().restaurants.active);
     // Finished loading
     this.setState({ loading: false });
   }

@@ -1,19 +1,20 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Button
-} from "react-native";
+import { View, Text, Image, ScrollView } from "react-native"; 
+import { StyleSheet, TouchableOpacity, Button } from "react-native";
 // Styles
 import { DARK_PRIMARY } from "../../styles/colors";
 // Storage
 import { onSignOut } from "../../services/storage";
+// Redux
+import { connect } from "react-redux";
 
-export class Drawer extends React.Component {
+class Drawer extends React.Component {
+  constructor(props){
+    super(props);
+    this.firstName = props.firstName;
+    this.lastName = props.lastName;
+  }
+
   navLink(nav, text) {
     return (
       <TouchableOpacity
@@ -38,13 +39,14 @@ export class Drawer extends React.Component {
                 />
               </View>
               <View style={styles.profileText}>
-                <Text style={styles.name}>Fausto Fusse</Text>
+                <Text style={styles.name}>{this.firstName} {this.lastName}</Text>
               </View>
             </View>
           </View>
           <View style={styles.bottomLinks}>
             {this.navLink("Waiter", "Mesas")}
             {this.navLink("Settings", "Configuración")}
+            {this.navLink("Chef", "Cocina")}
             <Button
               buttonStyle={{ marginTop: 20 }}
               backgroundColor="#03A9F4"
@@ -141,3 +143,9 @@ const styles = StyleSheet.create({
     fontSize: 16
   }
 });
+
+let mapStateToProps = (state) => {
+  return { firstName: state.user.firstName, lastName: state.user.lastName }
+}
+
+export default connect(mapStateToProps, null)(Drawer);

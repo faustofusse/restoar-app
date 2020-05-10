@@ -1,7 +1,7 @@
 import { SET_RESTAURANTS, SET_TABLES, SET_ACTIVE, UPDATE_RESTAURANT, SET_ACTIVE_TABLE } from '../actions/actionTypes';
 
 const initialState = {
-    active: '5dcb227bd446910017b01f98', // Active esta 'Vicente' por default. Despues cambiarlo a null
+    active: null, // Active esta 'Vicente' por default. Despues cambiarlo a null
     restaurants: []
 }
 
@@ -12,6 +12,7 @@ const reducer = (state = initialState, action) => {
         case SET_RESTAURANTS:
             return {
                 ...state,
+                active: action.restaurants[0]._id,
                 restaurants: action.restaurants
             }
         case UPDATE_RESTAURANT:

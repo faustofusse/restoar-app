@@ -1,3 +1,4 @@
+// Para correr la app con emulador va la import de arriba y con expo la de abajo
 import AsyncStorage from '@react-native-community/async-storage';
 // import { AsyncStorage } from "react-native";
 
