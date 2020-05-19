@@ -3,8 +3,8 @@ import React from 'react';
 import { createDrawerNavigator } from "react-navigation";
 import Drawer from "../components/Drawer/Drawer";
 // Navigators
-import { WaiterNavigator } from "./WaiterScreens/navigation";
-import { ChefNavigator } from './ChefScreens/navigation';
+import { WaiterNavigator, ChefNavigator } from "./RestaurantScreens/navigation";
+// import { ChefNavigator } from './ChefScreens/navigation';
 import { SettingsNavigator } from "./SettingsScreens/navigation";
 // Components
 import { Dimensions } from 'react-native';

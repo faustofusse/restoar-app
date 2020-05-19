@@ -14,6 +14,8 @@ export const SET_PIN = 'SET_PIN';
 // Restaurants
 export const SET_RESTAURANTS = 'SET_RESTAURANTS';
 export const SET_TABLES = 'SET_TABLES';
-export const SET_ACTIVE = 'SET_ACTIVE'
+export const SET_ACTIVE = 'SET_ACTIVE';
 export const UPDATE_RESTAURANT = 'UPDATE_RESTAURANT';
 export const SET_ACTIVE_TABLE = 'SET_ACTIVE_TABLE';
+export const SET_ORDERS = 'SET_ORDERS';
+export const ADD_ORDER = 'ADD_ORDER';

@@ -1,27 +1,23 @@
 import SocketIOClient from "socket.io-client";
 import { URL } from "../config/settings";
+import { addOrder } from "../redux/actions";
 
-// let socket;
+export const socket = SocketIOClient(URL, {
+  transports: ['websocket'],
+  jsonp: false
+});
 
-let onConnect = () => {
-  console.log('Socket connected...')
-}
+export const startSocket = (store) => {
+  socket.emit('restaurant', store.getState().restaurants.active);
 
-let onDisconnect = () => {
-  console.log('Socket disconnected...')
-}
-
-module.exports.connectSocket = (user, restaurant) => {
-  let socket = SocketIOClient(URL, {
-    transportOptions: { polling: {
-        extraHeaders: {
-          userid: user,
-          restaurantid: restaurant
-        } } }
+  socket.on('disconnect', () => {
+    console.log('Socket disconnected.');
+    socket.connect();
   });
-  socket.on('connect', onConnect);
-  socket.on('disconnect', onDisconnect);
-  return socket;
-} 
-
-// module.exports.socket = socket;
+  
+  socket.on('new-order', order => {
+    console.log('order :>> ', order);
+    let active = store.getState().restaurants.active;
+    store.dispatch(addOrder(active, order));
+  });
+};

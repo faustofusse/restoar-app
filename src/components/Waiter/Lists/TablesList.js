@@ -8,28 +8,28 @@ let separator = true;
 const TablesList = (props) => (
     <View style={styles.list}>
         <FlatList numColumns={2}
-            data={props.tables.filter(t => t.state === 'OPEN' || t.state == 'BUSY')}
+            data={props.tables}
+            // data={props.tables.filter(t => t.state === 'OPEN' || t.state == 'BUSY')}
             keyExtractor={item => item._id}
-            ItemSeparatorComponent={() => {
-                return (
-                    <View
-                        style={{
-                            height: separator ? 1 : 0,
-                            width: "100%",
-                            backgroundColor: "#000",
-                        }}
-                    />
-                );
-            }}
+            // ItemSeparatorComponent={() => {
+            //     return (
+            //         <View
+            //             style={{
+            //                 height: separator ? 1 : 0,
+            //                 width: "100%",
+            //                 backgroundColor: "#000",
+            //             }}
+            //         />
+            //     );
+            // }}
             renderItem={(info) => {
-                if (info.item.state !== state) {
-                    separator = true;
-                    state = info.item.state;
-                } else {
-                    separator = false;
-                }
+                // if (info.item.state !== state) {
+                //     separator = true;
+                //     state = info.item.state;
+                // } else {
+                //     separator = false;
+                // }
                 return (
-                    // <View style={{ width: separator ? '100%' : 0 }}><Text>Mesa {info.item.code}</Text></View>
                     <Table code={info.item.code} state={info.item.state} selectTable={() => props.selectTable(info.item._id)} />
                 )
             }} />

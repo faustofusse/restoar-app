@@ -1,9 +1,25 @@
-import { SET_RESTAURANTS, SET_TABLES, SET_ACTIVE, UPDATE_RESTAURANT, SET_ACTIVE_TABLE } from './actionTypes';
+import { SET_RESTAURANTS, SET_TABLES, SET_ACTIVE, UPDATE_RESTAURANT, SET_ACTIVE_TABLE, SET_ORDERS, ADD_ORDER } from './actionTypes';
 
 export const setRestaurants = (restaurants) => {
     return {
         type: SET_RESTAURANTS,
         restaurants: restaurants
+    }
+}
+
+export const addOrder = (id, order) => {
+    return {
+        type: ADD_ORDER,
+        id: id, 
+        order: order
+    }
+}
+
+export const setOrders = (id, orders) => {
+    return {
+        type: SET_ORDERS,
+        id: id, 
+        orders: orders
     }
 }
 

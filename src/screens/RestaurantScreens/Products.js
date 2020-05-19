@@ -8,6 +8,8 @@ import InputModal from "../../components/Waiter/Modals/InputModal";
 import { DARK_PRIMARY, ACCENT, FONT_COLOR_WHITE } from "../../styles/colors";
 // Redux
 import { connect } from "react-redux";
+import { socket } from '../../services/socket';
+import { addOrder } from "../../redux/actions";
 
 class Products extends Component {
   constructor(props) {
@@ -15,12 +17,9 @@ class Products extends Component {
     this.state = {
       order: this.props.navigation.getParam("order"),
       menu: this.props.restaurants.find(r => r._id === this.props.active).menu,
-      category: null,
-      addProductInput: false
+      category: null, addProductInput: false
     };
-    this.socket = this.props.navigation.getParam("socket");
-    if (this.state.order === null)
-      this.state.order = { products: [], state: "NEW" };
+    if (this.state.order === null) this.state.order = { products: [], state: "NEW" };
     this.state.order.restaurant = this.props.active;
     this.acceptInput = this.acceptInput.bind(this);
     this.addProduct = this.addProduct.bind(this);
@@ -29,7 +28,6 @@ class Products extends Component {
   }
 
   acceptInput(text) {
-    console.log("Add product with code: " + text);
     let products = [].concat(this.state.order.products);
     for (let i = 0; i < this.state.menu.products.length; i++) {
       let product = this.state.menu.products[i];
@@ -69,14 +67,14 @@ class Products extends Component {
       restaurant: this.props.active, waiter: this.props.user._id,
       historyStatus: [{type: 'NEW'}],
       table: this.props.navigation.getParam("table"),
-      number: this.props.navigation.getParam("number"),
     }
     if (this.state.order.products.length == 0) return;
     let products = [];
     for (let i = 0; i<this.state.order.products.length; i++)
       products.push({_id: this.state.order.products[i]._id, quantity: this.state.order.products[i].quantity})
     newOrder.products = products;
-    this.socket.emit('new-order', newOrder);
+    socket.emit('new-order', newOrder);
+    // this.props.onAddOrder(this.props.active, newOrder);
     this.props.navigation.goBack();
   }
 
@@ -91,29 +89,21 @@ class Products extends Component {
 
         <InputModal
           visible={this.state.addProductInput}
-          close={() => {
-            console.log("close");
-            this.setState({ addProductInput: false });
-          }}
+          close={() => this.setState({ addProductInput: false })}
           accept={this.acceptInput}
           title={"Agregar Producto"}
         />
 
-        <TouchableOpacity
-          disabled={this.props.navigation.getParam("order") !== null}
-          style={styles.sendOrder} onPress={this.sendOrder}
-        >
-          <Text style={styles.sendOrderText}>ENVIAR PEDIDO</Text>
-        </TouchableOpacity>
+        {(this.props.navigation.getParam("order") == null) ? (
+          <TouchableOpacity style={styles.sendOrder} onPress={this.sendOrder} >
+            <Text style={styles.sendOrderText}>ENVIAR PEDIDO</Text>
+          </TouchableOpacity>
+        ) : null}
 
         <FloatingAction
           visible={this.props.navigation.getParam("order") === null}
-          iconWidth={30}
-          iconHeight={30}
-          actions={actions}
-          overrideWithAction
-          distanceToEdge={15}
-          color={DARK_PRIMARY}
+          iconWidth={30}  iconHeight={30} actions={actions}
+          overrideWithAction distanceToEdge={15} color={DARK_PRIMARY}
           onPressItem={() => this.setState({ addProductInput: true })}
         />
       </View>
@@ -162,5 +152,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null)(Products);
-// export default Products;
+const mapDispatchToProps = dispatch => {
+  return {
+      onAddOrder: (id, orders) => dispatch(addOrder(id, orders)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

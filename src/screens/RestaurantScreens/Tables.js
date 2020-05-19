@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, FlatList, ActivityIndicator, Text } from 'react-native';
-// import { FloatingAction } from 'react-native-floating-action';
 import { BACKGROUND, BLUE, DARK_PRIMARY } from '../../styles/colors';
 import { connect } from 'react-redux';
-import { setRestaurants, setTables, updateRestaurant } from '../../redux/actions/index';
+import { setRestaurants, setTables, updateRestaurant, setOrders } from '../../redux/actions/index';
 import TablesList from '../../components/Waiter/Lists/TablesList';
-import { getOrdersByRestaurant, getTablesByRestaurant } from '../../services/api';
-import { connectSocket } from '../../services/socket';
+import { getOrdersByRestaurant } from '../../services/api';
+
+const statesOrder = ['CLOSED', 'RESERVED', 'BUSY', 'OPEN'];
 
 class Tables extends Component {
 
     constructor(props) {
         super(props);
         this.state = { restaurant: { name: '', _id: '', tables: []  }, loading: false };
-        this.socket = connectSocket(props.user._id, props.restaurants.active);
         this.selectTable = this.selectTable.bind(this);
-        this.getOrders = this.getOrders.bind(this);
-        this.socket.on('new-order', this.getOrders);
+        this.updateOrders = this.updateOrders.bind(this);
     }
 
     async componentDidMount() {
         await this.getRestaurant();
-        await this.getOrders();
-        console.log(this.state.restaurant);
+        await this.updateOrders();
+        console.log(this.state.restaurant.tables)
     }
 
     async getRestaurant() {
@@ -32,43 +30,17 @@ class Tables extends Component {
                 let r = restaurants[i]
                 delete r.address
                 if (!r.tables) r.tables = []
+                r.tables.sort((a, b) => (statesOrder.indexOf(a.state) - statesOrder.indexOf(b.state)))
                 await this.setState({ restaurant: r })
             }
         }
     }
 
-    async getOrders() {
-        let tables = this.state.restaurant.tables;
-        for (let i = 0; i<tables.length; i++)
-            tables[i].orders = []
+    async updateOrders() {
+        // let tables = this.state.restaurant.tables;
+        // for (let i = 0; i<tables.length; i++) tables[i].orders = []
         let orders = await getOrdersByRestaurant(this.state.restaurant._id);
-        for (let i = 0; i < orders.length; i++) {
-            let t = tables.find(t => t._id === orders[i].table);
-            if (t.orders === undefined) t.orders = [orders[i]]
-            else t.orders.push(await this.addProductsToOrder(orders[i]))
-            t.state = 'BUSY';
-        }
-        let restaurant = this.state.restaurant;
-        restaurant.tables = tables;
-        tables.sort((a, b) => {
-            // ARREGLAR ESTOOOO
-            if (a.state === b.state) return 0;
-            if (a.state === 'OPEN' && b.state == 'BUSY') return 1;
-            if (b.state === 'OPEN' && a.state == 'BUSY') return -1;
-        });
-        tables.sort()
-        this.setState({ restaurant });
-        this.props.onUpdateRestaurant(restaurant);
-    }
-
-    async addProductsToOrder(order){
-        let products = this.state.restaurant.menu.products;
-        let newOrder = order;
-        for (let j = 0; j<newOrder.products.length; j++){
-            product = await products.find(p => p._id === newOrder.products[j]._id)
-            newOrder.products[j].name = product.name;
-        }
-        return newOrder;
+        this.props.onSetOrders(this.props.active, orders.reverse());
     }
 
     async selectTable(id) {
@@ -77,14 +49,6 @@ class Tables extends Component {
             id, table, socket: this.socket, code: table.code 
         });
     }
-
-    // async getTables() {
-    //     let tables = await getTablesByRestaurant(this.state.restaurant._id);
-    //     let r = this.state.restaurant;
-    //     r.tables = tables;
-    //     this.props.onSetTables(this.state.restaurant._id, tables);
-    //     await this.setState({ restaurant: r });
-    // }
 
     render() {
         return (
@@ -130,12 +94,13 @@ const mapStateToProps = state => {
     return {
         restaurants: state.restaurants,
         active: state.restaurants.active,
-        user: state.user
+        user: state.user,
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        onSetOrders: (id, orders) => dispatch(setOrders(id, orders)),
         onSetMenu: (menu) => dispatch(setMenu(menu)),
         onSetRestaurants: (restaurants) => dispatch(setRestaurants(restaurants)),
         onSetTables: (id, tables) => dispatch(setTables(id, tables)),

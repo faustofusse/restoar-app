@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Button, TouchableOpacity, Text, FlatList } from 'react-native';
-import { GREY } from '../../../styles/colors';
 import Order from '../Items/Order';
-// import TableItem from '../Items/TableItem';
 
 const OrdersList = (props) => (
     <View style={{ width: '100%', height: '100%' }}>
@@ -12,7 +10,6 @@ const OrdersList = (props) => (
             renderItem={(info) => (
                 <Order state={getStatus(info.item.historyStatus)} products={info.item.products} number={info.item.number} navigation={props.navigation}/>
             )} />
-
     </View>
 );
 

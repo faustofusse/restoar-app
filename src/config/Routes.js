@@ -1,7 +1,7 @@
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import SignUp from '../screens/RegisterScreen/Register';
-import SignIn from '../screens/LoginScreen/Login';
-import Pin from '../screens/PinScreen/Pin';
+import SignUp from '../screens/AuthScreens/Register';
+import SignIn from '../screens/AuthScreens/Login';
+import Pin from '../screens/AuthScreens/Pin';
 
 import Index from '../screens/index';
 

@@ -13,9 +13,11 @@ import { setUser, setRestaurants } from "./redux/actions";
 import configureStore from "./config/store";
 // Sockets
 // import { socket, connectSocket } from "./services/socket";
+import { startSocket } from './services/socket';
 
 console.ignoredYellowBox = ["Remote debugger"];
 YellowBox.ignoreWarnings([
+  "Warning: ToastAndroid is not supported on this platform.",
   "Using Math.random is not cryptographically secure! Use bcrypt.setRandomFallback to set a PRNG.",
   "Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?",
   "Remote debugger is in a background tab which may cause apps to perform slowly. Fix this by foregrounding the tab (or opening it in a separate window)."
@@ -40,6 +42,10 @@ export class App extends React.Component {
     await store.dispatch(setUser(extendedUser));
     await updateUser(extendedUser);
     // Connect socket
+    // startSocketIO
+    startSocket(store);
+    // console.log(extendedUser._id)
+    // console.log(store.getState().restaurants.active)
     // connectSocket(extendedUser._id, store.getState().restaurants.active);
     // Finished loading
     this.setState({ loading: false });
