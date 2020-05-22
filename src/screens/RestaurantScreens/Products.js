@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 // Components
-import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
-import ProductsList from "../../components/Waiter/Lists/ProductsList";
-import InputModal from "../../components/Waiter/Modals/InputModal";
+import ProductsList from "../../components/Restaurant/Lists/ProductsList";
+import InputModal from "../../components/Restaurant/Modals/InputModal";
 // Styles
 import { DARK_PRIMARY, ACCENT, FONT_COLOR_WHITE } from "../../styles/colors";
 // Redux
 import { connect } from "react-redux";
 import { socket } from '../../services/socket';
 import { addOrder } from "../../redux/actions";
+
+const { width: WIDTH } = Dimensions.get('window')
 
 class Products extends Component {
   constructor(props) {
@@ -81,11 +83,14 @@ class Products extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProductsList
+        {this.state.order.products.length > 0 ? (
+          <ProductsList
           products={this.state.order.products}
           onAddProduct={this.addProduct}
           onRemoveProduct={this.removeProduct}
         />
+        ) : (<Text style={{marginBottom: 50, textAlign: 'center'}}>No hay productos.</Text>)}
+        
 
         <InputModal
           visible={this.state.addProductInput}
@@ -97,15 +102,15 @@ class Products extends Component {
         {(this.props.navigation.getParam("order") == null) ? (
           <TouchableOpacity style={styles.sendOrder} onPress={this.sendOrder} >
             <Text style={styles.sendOrderText}>ENVIAR PEDIDO</Text>
+            
           </TouchableOpacity>
         ) : null}
-
-        <FloatingAction
-          visible={this.props.navigation.getParam("order") === null}
-          iconWidth={30}  iconHeight={30} actions={actions}
-          overrideWithAction distanceToEdge={15} color={DARK_PRIMARY}
-          onPressItem={() => this.setState({ addProductInput: true })}
-        />
+          <FloatingAction
+              visible={this.props.navigation.getParam("order") === null}
+              iconWidth={30}  iconHeight={30} actions={actions}
+              overrideWithAction distanceToEdge={15} color={DARK_PRIMARY}
+              onPressItem={() => this.setState({ addProductInput: true })}
+            />
       </View>
     );
   }
@@ -114,20 +119,31 @@ class Products extends Component {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "stretch"
   },
   sendOrder: {
     position: "absolute",
-    width: "80%",
+    width: WIDTH - 80,
     padding: 7,
     paddingLeft: 20,
     backgroundColor: ACCENT,
-    left: 15,
+    // left: 15,
     bottom: 15,
     marginBottom: 8,
-    borderRadius: 15,
+    // borderRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    // ios
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    // android (Android +5.0)
+    elevation: 2,
   },
   sendOrderText: {
     fontSize: 18,

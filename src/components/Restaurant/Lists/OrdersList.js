@@ -3,12 +3,12 @@ import { View, StyleSheet, Button, TouchableOpacity, Text, FlatList } from 'reac
 import Order from '../Items/Order';
 
 const OrdersList = (props) => (
-    <View style={{ width: '100%', height: '100%' }}>
+    <View style={{ width: '100%', height: '100%', marginTop: 5 }}>
         <FlatList
             data={props.orders}
             keyExtractor={item => item._id}
             renderItem={(info) => (
-                <Order state={getStatus(info.item.historyStatus)} products={info.item.products} number={info.item.number} navigation={props.navigation}/>
+                <Order showButton={props.showButton} orderDone={props.orderDone} state={getStatus(info.item.historyStatus)} products={info.item.products} number={info.item.number} navigation={props.navigation}/>
             )} />
     </View>
 );
