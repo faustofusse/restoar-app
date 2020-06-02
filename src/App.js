@@ -14,6 +14,8 @@ import configureStore from "./config/store";
 // Sockets
 // import { socket, connectSocket } from "./services/socket";
 import { startSocket } from './services/socket';
+// React Native Paper
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 
 console.ignoredYellowBox = ["Remote debugger"];
 YellowBox.ignoreWarnings([
@@ -22,6 +24,11 @@ YellowBox.ignoreWarnings([
   "Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?",
   "Remote debugger is in a background tab which may cause apps to perform slowly. Fix this by foregrounding the tab (or opening it in a separate window)."
 ]);
+
+const theme = { ...DefaultTheme, colors: { ...DefaultTheme.colors,
+    // primary: 'tomato',
+    // accent: 'yellow',
+  }};
 
 const store = configureStore();
 
@@ -42,11 +49,7 @@ export class App extends React.Component {
     await store.dispatch(setUser(extendedUser));
     await updateUser(extendedUser);
     // Connect socket
-    // startSocketIO
     startSocket(store);
-    // console.log(extendedUser._id)
-    // console.log(store.getState().restaurants.active)
-    // connectSocket(extendedUser._id, store.getState().restaurants.active);
     // Finished loading
     this.setState({ loading: false });
   }
@@ -58,7 +61,9 @@ export class App extends React.Component {
     );
     return (
       <Provider store={store}>
-        <AppContainer />
+        <PaperProvider theme={theme}>
+          <AppContainer />
+        </PaperProvider>
       </Provider>
     );
   }

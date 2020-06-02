@@ -10,6 +10,7 @@ import { DARK_PRIMARY, ACCENT, FONT_COLOR_WHITE } from "../../styles/colors";
 import { connect } from "react-redux";
 import { socket } from '../../services/socket';
 import { addOrder } from "../../redux/actions";
+import MenuModal from "../../components/Restaurant/Modals/MenuModal";
 
 const { width: WIDTH } = Dimensions.get('window')
 
@@ -24,32 +25,34 @@ class Products extends Component {
     if (this.state.order === null) this.state.order = { products: [], state: "NEW" };
     this.state.order.restaurant = this.props.active;
     this.acceptInput = this.acceptInput.bind(this);
-    this.addProduct = this.addProduct.bind(this);
+    this.onAddProduct = this.onAddProduct.bind(this);
     this.removeProduct = this.removeProduct.bind(this);
     this.sendOrder = this.sendOrder.bind(this);
   }
 
   acceptInput(text) {
-    let products = [].concat(this.state.order.products);
     for (let i = 0; i < this.state.menu.products.length; i++) {
       let product = this.state.menu.products[i];
-      if (parseInt(product.code) === parseInt(text)) {
-        let repeated = products.find(p => p._id === product._id);
-        product.quantity = 1;
-        if (repeated) repeated.quantity++;
-        else products.push(this.state.menu.products[i]);
-        break;
-      }
+      if (parseInt(product.code) !== parseInt(text)) continue;
+      this.onAddProduct(product._id);
+      break;
     }
-    let order = this.state.order;
-    order.products = products;
-    this.setState({ order });
   }
 
-  addProduct(id) {
+  onAddProduct(id) {
     let products = [].concat(this.state.order.products);
-    for (let i = 0; i < products.length; i++)
-      if (products[i]._id === id) products[i].quantity++;
+    for (let i = 0; i<this.state.menu.products.length; i++){
+      let p = this.state.menu.products[i];
+      if (p._id !== id) continue;
+      let productInOrder = products.findIndex(pr => pr._id === id);
+      if (productInOrder === -1) {
+        p.quantity = 1;
+        products.push(p);
+      }else{
+        products[productInOrder].quantity = products[productInOrder].quantity + 1;
+      }
+      break;
+    }
     let order = this.state.order;
     order.products = products;
     this.setState({ order });
@@ -85,19 +88,21 @@ class Products extends Component {
       <View style={styles.container}>
         {this.state.order.products.length > 0 ? (
           <ProductsList
-          products={this.state.order.products}
-          onAddProduct={this.addProduct}
-          onRemoveProduct={this.removeProduct}
-        />
+            style={{height: '100%'}}
+            products={this.state.order.products}
+            onAddProduct={this.onAddProduct}
+            onRemoveProduct={this.removeProduct}
+          />
         ) : (<Text style={{marginBottom: 50, textAlign: 'center'}}>No hay productos.</Text>)}
         
+        <MenuModal onAddProduct={this.onAddProduct} accept={this.acceptInput} visible={this.state.addProductInput} close={() => this.setState({ addProductInput: false })}/>
 
-        <InputModal
+        {/* <InputModal
           visible={this.state.addProductInput}
           close={() => this.setState({ addProductInput: false })}
           accept={this.acceptInput}
           title={"Agregar Producto"}
-        />
+        /> */}
 
         {(this.props.navigation.getParam("order") == null) ? (
           <TouchableOpacity style={styles.sendOrder} onPress={this.sendOrder} >

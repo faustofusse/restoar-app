@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Alert, Vibration } from 'react-native';
 import { connect } from 'react-redux';
 import OrdersList from '../../components/Restaurant/Lists/OrdersList';
 import { FloatingAction } from 'react-native-floating-action';
@@ -19,6 +19,19 @@ class Orders extends Component {
     this.newOrder = this.newOrder.bind(this);
     this.changeTableState = this.changeTableState.bind(this);
     this.closeTable = this.closeTable.bind(this);
+    this.didFocus = this.props.navigation.addListener('didFocus', this.onFocus);
+    this.didBlur = this.props.navigation.addListener('didBlur', this.onBlur);
+  }
+
+  componentWillUnmount(){ this.onBlur(); this.didFocus.remove(); this.didBlur.remove(); }
+
+  async onFocus() {
+    if (socket.listeners('new-order').length <= 1) socket.on('new-order', (order)=>Vibration.vibrate());
+  }
+
+  async onBlur() {
+    let listeners = socket.listeners('new-order');
+    if (listeners.length >= 2) socket.off('new-order', listeners[listeners.length-1]);
   }
 
   async retrieveOrders() {
@@ -43,12 +56,8 @@ class Orders extends Component {
   }
 
   async closeTable() {
-    Alert.alert('Close table?', 'message', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel'
-      },
+    Alert.alert('Close table?', 'you sure bruh?', [
+      { text: 'Cancel', style: 'cancel', onPress: () => console.log('Cancel Pressed'), },
       { text: 'OK', onPress: () => this.changeTableState(this.props.restaurant.orders.filter(o=>o.table===this.state.table._id).length === 0 ? 'OPEN' : 'CLOSED') }
       ], {cancelable: true});
   }
@@ -79,7 +88,7 @@ class Orders extends Component {
         <FloatingAction visible={this.state.table !== undefined && this.state.table.state === 'BUSY'}
           iconWidth={30} iconHeight={30}
           actions={actions} overrideWithAction
-          distanceToEdge={15} color={DARK_PRIMARY}
+          distanceToEdge={15} color={ACCENT}
           onPressItem={this.newOrder}
         />
       </View>

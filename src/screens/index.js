@@ -3,8 +3,7 @@ import React from 'react';
 import { createDrawerNavigator } from "react-navigation";
 import Drawer from "../components/Drawer/Drawer";
 // Navigators
-import { WaiterNavigator, ChefNavigator } from "./RestaurantScreens/navigation";
-// import { ChefNavigator } from './ChefScreens/navigation';
+import { WaiterNavigator, ChefNavigator, MenuNavigator } from "./RestaurantScreens/navigation";
 import { SettingsNavigator } from "./SettingsScreens/navigation";
 // Components
 import { Dimensions } from 'react-native';
@@ -35,6 +34,12 @@ export default Menu = createDrawerNavigator(
       screen: ChefNavigator,
       navigationOptions: {
         drawerLabel: 'Cocina'
+      }
+    },
+    Menu: {
+      screen: MenuNavigator,
+      navigationOptions: {
+        drawerLabel: 'Menu'
       }
     }
   },

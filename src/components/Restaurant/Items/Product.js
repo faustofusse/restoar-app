@@ -4,17 +4,51 @@ import { BLUE, DARK_GREY, GREY, RED } from '../../../styles/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import socket from '../../../config/sockets';
 
+const renderChevron = (props) => (
+    <View style={{height:'100%', display:'flex', flexDirection:'row', alignItems:'center'}}>
+        <Icon name={'chevron-right'} size={15} style={{ marginRight: 15, color: '#9e9e9e', display: 'flex', alignContent:'center', alignItems:'center', textAlign:'center' }} />
+    </View>
+)
+
+const renderPlus = (props) => (
+    <TouchableOpacity style={{alignSelf:'stretch', backgroundColor: DARK_GREY, display: 'flex', justifyContent:'center', aspectRatio: 1, borderBottomRightRadius: 15, borderTopRightRadius: 15}} onPress={() => props.onAddProduct()}>
+        <Icon name={'plus'} size={15} style={{ color: '#9e9e9e', display: 'flex', alignContent:'center', alignItems:'center', textAlign:'center' }} />
+    </TouchableOpacity>
+)
+
+const renderWithOptions = (props) => (
+    <View style={{display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+        <TouchableOpacity style={[styles.boton, { backgroundColor: props.quantity > 1 ? BLUE : RED }]}
+        onPress={() => props.onRemoveProduct()}>
+            <Icon name={props.quantity > 1 ? "minus" : "times"} size={15} style={{ color: '#fff', display: 'flex', alignContent:'center', alignItems:'center', textAlign:'center' }} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.cantidad} onPress={() => { props.onAddProduct(); }}>
+            <Text style={{fontSize: 18}}>{props.quantity}</Text>
+        </TouchableOpacity>
+        {/* <Text>Hola</Text> */}
+    </View>
+)
+
 const Product = (props) => (
     <View style={styles.container}>
-        <View style={styles.producto}>
+       <View style={styles.producto}>
             <Text style={styles.nombre}>{props.name}</Text>
-            <TouchableOpacity style={[styles.boton, { backgroundColor: props.quantity > 1 ? BLUE : RED }]}
-                onPress={() => props.onRemoveProduct()}>
-                <Icon name={props.quantity > 1 ? "minus" : "times"} size={15} style={{ color: '#fff', display: 'flex', alignContent:'center', alignItems:'center', textAlign:'center' }} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cantidad} onPress={() => { props.onAddProduct(); }}>
-                <Text style={{fontSize: 18}}>{props.quantity}</Text>
-            </TouchableOpacity>
+            {props.onRemoveProduct === undefined ? null : (
+                <TouchableOpacity style={[styles.boton, { backgroundColor: props.quantity > 1 ? BLUE : RED }]}
+                    onPress={() => props.onRemoveProduct()}>
+                    <Icon name={props.quantity > 1 ? "minus" : "times"} size={15} style={{ color: '#fff', display: 'flex', alignContent:'center', alignItems:'center', textAlign:'center' }} />
+                </TouchableOpacity>
+            )}
+            {props.onAddProduct === undefined ? null : (
+                <TouchableOpacity style={styles.cantidad} onPress={() => { props.onAddProduct(props.id); }}>
+                    {props.quantity !== undefined ? (
+                        <Text style={{fontSize: 18}}>{props.quantity}</Text>
+                    ) : (
+                        <Text style={{fontSize: 28}}>+</Text>
+                        // <Icon name={'plus'} size={25} style={{ color: '#454545', display: 'flex', alignContent:'center', alignItems:'center', textAlign:'center' }} />
+                    )}
+                </TouchableOpacity>
+            )}
         </View>
         {/* {props.agregado !== null ? (
             <View style={styles.agregado}>

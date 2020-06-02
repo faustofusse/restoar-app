@@ -45,8 +45,9 @@ class Drawer extends React.Component {
           </View>
           <View style={styles.bottomLinks}>
             {this.navLink("Waiter", "Mesas")}
-            {this.navLink("Settings", "Configuración")}
             {this.navLink("Chef", "Cocina")}
+            {this.navLink("Menu", "Menu")}
+            {this.navLink("Settings", "Configuración")}
             <Button
               buttonStyle={{ marginTop: 20 }}
               backgroundColor="#03A9F4"
